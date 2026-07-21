@@ -18,7 +18,7 @@ Details: [docs/strategy.md](docs/strategy.md) · Agent playbook: [.cursor/skills
 ## Quick start
 
 1. Open `/Users/jbrod/Apps/Trading` in Cursor (separate window from HelloAgain).
-2. Ensure Robinhood MCP is connected (`user-robinhood-trading`).
+2. Ensure Robinhood MCP is connected (`robinhood-trading`).
 3. Prompt: `Run covered-call delta band check` (markets open) or `Dry-run covered-call delta band check` (weekend / closed).
 
 ## Layout
