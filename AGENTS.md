@@ -9,4 +9,4 @@
 
 Skill: **robinhood-delta-band-cc** (Tier C auto-place within gates).
 
-MCP: `user-robinhood-trading` · Account: Agentic `420763765` only.
+MCP: `robinhood-trading` · Account: Agentic `420763765` only.
