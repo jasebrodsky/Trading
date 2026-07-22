@@ -6,7 +6,7 @@
 | Dry-run (closed markets) | Prompt: `Dry-run covered-call delta band check` |
 | Change bands / gates | Edit `docs/strategy.md` |
 | Change agent procedure | Edit `.cursor/skills/robinhood-delta-band-cc/SKILL.md` |
-| Slack daily report / continue-stop | Edit prompts in `docs/slack-automations.md`, paste into [Automations](https://cursor.com/automations) |
+| Slack daily report / continue-stop | Edit prompts in `docs/slack-automations.md`, paste into [Automations](https://cursor.com/automations) (morning scoreboard + overlay actions) |
 
 Skill: **robinhood-delta-band-cc** (Tier C auto-place within gates).
 

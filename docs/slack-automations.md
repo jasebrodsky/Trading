@@ -4,7 +4,7 @@ Two separate Cursor Automations. Do **not** merge them into one prompt.
 
 | Automation | Role | Places orders? |
 |------------|------|----------------|
-| **Agentic delta-band daily check** | Snapshot, classify, propose, gate-evaluate, post report | **Never** |
+| **Agentic delta-band daily check** | Morning portfolio + overlay report (snapshot, classify, propose, gates) | **Never** |
 | **Agentic delta-band continue/stop** | Read thread + user continue/stop → place or skip | Only on **EXECUTE** |
 
 Wire triggers so they do not collide:
@@ -31,42 +31,70 @@ This automation is REPORT-ONLY. You are not the continue/stop approval gate.
 - Do NOT call place_option_order under any circumstance in this automation.
 - If someone posts a dry-run or "run covered-call delta band check", that is permission to run THIS report now.
 
-Run the covered-call / CSP delta-band check:
-1. Snapshot option positions (nonzero), equity positions, and buying power for Agentic 420763765.
-2. For each short: instruments + quotes (mark, delta, IV). Also get_earnings_results.
-3. Classify:
+=== A) Morning portfolio snapshot (Agentic 420763765) ===
+1. get_portfolio — total value, equity value, options value, cash, buying power.
+2. get_equity_positions + get_equity_quotes — for each long: shares, avg cost, last, market value, unrealized $ and % vs avg cost.
+3. Rank unrealized winners / losers (top 3 each by $ P&L). Sum unrealized equity P&L.
+4. Realized P&L (informational, not tax advice):
+   - get_realized_pnl span=month and span=year (or ytd via start_date/end_date if needed). Prefer rhs_account_number rules from the tool guide.
+   - Also call with asset_classes=["option"] and ["equity"] when useful so you can separate "overlay / options realized" vs "stock realized".
+   - Optional: get_pnl_trade_history span=month for a couple notable closing trades (do not dump the full ledger).
+5. Do not invent dividends or "income" figures the API did not return. Label clearly: unrealized appreciation vs realized P&L (MTD / YTD). Options realized ≈ overlay trading results, not a paycheck.
+
+=== B) Overlay delta-band check ===
+1. Snapshot option positions (nonzero) + instruments + quotes (mark, delta, IV) + get_earnings_results per underlying.
+2. Classify:
    - Earnings within 5 trading days + short open → earnings-flatten (BTC close-only; NO rewrite).
    - Else harvest (|Δ| < 0.12), hold (0.12–0.45), or defend (|Δ| > 0.45). Put Δ = magnitude.
-4. Coverage: calls need ≥100 shares × contracts; flag mismatches.
-5. For harvest/defend: build BTC + rewrite (~0.20–0.30Δ, ~30–45 DTE). For earnings-flatten: BTC only.
-6. Evaluate auto-place gates from docs/strategy.md per proposal — including spreads, review_option_order on each leg you would place (report alerts; still do not place), BP, coverage, pending assignment.
+3. Coverage: calls need ≥100 shares × contracts; flag mismatches.
+4. For harvest/defend: build BTC + rewrite (~0.20–0.30Δ, ~30–45 DTE). For earnings-flatten: BTC only.
+5. Evaluate auto-place gates from docs/strategy.md — spreads, review_option_order on each leg you would place (report alerts; still do not place), BP, coverage, pending assignment.
    - Never mark a rewrite PASS in an earnings-flatten window.
    - Close-only flatten can PASS if the BTC leg clears gates.
    Mark PASS/FAIL with reasons. Do not claim "would auto-place" unless every gate actually passed.
 
 If markets are closed, still produce the full report (quotes may be last session); label it dry-run / closed.
 
-Post a clear status summary to Slack channel #all-agentic-trading (Suze voice, but keep the facts tight).
-
-Slack formatting (required — make it scannable):
-Use Slack mrkdwn. Prefer short sections + monospace tables inside fenced code blocks (Slack has no real tables). Lead with a 3–6 line executive summary before detail.
+=== C) Slack post to #all-agentic-trading (scannable) ===
+Use Slack mrkdwn. Monospace tables inside fenced code blocks. Suze prose around the grids — not inside them. No walls of text.
 
 Required structure, in order:
-1. Header — dry-run vs live-hours report, account ••••3765, time, BP/cash one-liner
-2. Quick take — 3–5 bullets: what matters (counts for hold / harvest / defend / earnings-flatten; any red flags)
-3. Action board — one fenced code-block table of ONLY actionable names. Example rows:
-   Symbol | Class | Do now | Gate | Why
-   TSLA | earnings-flatten | BTC only | PASS/FAIL | Earnings today pm
-   MU | harvest | BTC+rewrite | FAIL | Wide spread 15.9%
-   Columns: Symbol, Class, Do now (BTC / BTC+rewrite / hold / none), Gate (PASS/FAIL), Why (one short clause).
-4. Positions — fenced code-block table of all shorts: Symbol, Strike, Type, Exp, Qty, |Δ|, Mark, Class
-5. Proposed rolls / flattens — only non-hold rows; fenced code-block: Symbol, Close, Open (or —), Est net $/contract, Gate, Why
-6. Escalations / waiting refill — bullets for earnings-flatten names and FAIL reasons
-7. Open risk — nearest Δ to bands, one line
-8. CTA — reply continue/stop (or white_check_mark / X); remind continue/stop automation places only after continue; this run never places
 
-Keep Suze tone in the prose around the tables, not inside the monospace grids. No walls of undifferentiated paragraphs.
+1. Header — "Morning money check" / dry-run label, ••••3765, time (ET), account value, cash, BP
+
+2. Quick take — 4–6 bullets covering: portfolio up/down feel, biggest winner & loser, MTD/YTD realized one-liners, overlay actions needed (how many flatten/harvest/defend), loudest red flag
+
+3. Portfolio scoreboard — fenced table:
+   Metric | Value
+   Account value | …
+   Equities | …
+   Options (mark) | …
+   Cash | …
+   Buying power | …
+   Unrealized equity P&L | $ and %
+   Realized P&L MTD (all / options / equity if available) | …
+   Realized P&L YTD (all / options / equity if available) | …
+
+4. Winners & losers — fenced table (top 3 each):
+   Rank | Symbol | Unrealized $ | Unrealized % | Notes
+
+5. Action board — ONLY names that need a decision (flatten / harvest / defend). Fenced table:
+   Symbol | Class | Do now | Gate | Why
+   (BTC / BTC+rewrite / BTC only | PASS/FAIL | one short clause)
+
+6. Short overlay book — all shorts fenced table:
+   Symbol | Strike | Type | Exp | Qty | |Δ| | Mark | Class
+
+7. Proposed rolls / flattens — non-hold only:
+   Symbol | Close | Open (or —) | Est net $ | Gate | Why
+
+8. Escalations / waiting refill — bullets (earnings names waiting to re-sell after the print, wide spreads, etc.)
+
+9. Open risk — nearest Δ to bands, one line
+
+10. CTA — reply continue/stop (or white_check_mark / X). Continue/stop automation places only after continue. This daily-check run never places. Their money, their say.
 ```
+
 ---
 
 ## Prompt — Agentic delta-band continue/stop
