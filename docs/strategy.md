@@ -58,9 +58,13 @@ After `review_option_order`, **auto-place** when all gates pass. Escalate to hum
 2. Action matches band table (harvest or defend), earnings flatten (close-only BTC), **or** harvest close-only (rewrite liquidity failed / DTE floor close-only path)
 3. New short strike ≈ 0.20–0.30Δ when opening/rewriting — **omit open leg** for close-only (BP/shares block, earnings flatten, **or** harvest rewrite liquidity fail)
 4. Net roll is credit **or** defend debit ≤ remaining extrinsic on the closed leg + $50 buffer — **N/A for close-only** (debit to flatten/harvest-close is allowed)
-5. Bid–ask spread on each leg ≤ 15% of mid (or ≤ $0.10 absolute for cheap options)
+5. **Spread / liquidity (economic):** a leg **PASSes** if **any** of these is true (missing quotes still fail):
+   - bid–ask spread ≤ **20% of mid**, or
+   - spread ≤ **$0.15** absolute, or
+   - estimated adverse fill (use half the spread, or ask−mid for buys / mid−bid for sells) ≤ **10% of expected net roll credit** when BTC+rewrite, or ≤ **$0.25** on **close-only** harvest/flatten legs
+   Rationale: do not block a multi-hundred-dollar credit (or a cheap BTC that removes dead risk) over a couple cents of tape width. Still fail truly garbage / unquoted markets.
 6. No pending assignment / exercise quantities on the position
-7. `review_option_order` returns no blocking / hard-fail alerts user must acknowledge specially
+7. `review_option_order` returns no blocking / hard-fail alerts user must acknowledge specially — **except** treat `OPTION_WIDE_BID_ASK_SPREAD` as advisory when the economic spread rule above already PASSes; other hard alerts still block
 8. Regular market hours (or explicit dry-run)
 9. Post-earnings **refill** also requires one full session since the print (see Earnings)
 
@@ -68,7 +72,7 @@ After `review_option_order`, **auto-place** when all gates pass. Escalate to hum
 
 - Buying power insufficient after review
 - Quantity / share coverage mismatch
-- Wide spread or missing quotes on legs you would place (if rewrite is wide but BTC is fine → close-only, do not escalate the whole harvest away)
+- Spread fails the **economic** liquidity rule above (or missing quotes) on legs you would place — if rewrite fails but BTC PASSes → close-only, do not escalate the whole harvest away
 - Multi-leg needed
 - Any uncertainty on covered vs naked
 - Attempting to **sell / rewrite** when earnings are within 5 trading days, or refill before one full post-earnings session / without spread PASS

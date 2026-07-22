@@ -41,7 +41,7 @@ This automation is REPORT-ONLY.
    - Post-earnings but refill blocked (no full session since print OR no liquid 0.20–0.30Δ / 30–45 DTE with spread PASS) → waiting-refill (no trade).
    - |Δ| < 0.12 → harvest. Prefer BTC+rewrite 30–45 DTE. If DTE < 10 → close and only rewrite into 30–45 DTE. If rewrite fails spread/review liquidity but BTC PASSes → harvest-close-only (BTC only).
    - 0.12–0.45 hold; > 0.45 defend.
-3. Coverage check. Build orders. Evaluate gates per leg. Never PASS a rewrite in earnings-flatten or before refill rules clear. Do not leave harvest as “do nothing” when BTC-only would PASS.
+3. Coverage check. Build orders. Evaluate gates per leg using the **economic spread rule** in docs/strategy.md (PASS if spread ≤20% of mid OR ≤$0.15 abs OR adverse fill ≤10% of expected roll credit / ≤$0.25 on close-only). Never PASS a rewrite in earnings-flatten or before refill rules clear. Do not leave harvest as “do nothing” when BTC-only would PASS. Treat broker OPTION_WIDE_BID_ASK_SPREAD as advisory when the economic rule PASSes.
 
 === C) Post TWO Slack messages to #all-agentic-trading ===
 Use mrkdwn + fenced monospace tables. Suze prose around grids. Scannable.
@@ -89,6 +89,7 @@ SKIP: confirm no orders this cycle. Exit.
 EXECUTE:
 - Re-fetch quotes, deltas, coverage, BP, earnings.
 - Honor docs/strategy.md including:
+  - economic spread gate (20% mid OR $0.15 abs OR adverse fill vs roll credit / $0.25 close-only); OPTION_WIDE_BID_ASK_SPREAD advisory if economic PASS
   - earnings-flatten = BTC only (no STO in earnings window)
   - harvest-close-only when rewrite liquidity fails but BTC PASSes
   - DTE < 10 harvest → close; rewrite only into 30–45 DTE
