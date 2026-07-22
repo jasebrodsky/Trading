@@ -89,6 +89,7 @@ SKIP: confirm no orders this cycle. Exit.
 EXECUTE:
 - Re-fetch quotes, deltas, coverage, BP, earnings.
 - Honor docs/strategy.md including:
+  - economic spread gate (20% mid OR $0.15 abs OR adverse fill vs roll credit / $0.25 close-only); OPTION_WIDE_BID_ASK_SPREAD advisory if economic PASS
   - earnings-flatten = BTC only (no STO in earnings window)
   - harvest-close-only when rewrite liquidity fails but BTC PASSes
   - DTE < 10 harvest → close; rewrite only into 30–45 DTE

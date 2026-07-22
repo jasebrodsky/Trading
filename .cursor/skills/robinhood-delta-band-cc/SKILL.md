@@ -89,8 +89,8 @@ For each actionable class (earnings-flatten, harvest, harvest-close-only, defend
 For each proposal:
 
 1. Earnings / refill rules from [docs/strategy.md](../../../docs/strategy.md).
-2. Evaluate rewrite and BTC legs separately when both exist. If rewrite fails liquidity and BTC passes → **PASS close-only**, FAIL rewrite (do not FAIL the whole harvest into “do nothing”).
-3. `review_option_order` on each leg you would place (even on dry-run / daily-check).
+2. Evaluate rewrite and BTC legs separately when both exist. Apply the **economic spread rule** in [docs/strategy.md](../../../docs/strategy.md) (20% of mid **or** $0.15 abs **or** adverse fill ≤ 10% of expected roll credit / ≤ $0.25 close-only). If rewrite fails liquidity and BTC passes → **PASS close-only**, FAIL rewrite (do not FAIL the whole harvest into “do nothing”).
+3. `review_option_order` on each leg you would place (even on dry-run / daily-check). Treat `OPTION_WIDE_BID_ASK_SPREAD` as advisory when the economic spread rule already PASSes; other hard alerts still block.
 4. Mark PASS/FAIL with reasons. Never claim “would auto-place” unless every gate for that leg passed.
 
 **Place only when** this run may trade (not dry-run / not daily-check automation; Slack continue/stop only after continue):
