@@ -41,7 +41,8 @@ This automation is REPORT-ONLY.
    - Post-earnings but refill blocked (no full session since print OR no liquid 0.20–0.30Δ / 30–45 DTE with spread PASS) → waiting-refill (no trade).
    - |Δ| < 0.12 → harvest. Prefer BTC+rewrite 30–45 DTE. If DTE < 10 → close and only rewrite into 30–45 DTE. If rewrite fails spread/review liquidity but BTC PASSes → harvest-close-only (BTC only).
    - 0.12–0.45 hold; > 0.45 defend.
-3. Coverage check. Build orders. Evaluate gates per leg using the **economic spread rule** in docs/strategy.md (PASS if spread ≤20% of mid OR ≤$0.15 abs OR adverse fill ≤10% of expected roll credit / ≤$0.25 on close-only). Never PASS a rewrite in earnings-flatten or before refill rules clear. Do not leave harvest as “do nothing” when BTC-only would PASS. Treat broker OPTION_WIDE_BID_ASK_SPREAD as advisory when the economic rule PASSes.
+3. Also report **idle CC capacity** (floor(shares/100) − short calls) and **index CSP sleeve** status (free cash vs put collateral; prefer new puts on RSP then ITOT then SPY; ~$2k BP buffer). Propose idle-CC-fill / index-CSP-open when eligible; if CSP collateral already locked, say blocked.
+4. Coverage check. Build orders. Evaluate gates per leg using the **economic spread rule** in docs/strategy.md (PASS if spread ≤20% of mid OR ≤$0.15 abs OR adverse fill ≤10% of expected roll credit / ≤$0.25 on close-only). Never PASS a rewrite in earnings-flatten or before refill rules clear. Do not leave harvest as “do nothing” when BTC-only would PASS. Treat broker OPTION_WIDE_BID_ASK_SPREAD as advisory when the economic rule PASSes.
 
 === C) Post TWO Slack messages to #all-agentic-trading ===
 Use mrkdwn + fenced monospace tables. Suze prose around grids. Scannable.
@@ -54,14 +55,15 @@ MESSAGE 1 — Portfolio (scoreboard first)
 5. One line: “Overlay actions → see next message.”
 
 MESSAGE 2 — Overlay (actions second) — post as a follow-up in the same channel right after message 1 (thread reply under message 1 if the tool allows; otherwise a second channel message that clearly says “Overlay — continues morning check”)
-1. Quick take: counts hold / harvest / harvest-close-only / defend / earnings-flatten / waiting-refill; loudest red flag
+1. Quick take: counts hold / harvest / harvest-close-only / defend / earnings-flatten / waiting-refill / idle-CC-fill / index-CSP; loudest red flag
 2. Action board (actionable only): Symbol | Class | Do now | Gate | Why
-   Do now examples: BTC only | BTC+rewrite | waiting refill | none
+   Do now examples: BTC only | BTC+rewrite | waiting refill | sell CC (idle) | sell index CSP | CSP blocked | none
 3. Short book: Symbol | Strike | Type | Exp | DTE | Qty | |Δ| | Mark | Class
-4. Proposals: Symbol | Close | Open (or —) | Est net $ | Gate | Why
-5. Escalations / waiting refill bullets
-6. Open risk (nearest Δ to bands)
-7. CTA: Reply continue or stop in THIS thread (or white_check_mark / X). Continue/stop automation places only after continue. This run never places. Your money, your say.
+4. Idle CC / index sleeve one-liner (capacity + free cash / preferred CSP ticker)
+5. Proposals: Symbol | Close | Open (or —) | Est net $ | Gate | Why
+6. Escalations / waiting refill bullets
+7. Open risk (nearest Δ to bands)
+8. CTA: Reply continue or stop in THIS thread (or white_check_mark / X). Continue/stop automation places only after continue. This run never places. Your money, your say.
 ```
 
 ---
