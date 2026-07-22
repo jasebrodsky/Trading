@@ -55,6 +55,10 @@ Coverage check: calls need ≥ `100 × contracts` shares of underlying.
 
 ### 3. Classify each short
 
+Check earnings first (`get_earnings_results`): if earnings within **5 trading days** and a short is open → class **earnings-flatten** (close-only BTC). Do **not** propose a rewrite/new short until after earnings.
+
+Otherwise:
+
 | Condition | Class | Default action |
 |-----------|--------|----------------|
 | \|Δ\| &lt; 0.12 | harvest | BTC → sell new ~0.25Δ, 30–45 DTE, down+out |
@@ -65,25 +69,27 @@ Use put Δ magnitude for CSPs. Prefer same chain; pick liquid strike near target
 
 ### 4. Build orders
 
-For each non-hold:
+For each non-hold (including earnings-flatten):
 
-1. Resolve new `option_id` via `get_option_chains` → `get_option_instruments` → `get_option_quotes`.
+1. Resolve new `option_id` via `get_option_chains` → `get_option_instruments` → `get_option_quotes` (**skip** if close-only).
 2. Close leg: buy + `position_effect=close`.
-3. Open leg: sell + `position_effect=open` (omit if close-only).
+3. Open leg: sell + `position_effect=open` — **omit** for close-only (earnings flatten, or BP/shares block).
 4. Limit prices: use fill-friendly side of quote (buy near ask/high-fill buy; sell near bid/high-fill sell) — never mid-only hope on thin names.
 
 ### 5. Gate evaluation (always) / Tier C place (when allowed)
 
-For each non-hold proposal:
+For each proposal:
 
-1. Check earnings (`get_earnings_results`) — escalate if within 5 trading days.
-2. Check spread, coverage, pending assignment, BP.
+1. Check earnings (`get_earnings_results`).
+   - Within 5 trading days + open short → **earnings-flatten** only (BTC). Never auto STO/rewrite in that window.
+   - Close-leg gates still apply; if BTC fails spread/review/BP → escalate.
+2. Check spread, coverage, pending assignment, BP on legs you would place.
 3. `review_option_order` with the same params you would place (even on dry-run / daily-check — report alerts, still no place if report-only).
 4. Evaluate all [docs/strategy.md](../../../docs/strategy.md) auto-place gates. Mark PASS/FAIL with reasons. Never claim “would auto-place” unless every gate passed in this run.
 
 **Place only when** this run is allowed to trade (not dry-run, not daily-check automation, and — if Slack continue/stop — user already said continue):
 
-1. **If all gates pass** → `place_option_order` with a fresh `ref_id` UUID (Tier C standing auth).
+1. **If all gates pass** → `place_option_order` with a fresh `ref_id` UUID (Tier C standing auth). For earnings-flatten, place **BTC only**.
 2. **If any fail** → do not place; list reason and ask the user / escalate in-thread.
 
 Never place on non-Agentic accounts. Never skip review unless user explicitly says to bypass.
@@ -92,10 +98,10 @@ Never place on non-Agentic accounts. Never skip review unless user explicitly sa
 
 Write a short summary (and optionally `runbooks/YYYY-MM-DD.md`):
 
-- Positions reviewed / held / harvested / defended
+- Positions reviewed / held / harvested / defended / earnings-flattened
 - Orders placed (id, symbol, credit/debit) — or “none (dry-run / daily-check)”
 - Escalations / gate failures
-- Open risk (nearest Δ to bands)
+- Open risk (nearest Δ to bands); names waiting post-earnings refill
 
 Slack daily-check: also ask for in-thread `continue` / `stop` (or ✅/❌) for the **separate** continue/stop automation.
 

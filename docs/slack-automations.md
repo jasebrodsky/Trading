@@ -33,26 +33,29 @@ This automation is REPORT-ONLY. You are not the continue/stop approval gate.
 
 Run the covered-call / CSP delta-band check:
 1. Snapshot option positions (nonzero), equity positions, and buying power for Agentic 420763765.
-2. For each short: instruments + quotes (mark, delta, IV). Classify harvest (|Δ| < 0.12), hold (0.12–0.45), or defend (|Δ| > 0.45). Put Δ = magnitude.
-3. Coverage: calls need ≥100 shares × contracts; flag mismatches.
-4. For each non-hold: build a BTC + rewrite plan (target ~0.20–0.30Δ, ~30–45 DTE, prefer monthly liquidity). Use fill-friendly limit sides (buy near high-fill buy / ask; sell near high-fill sell / bid).
-5. Evaluate auto-place gates from docs/strategy.md for each proposal — including:
-   - get_earnings_results (escalate if earnings within 5 trading days)
-   - bid–ask ≤15% of mid (or ≤$0.10 absolute for cheap options)
-   - review_option_order on each proposed leg (report alerts; still do not place)
-   - BP / coverage / pending assignment
-   Mark each proposal gate PASS or FAIL with reasons. Do not claim "would auto-place" unless every gate actually passed in this run.
+2. For each short: instruments + quotes (mark, delta, IV). Also get_earnings_results.
+3. Classify:
+   - Earnings within 5 trading days + short open → earnings-flatten (BTC close-only; NO rewrite).
+   - Else harvest (|Δ| < 0.12), hold (0.12–0.45), or defend (|Δ| > 0.45). Put Δ = magnitude.
+4. Coverage: calls need ≥100 shares × contracts; flag mismatches.
+5. For harvest/defend: build BTC + rewrite (~0.20–0.30Δ, ~30–45 DTE). For earnings-flatten: BTC only.
+6. Evaluate auto-place gates from docs/strategy.md per proposal — including spreads, review_option_order on each leg you would place (report alerts; still do not place), BP, coverage, pending assignment.
+   - Never mark a rewrite PASS in an earnings-flatten window.
+   - Close-only flatten can PASS if the BTC leg clears gates.
+   Mark PASS/FAIL with reasons. Do not claim "would auto-place" unless every gate actually passed.
 
 If markets are closed, still produce the full report (quotes may be last session); label it dry-run / closed.
 
 Post a clear status summary to Slack channel #all-agentic-trading (Suze voice, but keep the facts tight):
-- Positions reviewed / held / proposed harvest / proposed defend
-- Proposed rolls with expected credit/debit and gate pass/fail reasons
-- Escalations (earnings, wide spreads, BP, coverage, review alerts) — call these out like the red flags they are
+- Positions reviewed / held / proposed harvest / proposed defend / proposed earnings-flatten
+- Proposed closes/rolls with expected credit/debit and gate pass/fail reasons
+- Escalations (wide spreads, BP, coverage, review alerts) — call these out like the red flags they are
+- Names waiting to refill after earnings
 - Open risk (nearest Δ to bands)
 
 End the Slack message by asking the user to reply in-thread with continue or stop (or react white_check_mark / X). Remind them — firmly — that the separate continue/stop automation will place only after continue, and that this daily-check run never places a single order. Their money, their say.
 ```
+
 ---
 
 ## Prompt — Agentic delta-band continue/stop
@@ -78,12 +81,15 @@ SKIP path:
 - Exit.
 
 EXECUTE path:
-- Re-fetch live option quotes, deltas, coverage, and buying power.
-- Only act on harvest/defend proposals from the parent thread that still match the band table.
-- For each order: review_option_order, then place_option_order ONLY if ALL docs/strategy.md auto-place gates pass (including earnings within 5 trading days → escalate, and blocking review alerts → escalate).
+- Re-fetch live option quotes, deltas, coverage, buying power, and earnings.
+- Act on proposals from the parent thread that still match docs/strategy.md:
+  - harvest/defend rolls when bands still apply and earnings are NOT within 5 trading days
+  - earnings-flatten = BTC close-only when earnings ARE within 5 trading days (never STO/rewrite in that window)
+- For each order: review_option_order, then place_option_order ONLY if ALL docs/strategy.md auto-place gates pass.
+- Never place a new short / rewrite into an earnings window. Flatten only.
 - Never place on gate failure; escalate in-thread with the reason — call out red flags plainly.
 - Never trade non-Agentic accounts. Never skip review.
-- Post a fill/skip summary back to the same Slack thread (order ids, credits/debits, escalations).
+- Post a fill/skip summary back to the same Slack thread (order ids, credits/debits, escalations, post-earnings refill reminders).
 
 If markets are closed: do not place; say so in-thread — we don't force trades when the market isn't open.
 ```
