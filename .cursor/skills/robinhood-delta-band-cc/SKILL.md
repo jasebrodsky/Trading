@@ -18,13 +18,15 @@ Read [docs/strategy.md](../../../docs/strategy.md) first. Account: Agentic `4207
 - "Roll / harvest options on Agentic"
 - "Dry-run covered-call delta band check"
 
+These triggers **are the go-ahead**. Do not invent an EXECUTE/SKIP approval gate, wait for emoji ack, or ask whether to proceed before snapshotting. Slack/desktop/cloud invocations of the trigger phrases above mean: run this procedure now.
+
 ## Procedure
 
 ### 1. Preconditions
 
 1. Confirm workspace is the Trading repo (not HelloAgain).
 2. `get_accounts` → use Agentic `420763765` (`agentic_allowed=true`). Abort if false.
-3. If markets closed or user said dry-run → **report only**, never `place_option_order`.
+3. If markets closed or user said dry-run → **report only**, never `place_option_order`. Still do the full snapshot + classify + report; dry-run is not a skip.
 
 ### 2. Snapshot
 
