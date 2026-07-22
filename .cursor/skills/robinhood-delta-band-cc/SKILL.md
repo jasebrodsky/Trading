@@ -98,12 +98,15 @@ Never place on non-Agentic accounts. Never skip review unless user explicitly sa
 
 Write a short summary (and optionally `runbooks/YYYY-MM-DD.md`):
 
-- Positions reviewed / held / harvested / defended / earnings-flattened
+- Portfolio: account value, unrealized equity P&L, top winners/losers, realized P&L MTD/YTD (all + options vs equity when available)
+- Overlay: positions reviewed / held / harvested / defended / earnings-flattened
 - Orders placed (id, symbol, credit/debit) — or “none (dry-run / daily-check)”
 - Escalations / gate failures
 - Open risk (nearest Δ to bands); names waiting post-earnings refill
 
-Slack daily-check: follow the scannable layout in [docs/slack-automations.md](../../../docs/slack-automations.md) (executive summary → action-board table → position table → proposals → CTA). Also ask for in-thread `continue` / `stop` (or ✅/❌) for the **separate** continue/stop automation.
+For portfolio totals use `get_portfolio`, equity quotes vs `average_buy_price`, `get_realized_pnl` (month + year; optional `asset_classes`), and optionally a few lines from `get_pnl_trade_history`. Do not invent dividends or tax figures.
+
+Slack daily-check: follow the morning-brief layout in [docs/slack-automations.md](../../../docs/slack-automations.md) (scoreboard → winners/losers → action board → overlay tables → CTA). Ask for in-thread `continue` / `stop` (or ✅/❌) for the **separate** continue/stop automation.
 
 ## Safety
 
