@@ -38,9 +38,11 @@ This automation is REPORT-ONLY.
 1. Option positions (nonzero) + instruments + quotes + get_earnings_results.
 2. Classify per docs/strategy.md:
    - Earnings within 5 trading days + short → earnings-flatten (BTC only).
-   - Post-earnings but refill blocked (no full session since print OR no liquid 0.20–0.30Δ / 30–45 DTE with spread PASS) → waiting-refill (no trade).
-   - |Δ| < 0.12 → harvest. Prefer BTC+rewrite 30–45 DTE. If DTE < 10 → close and only rewrite into 30–45 DTE. If rewrite fails spread/review liquidity but BTC PASSes → harvest-close-only (BTC only).
+   - Post-earnings but refill blocked (no full session since print OR no liquid candidate at sleeve entry target Δ / 30–45 DTE with spread PASS) → waiting-refill (no trade).
+   - |Δ| < 0.12 → harvest. Prefer BTC+rewrite 30–45 DTE at sleeve entry target (Conviction ~0.15Δ, Income ~0.25Δ). If DTE < 10 → close and only rewrite into 30–45 DTE. If rewrite fails spread/review liquidity but BTC PASSes → harvest-close-only (BTC only).
    - 0.12–0.45 hold; > 0.45 defend.
+   - **Conviction sleeve** (NVDA, AMZN, ONEQ, SPY): entry target ~0.12–0.18Δ. Do NOT rewrite to 0.20–0.30Δ on these names — stay at low Δ to preserve upside and avoid triggering large embedded-gain assignment events.
+   - **Income sleeve** (all others): entry target ~0.20–0.30Δ as usual.
 3. Also report **idle CC capacity** (floor(shares/100) − short calls) and **index CSP sleeve** status (free cash vs put collateral; prefer new puts on RSP then ITOT then SPY; ~$2k BP buffer). Propose idle-CC-fill / index-CSP-open when eligible; if CSP collateral already locked, say blocked.
 4. Coverage check. Build orders. Evaluate gates per leg using the **economic spread rule** in docs/strategy.md (PASS if spread ≤20% of mid OR ≤$0.15 abs OR adverse fill ≤10% of expected roll credit / ≤$0.25 on close-only). Never PASS a rewrite in earnings-flatten or before refill rules clear. Do not leave harvest as “do nothing” when BTC-only would PASS. Treat broker OPTION_WIDE_BID_ASK_SPREAD as advisory when the economic rule PASSes.
 
@@ -94,8 +96,9 @@ EXECUTE:
   - economic spread gate (20% mid OR $0.15 abs OR adverse fill vs roll credit / $0.25 close-only); OPTION_WIDE_BID_ASK_SPREAD advisory if economic PASS
   - earnings-flatten = BTC only (no STO in earnings window)
   - harvest-close-only when rewrite liquidity fails but BTC PASSes
-  - DTE < 10 harvest → close; rewrite only into 30–45 DTE
-  - post-earnings refill only after one full session AND liquid target-Δ candidate with spread PASS
+  - DTE < 10 harvest → close; rewrite only into 30–45 DTE at sleeve entry target
+  - post-earnings refill only after one full session AND liquid sleeve-target-Δ candidate with spread PASS
+  - Conviction sleeve (NVDA, AMZN, ONEQ, SPY): rewrite to ~0.12–0.18Δ only; never rewrite to 0.20–0.30 on these names
   - idle CC fill only with share coverage; index CSP opens only with free cash + ~$2k BP buffer; prefer RSP then ITOT then SPY for new puts
 - review_option_order then place_option_order only if ALL gates pass for that leg.
 - Never place on gate failure; escalate in-thread.

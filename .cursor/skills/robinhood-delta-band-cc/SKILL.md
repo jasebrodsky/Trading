@@ -69,9 +69,13 @@ Otherwise by Δ:
 
 | Condition | Class | Default action |
 |-----------|--------|----------------|
-| \|Δ\| &lt; 0.12 | harvest | BTC + rewrite ~0.25Δ / 30–45 DTE; see harvest fallbacks below |
+| \|Δ\| &lt; 0.12 | harvest | BTC + rewrite at **sleeve entry target** (Conviction ~0.15Δ / Income ~0.25Δ), 30–45 DTE; see harvest fallbacks below |
 | 0.12 ≤ \|Δ\| ≤ 0.45 | hold | none |
-| \|Δ\| &gt; 0.45 | defend | BTC → roll up+out ~0.25Δ, or BTC only if needed |
+| \|Δ\| &gt; 0.45 | defend | BTC → roll up+out to sleeve entry target, or BTC only if needed |
+
+**Conviction sleeve** (NVDA, AMZN, ONEQ, SPY): target entry ~0.12–0.18Δ. Never rewrite to 0.20–0.30 on these names. Preserves upside and defers large embedded-gain assignment.
+
+**Income sleeve** (all others): target entry ~0.20–0.30Δ as usual.
 
 **Harvest fallbacks** (still actionable — do not leave dead shorts stranded):
 
