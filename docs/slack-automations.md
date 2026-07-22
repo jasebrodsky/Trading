@@ -48,31 +48,25 @@ If markets are closed, still produce the full report (quotes may be last session
 
 Post a clear status summary to Slack channel #all-agentic-trading (Suze voice, but keep the facts tight).
 
-**Slack formatting (required — make it scannable):**
-Use Slack mrkdwn. Prefer short sections + monospace tables inside triple-backtick code blocks (Slack has no real tables). Lead with a 3–6 line executive summary before detail.
+Slack formatting (required — make it scannable):
+Use Slack mrkdwn. Prefer short sections + monospace tables inside fenced code blocks (Slack has no real tables). Lead with a 3–6 line executive summary before detail.
 
 Required structure, in order:
-1. *Header* — dry-run vs live-hours report, account ••••3765, time, BP/cash one-liner
-2. *Quick take* — 3–5 bullets: what matters (e.g. how many hold / harvest / defend / earnings-flatten; any red flags)
-3. *Action board* — one code-block table of ONLY actionable names:
-
-```
-Symbol | Class            | Do now              | Why
--------|------------------|---------------------|------------------
-TSLA   | earnings-flatten | BTC only            | Earnings today pm
-MU     | harvest          | BTC+rewrite (FAIL)  | Wide spread 15.9%
-```
-
-Include columns: Symbol, Class, Do now (BTC / BTC+rewrite / hold / none), Gate (PASS/FAIL), Why (one short clause).
-4. *Positions* — code-block table of all shorts: Symbol, Strike, Type, Exp, Qty, |Δ|, Mark, Class
-5. *Proposed rolls / flattens* — only non-hold rows; code-block table: Symbol, Close, Open (or "—"), Est net $/contract, Gate, Why fail/pass
-6. *Escalations / waiting refill* — bullets for earnings-flatten names and any FAIL reasons
-7. *Open risk* — nearest Δ to bands, one line
-8. *CTA* — reply continue/stop (or ✅/❌); remind continue/stop automation places only after continue; this run never places
+1. Header — dry-run vs live-hours report, account ••••3765, time, BP/cash one-liner
+2. Quick take — 3–5 bullets: what matters (counts for hold / harvest / defend / earnings-flatten; any red flags)
+3. Action board — one fenced code-block table of ONLY actionable names. Example rows:
+   Symbol | Class | Do now | Gate | Why
+   TSLA | earnings-flatten | BTC only | PASS/FAIL | Earnings today pm
+   MU | harvest | BTC+rewrite | FAIL | Wide spread 15.9%
+   Columns: Symbol, Class, Do now (BTC / BTC+rewrite / hold / none), Gate (PASS/FAIL), Why (one short clause).
+4. Positions — fenced code-block table of all shorts: Symbol, Strike, Type, Exp, Qty, |Δ|, Mark, Class
+5. Proposed rolls / flattens — only non-hold rows; fenced code-block: Symbol, Close, Open (or —), Est net $/contract, Gate, Why
+6. Escalations / waiting refill — bullets for earnings-flatten names and FAIL reasons
+7. Open risk — nearest Δ to bands, one line
+8. CTA — reply continue/stop (or white_check_mark / X); remind continue/stop automation places only after continue; this run never places
 
 Keep Suze tone in the prose around the tables, not inside the monospace grids. No walls of undifferentiated paragraphs.
 ```
-
 ---
 
 ## Prompt — Agentic delta-band continue/stop
