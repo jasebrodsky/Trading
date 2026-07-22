@@ -8,7 +8,7 @@
 
 ## Goal
 
-Steady premium on long stock (and optional SPY CSP), keep shares when wanted, reset income/beta when short Δ dies.
+Steady premium on long stock via covered calls, keep shares when wanted, reset income/beta when short Δ dies. Use CC credits (and free cash) to accumulate a diversified index sleeve over time — buy shares and/or sell cash-secured puts on liquid index ETFs.
 
 ## Bands
 
@@ -43,10 +43,44 @@ Close-only flatten still must pass spread / review / BP / coverage gates on the 
 ## Structure rules
 
 - Covered calls only on symbols with ≥100 shares per contract sold
-- Optional: 1× SPY cash-secured put under same Δ bands (put Δ magnitude)
 - Single-leg only (MCP Level 2)
 - Prefer monthly liquidity; avoid forced weeklies unless defending
 - New shorts target **30–45 DTE**
+- Put Δ uses **magnitude** (same band table as calls)
+
+### Covered-call book
+
+- On each check: inventory symbols with **unused CC capacity** (`floor(shares/100) − short call contracts > 0`).
+- Prefer filling idle capacity on liquid names already held (and on **SPY** when shares are in Agentic).
+- Same entry bands: ~0.20–0.30Δ, 30–45 DTE. Earnings flatten/refill rules apply per underlying.
+- Do not chase thin names (wide tape / meme) just to “cover everything” — escalate or skip if economic spread fails.
+- Phase new underlyings in (e.g. start 2–4 contracts on a large new sleeve like ONEQ) rather than max capacity on day one when liquidity is uncertain.
+
+### Index sleeve (rebalance / accumulate)
+
+**Purpose:** over time, grow diversified US equity ballast funded by CC premium and free cash.
+
+**Long shares:** prefer buying **SPY**, **RSP**, or **ITOT** with free cash / CC credits when not fully deploying into CSPs. **SPY** long shares in Agentic are first-class CC underlyings (same bands).
+
+**Cash-secured puts (index CSP sleeve):**
+
+| Preference | Ticker | Role | Notes |
+|------------|--------|------|--------|
+| 1 (default for new CSPs) | **RSP** | S&P 500 equal-weight | Lower share price → more contracts per dollar of cash; weeklies available |
+| 2 | **ITOT** | Total US market | Cheaper unit; fewer expirations — insist on spread PASS |
+| 3 | **SPY** | S&P 500 cap-weight | Deepest liquidity; ~1 CSP per ~$70k+ cash — fine to **hold/roll** existing; prefer RSP/ITOT when *opening* more puts for sizing |
+| Avoid for CSP sizing | VOO / IVV | Same S&P 500 | Almost as expensive as SPY; no sizing win |
+| Not on RH | SPLG | Cheap S&P 500 | Unavailable here — do not plan around it |
+
+**Sizing (cash account):**
+
+- Collateral per put ≈ `strike × 100` (use the candidate strike, not last trade alone).
+- Max new+existing index CSP contracts = `floor(free_cash_for_CSP / (strike × 100))` with a **~$2,000 BP buffer** left after open (do not pin BP to ~$0).
+- **Free cash for CSP** = cash not already reserved by existing short puts / broker holds. If an open SPY (or other) put already consumes most cash, **do not** stack more CSPs — report “CSP blocked: collateral in use.”
+- Manage open index CSPs under the same harvest / hold / defend bands as CCs.
+- Assignment → own 100 shares → that name joins the CC book.
+
+**CC income → index path:** when harvest/close frees premium or cash builds above CSP needs + buffer, prefer deploying into index **shares** (SPY/RSP/ITOT) or a new index CSP that still PASSes gates — do not let large idle cash sit uninvested without a stated reason on the report.
 
 ## Autonomy — Tier C
 
@@ -55,7 +89,7 @@ After `review_option_order`, **auto-place** when all gates pass. Escalate to hum
 ### Auto-place gates (all required)
 
 1. Account is Agentic `420763765`
-2. Action matches band table (harvest or defend), earnings flatten (close-only BTC), **or** harvest close-only (rewrite liquidity failed / DTE floor close-only path)
+2. Action matches band table (harvest or defend), earnings flatten (close-only BTC), harvest close-only (rewrite liquidity failed / DTE floor close-only path), **or** a **new short** that fills idle CC capacity / opens or rolls an **index CSP** under the Index sleeve rules (coverage + free-cash sizing)
 3. New short strike ≈ 0.20–0.30Δ when opening/rewriting — **omit open leg** for close-only (BP/shares block, earnings flatten, **or** harvest rewrite liquidity fail)
 4. Net roll is credit **or** defend debit ≤ remaining extrinsic on the closed leg + $50 buffer — **N/A for close-only** (debit to flatten/harvest-close is allowed)
 5. **Spread / liquidity (economic):** a leg **PASSes** if **any** of these is true (missing quotes still fail):

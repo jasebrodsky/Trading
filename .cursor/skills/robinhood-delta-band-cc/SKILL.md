@@ -53,6 +53,11 @@ For each short option: `get_option_instruments` (strike/type) + `get_option_quot
 
 Coverage check: calls need ≥ `100 × contracts` shares of underlying.
 
+Also compute from equities + shorts (see [docs/strategy.md](../../../docs/strategy.md)):
+
+- **Idle CC capacity** per symbol: `floor(shares/100) − open short call contracts` (include SPY when held).
+- **Index CSP sleeve:** open short puts on SPY/RSP/ITOT; free cash vs collateral; whether a new RSP/ITOT (preferred) or SPY put can open without breaching the ~$2k BP buffer.
+
 ### 3. Classify each short
 
 Check earnings first (`get_earnings_results`):
@@ -75,9 +80,14 @@ Otherwise by Δ:
 
 Use put Δ magnitude for CSPs. Prefer same chain; pick liquid strike near target Δ.
 
+**New shorts** (same bands; propose on every check when eligible):
+
+1. **Idle CC fill** — unused capacity on liquid holdings (and SPY if shares are in Agentic). Prefer names already in the overlay; phase large new sleeves. Skip if economic spread fails.
+2. **Index CSP open** — only when free cash supports full collateral + ~$2k buffer. Prefer **RSP**, then **ITOT**, then **SPY** for *new* puts. If collateral is already tied up (e.g. existing SPY put), report blocked — do not stack.
+
 ### 4. Build orders
 
-For each actionable class (earnings-flatten, harvest, harvest-close-only, defend):
+For each actionable class (earnings-flatten, harvest, harvest-close-only, defend, idle-CC-fill, index-CSP-open):
 
 1. Resolve new `option_id` via chains → instruments → quotes (**skip** if close-only).
 2. Close leg: buy + `position_effect=close`.
