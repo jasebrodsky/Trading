@@ -18,7 +18,20 @@ Read [docs/strategy.md](../../../docs/strategy.md) first. Account: Agentic `4207
 - "Roll / harvest options on Agentic"
 - "Dry-run covered-call delta band check"
 
-These triggers **are the go-ahead**. Do not invent an EXECUTE/SKIP approval gate, wait for emoji ack, or ask whether to proceed before snapshotting. Slack/desktop/cloud invocations of the trigger phrases above mean: run this procedure now.
+These triggers **are the go-ahead** for the **check/report** path. Do not invent an EXECUTE/SKIP approval gate, wait for emoji ack, or ask whether to proceed before snapshotting. Slack/desktop/cloud invocations of the trigger phrases above mean: run snapshot → classify → propose → gate-evaluate → report **now**.
+
+### Slack automations (two roles)
+
+See [docs/slack-automations.md](../../../docs/slack-automations.md) for copy-paste prompts.
+
+| Role | When | `place_option_order`? |
+|------|------|----------------------|
+| Daily check / dry-run / "Run covered-call…" | Schedule or explicit check prompt | **Never** in that run |
+| Continue/stop gate | Thread reply `continue`/`stop` (or ✅/❌) **after** a daily summary | Only on EXECUTE + all gates pass |
+
+If you are the continue/stop agent and the message is itself a new check/dry-run kickoff: do **not** ask EXECUTE/SKIP — say it belongs to the daily-check automation and exit without trading.
+
+Interactive Cloud/desktop sessions (no Slack continue/stop automation in play): after the report, Tier C may auto-place within gates in the **same** turn unless the user said dry-run.
 
 ## Procedure
 
@@ -26,7 +39,7 @@ These triggers **are the go-ahead**. Do not invent an EXECUTE/SKIP approval gate
 
 1. Confirm workspace is the Trading repo (not HelloAgain).
 2. `get_accounts` → use Agentic `420763765` (`agentic_allowed=true`). Abort if false.
-3. If markets closed or user said dry-run → **report only**, never `place_option_order`. Still do the full snapshot + classify + report; dry-run is not a skip.
+3. If markets closed, user said dry-run, **or** you are the Slack daily-check automation → **report only**, never `place_option_order`. Still do the full snapshot + classify + gate evaluation + report; dry-run is not a skip.
 
 ### 2. Snapshot
 
@@ -59,14 +72,19 @@ For each non-hold:
 3. Open leg: sell + `position_effect=open` (omit if close-only).
 4. Limit prices: use fill-friendly side of quote (buy near ask/high-fill buy; sell near bid/high-fill sell) — never mid-only hope on thin names.
 
-### 5. Tier C execution
+### 5. Gate evaluation (always) / Tier C place (when allowed)
 
-For each proposed order:
+For each non-hold proposal:
 
-1. `review_option_order` with the same params you will place.
-2. Evaluate [docs/strategy.md](../../../docs/strategy.md) auto-place gates.
-3. **If all pass** → `place_option_order` with a fresh `ref_id` UUID (Tier C standing auth).
-4. **If any fail** → do not place; list reason and ask the user.
+1. Check earnings (`get_earnings_results`) — escalate if within 5 trading days.
+2. Check spread, coverage, pending assignment, BP.
+3. `review_option_order` with the same params you would place (even on dry-run / daily-check — report alerts, still no place if report-only).
+4. Evaluate all [docs/strategy.md](../../../docs/strategy.md) auto-place gates. Mark PASS/FAIL with reasons. Never claim “would auto-place” unless every gate passed in this run.
+
+**Place only when** this run is allowed to trade (not dry-run, not daily-check automation, and — if Slack continue/stop — user already said continue):
+
+1. **If all gates pass** → `place_option_order` with a fresh `ref_id` UUID (Tier C standing auth).
+2. **If any fail** → do not place; list reason and ask the user / escalate in-thread.
 
 Never place on non-Agentic accounts. Never skip review unless user explicitly says to bypass.
 
@@ -75,9 +93,11 @@ Never place on non-Agentic accounts. Never skip review unless user explicitly sa
 Write a short summary (and optionally `runbooks/YYYY-MM-DD.md`):
 
 - Positions reviewed / held / harvested / defended
-- Orders placed (id, symbol, credit/debit)
-- Escalations skipped
+- Orders placed (id, symbol, credit/debit) — or “none (dry-run / daily-check)”
+- Escalations / gate failures
 - Open risk (nearest Δ to bands)
+
+Slack daily-check: also ask for in-thread `continue` / `stop` (or ✅/❌) for the **separate** continue/stop automation.
 
 ## Safety
 
