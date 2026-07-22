@@ -103,7 +103,7 @@ Write a short summary (and optionally `runbooks/YYYY-MM-DD.md`):
 - Escalations / gate failures
 - Open risk (nearest Δ to bands); names waiting post-earnings refill
 
-Slack daily-check: also ask for in-thread `continue` / `stop` (or ✅/❌) for the **separate** continue/stop automation.
+Slack daily-check: follow the scannable layout in [docs/slack-automations.md](../../../docs/slack-automations.md) (executive summary → action-board table → position table → proposals → CTA). Also ask for in-thread `continue` / `stop` (or ✅/❌) for the **separate** continue/stop automation.
 
 ## Safety
 

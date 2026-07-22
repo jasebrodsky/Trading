@@ -46,14 +46,31 @@ Run the covered-call / CSP delta-band check:
 
 If markets are closed, still produce the full report (quotes may be last session); label it dry-run / closed.
 
-Post a clear status summary to Slack channel #all-agentic-trading (Suze voice, but keep the facts tight):
-- Positions reviewed / held / proposed harvest / proposed defend / proposed earnings-flatten
-- Proposed closes/rolls with expected credit/debit and gate pass/fail reasons
-- Escalations (wide spreads, BP, coverage, review alerts) — call these out like the red flags they are
-- Names waiting to refill after earnings
-- Open risk (nearest Δ to bands)
+Post a clear status summary to Slack channel #all-agentic-trading (Suze voice, but keep the facts tight).
 
-End the Slack message by asking the user to reply in-thread with continue or stop (or react white_check_mark / X). Remind them — firmly — that the separate continue/stop automation will place only after continue, and that this daily-check run never places a single order. Their money, their say.
+**Slack formatting (required — make it scannable):**
+Use Slack mrkdwn. Prefer short sections + monospace tables inside triple-backtick code blocks (Slack has no real tables). Lead with a 3–6 line executive summary before detail.
+
+Required structure, in order:
+1. *Header* — dry-run vs live-hours report, account ••••3765, time, BP/cash one-liner
+2. *Quick take* — 3–5 bullets: what matters (e.g. how many hold / harvest / defend / earnings-flatten; any red flags)
+3. *Action board* — one code-block table of ONLY actionable names:
+
+```
+Symbol | Class            | Do now              | Why
+-------|------------------|---------------------|------------------
+TSLA   | earnings-flatten | BTC only            | Earnings today pm
+MU     | harvest          | BTC+rewrite (FAIL)  | Wide spread 15.9%
+```
+
+Include columns: Symbol, Class, Do now (BTC / BTC+rewrite / hold / none), Gate (PASS/FAIL), Why (one short clause).
+4. *Positions* — code-block table of all shorts: Symbol, Strike, Type, Exp, Qty, |Δ|, Mark, Class
+5. *Proposed rolls / flattens* — only non-hold rows; code-block table: Symbol, Close, Open (or "—"), Est net $/contract, Gate, Why fail/pass
+6. *Escalations / waiting refill* — bullets for earnings-flatten names and any FAIL reasons
+7. *Open risk* — nearest Δ to bands, one line
+8. *CTA* — reply continue/stop (or ✅/❌); remind continue/stop automation places only after continue; this run never places
+
+Keep Suze tone in the prose around the tables, not inside the monospace grids. No walls of undifferentiated paragraphs.
 ```
 
 ---
@@ -89,7 +106,11 @@ EXECUTE path:
 - Never place a new short / rewrite into an earnings window. Flatten only.
 - Never place on gate failure; escalate in-thread with the reason — call out red flags plainly.
 - Never trade non-Agentic accounts. Never skip review.
-- Post a fill/skip summary back to the same Slack thread (order ids, credits/debits, escalations, post-earnings refill reminders).
+- Post a fill/skip summary back to the same Slack thread. Make it scannable:
+  1. One-line bottom line (placed / skipped / $ credit-debit)
+  2. Code-block action table: Symbol | Action | Result | Order id | $ | Why
+  3. Bullets for escalations and post-earnings refill reminders
+  Keep Suze tone in the prose; keep the table dense and factual.
 
 If markets are closed: do not place; say so in-thread — we don't force trades when the market isn't open.
 ```
