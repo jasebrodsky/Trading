@@ -96,6 +96,7 @@ EXECUTE:
   - harvest-close-only when rewrite liquidity fails but BTC PASSes
   - DTE < 10 harvest → close; rewrite only into 30–45 DTE
   - post-earnings refill only after one full session AND liquid target-Δ candidate with spread PASS
+  - idle CC fill only with share coverage; index CSP opens only with free cash + ~$2k BP buffer; prefer RSP then ITOT then SPY for new puts
 - review_option_order then place_option_order only if ALL gates pass for that leg.
 - Never place on gate failure; escalate in-thread.
 - Never trade non-Agentic. Never skip review.
