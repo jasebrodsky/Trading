@@ -20,7 +20,7 @@ Details: [docs/strategy.md](docs/strategy.md) · Agent playbook: [.cursor/skills
 1. Open `/Users/jbrod/Apps/Trading` in Cursor (separate window from HelloAgain).
 2. Ensure Robinhood MCP is connected (`user-robinhood-trading`).
 3. Prompt: `Run covered-call delta band check` (markets open) or `Dry-run covered-call delta band check` (weekend / closed).
-4. Slack: use the two automations in [docs/slack-automations.md](docs/slack-automations.md) (daily report ≠ continue/stop gate).
+4. Slack: use the three automations in [docs/slack-automations.md](docs/slack-automations.md) (daily report · continue/stop gate · portfolio chat). Set model per automation in the Cursor UI.
 
 ## Layout
 

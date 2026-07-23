@@ -2,11 +2,15 @@
 
 Three separate Cursor Automations. Do **not** merge them into one prompt.
 
-| Automation | Role | Places orders? | Channel |
-|------------|------|----------------|---------|
-| **Agentic delta-band daily check** | Morning portfolio + overlay report (two Slack messages) | **Never** | `#all-agentic-trading` |
-| **Agentic delta-band continue/stop** | Read thread + user continue/stop → place or skip | Only on **EXECUTE** | `#all-agentic-trading` |
-| **Agentic portfolio chat** | Conversational Q&A about portfolio, strategy, positions | **Never** | `#portfolio-chat` (dedicated) |
+**Git stores prompts only.** Model, tools, triggers, and repo/branch are configured in [Cursor Automations](https://cursor.com/automations) (Automation settings → **Model**). After merging doc changes, re-paste prompts and verify model + tools in the UI — nothing syncs automatically.
+
+| Automation | Role | Places orders? | Channel | Recommended model |
+|------------|------|----------------|---------|-------------------|
+| **Agentic delta-band daily check** | Morning portfolio + overlay report (two Slack messages) | **Never** | `#all-agentic-trading` | **Composer 2.5** or **Claude Sonnet** — thorough snapshot; avoid thinking models |
+| **Agentic delta-band continue/stop** | Read thread + user continue/stop → place or skip | Only on **EXECUTE** | `#all-agentic-trading` | **Claude Sonnet** or **Composer 2.5** — gate accuracy matters; speed secondary |
+| **Agentic portfolio chat** | Conversational Q&A about portfolio, strategy, positions | **Never** | `#portfolio-chat` (dedicated) | **Composer 2.5 Fast** or **Gemini Flash** — speed over depth; no thinking models |
+
+**Why portfolio chat feels slow:** cloud spin-up (~5–15s) + Robinhood MCP calls (~2–8s) + model time. A fast model trims the last chunk; fewer tool calls (already in the prompt) helps more than a frontier model.
 
 Wire triggers so they do not collide:
 
@@ -18,7 +22,7 @@ Wire triggers so they do not collide:
 
 ## Prompt — Agentic delta-band daily check
 
-Copy into the daily-check automation:
+Copy into the daily-check automation. In Automation settings, set **Model** to **Composer 2.5** or **Claude Sonnet** (see table above).
 
 ```text
 Open the jasebrodsky/Trading repo on branch main. Follow docs/strategy.md and the robinhood-delta-band-cc skill. Trade scope: Robinhood Agentic account only (display as ••••3765); abort if not agentic_allowed.
@@ -76,7 +80,7 @@ MESSAGE 2 — Overlay (actions second) — post as a follow-up in the same chann
 
 ## Prompt — Agentic delta-band continue/stop
 
-Copy into the continue/stop automation:
+Copy into the continue/stop automation. In Automation settings, set **Model** to **Claude Sonnet** or **Composer 2.5** (see table above).
 
 ```text
 You are ONLY the approval gate for the Agentic delta-band overlay. Repo: jasebrodsky/Trading on branch main. Follow docs/strategy.md and robinhood-delta-band-cc. Account: Robinhood Agentic only (••••3765). Abort if not agentic_allowed.
@@ -117,12 +121,13 @@ Markets closed: do not place; say so.
 
 ## Prompt — Agentic portfolio chat
 
-Copy into the portfolio-chat automation. Set trigger to **any message in `#portfolio-chat`** (Ignore Thread Replies **OFF** so it also responds in-thread).
+Copy into the portfolio-chat automation. Set trigger to **any message in `#portfolio-chat`** (Ignore Thread Replies **OFF** so it also responds in-thread). In Automation settings, set **Model** to **Composer 2.5 Fast** or **Gemini Flash** (see table above).
 
 **Setup checklist (required — green ✅ alone does NOT post a reply):**
 
 | Setting | Value |
 |---------|-------|
+| **Model** | **Composer 2.5 Fast** or **Gemini Flash** (not thinking / Opus models) |
 | Repo / branch | `jasebrodsky/Trading` · `main` |
 | Tools → **Send to Slack** | **ON** (without this, runs finish silently — you only see ✅) |
 | Tools → **Read Slack channels** | **ON** (thread context) |
@@ -162,5 +167,5 @@ Topics you can cover:
 
 Always mask account numbers (••••3765). Note figures are not tax advice — recommend a CPA for tax specifics.
 
-When the user asks something vague ("how am I doing?"), lead with the headline number (account value, today's change) then give the most useful 3–5 bullet insight. Don't over-fetch; one or two tool calls is usually enough per message.
+When the user asks something vague ("how am I doing?"), lead with the headline number (account value, today's change) then give the most useful 3–5 bullet insight. Don't over-fetch; one or two tool calls is usually enough per message. Skip Read Slack unless the user is clearly continuing a thread. Keep replies under ~150 words unless they ask for detail.
 ```
