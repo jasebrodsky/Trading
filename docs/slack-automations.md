@@ -41,9 +41,10 @@ This automation is REPORT-ONLY.
    - Post-earnings but refill blocked (no full session since print OR no liquid candidate at sleeve entry target Δ / 30–45 DTE with spread PASS) → waiting-refill (no trade).
    - |Δ| < 0.12 → harvest. Prefer BTC+rewrite 30–45 DTE at sleeve entry target (Conviction ~0.15Δ, Income ~0.25Δ). If DTE < 10 → close and only rewrite into 30–45 DTE. If rewrite fails spread/review liquidity but BTC PASSes → harvest-close-only (BTC only).
    - 0.12–0.45 hold; > 0.45 defend.
-   - **Conviction sleeve** (NVDA, AMZN, ONEQ, SPY): entry target ~0.12–0.18Δ. Do NOT rewrite to 0.20–0.30Δ on these names — stay at low Δ to preserve upside and avoid triggering large embedded-gain assignment events.
+   - **Conviction sleeve** (NVDA, AMZN, ONEQ, SPY, MU): entry target ~0.12–0.18Δ. Do NOT rewrite to 0.20–0.30Δ on these names — stay at low Δ to preserve upside and avoid triggering large embedded-gain assignment events.
    - **Income sleeve** (all others): entry target ~0.20–0.30Δ as usual.
-3. Also report **idle CC capacity** (floor(shares/100) − short calls) and **index CSP sleeve** status (free cash vs put collateral; prefer new puts on RSP then ITOT then SPY; ~$2k BP buffer). Propose idle-CC-fill / index-CSP-open when eligible; if CSP collateral already locked, say blocked.
+   - **Accumulation sleeve** (AMD, META, and any Conviction candidate below 100 shares): check if a CSP is open; if not and earnings are clear and free cash supports collateral + ~$2k BP buffer (one at a time), propose open accumulation CSP at ~0.20–0.25Δ / 30–45 DTE. If assigned → graduate to Conviction CC immediately. If earnings within 5 days → earnings-flatten (BTC close-only) same as CCs.
+3. Also report **idle CC capacity** (floor(shares/100) − short calls), **accumulation CSP status** (AMD/META: open / waiting-earnings / blocked-collateral / graduated), and **index CSP sleeve** status (free cash vs put collateral; prefer new puts on RSP then ITOT then SPY; ~$2k BP buffer). One slot at a time for accumulation + index CSPs combined — do not stack if combined collateral breaches BP buffer.
 4. Coverage check. Build orders. Evaluate gates per leg using the **economic spread rule** in docs/strategy.md (PASS if spread ≤20% of mid OR ≤$0.15 abs OR adverse fill ≤10% of expected roll credit / ≤$0.25 on close-only). Never PASS a rewrite in earnings-flatten or before refill rules clear. Do not leave harvest as “do nothing” when BTC-only would PASS. Treat broker OPTION_WIDE_BID_ASK_SPREAD as advisory when the economic rule PASSes.
 
 === C) Post TWO Slack messages to #all-agentic-trading ===
@@ -57,11 +58,12 @@ MESSAGE 1 — Portfolio (scoreboard first)
 5. One line: “Overlay actions → see next message.”
 
 MESSAGE 2 — Overlay (actions second) — post as a follow-up in the same channel right after message 1 (thread reply under message 1 if the tool allows; otherwise a second channel message that clearly says “Overlay — continues morning check”)
-1. Quick take: counts hold / harvest / harvest-close-only / defend / earnings-flatten / waiting-refill / idle-CC-fill / index-CSP; loudest red flag
+1. Quick take: counts hold / harvest / harvest-close-only / defend / earnings-flatten / waiting-refill / idle-CC-fill / index-CSP / accum-CSP; loudest red flag
 2. Action board (actionable only): Symbol | Class | Do now | Gate | Why
-   Do now examples: BTC only | BTC+rewrite | waiting refill | sell CC (idle) | sell index CSP | CSP blocked | none
-3. Short book: Symbol | Strike | Type | Exp | DTE | Qty | |Δ| | Mark | Class
-4. Idle CC / index sleeve one-liner (capacity + free cash / preferred CSP ticker)
+   Do now examples: BTC only | BTC+rewrite | waiting refill | sell CC (idle) | sell accum CSP | sell index CSP | CSP blocked | graduated→sell CC | none
+3. Short book: Symbol | Strike | Type | Exp | DTE | Qty | |Δ| | Mark | Class | Sleeve
+4. Accumulation status: AMD X sh (need Y) — CSP: [open/waiting-earnings/blocked-collateral/graduated]; META same
+5. Idle CC / index sleeve one-liner (capacity + free cash / preferred CSP ticker)
 5. Proposals: Symbol | Close | Open (or —) | Est net $ | Gate | Why
 6. Escalations / waiting refill bullets
 7. Open risk (nearest Δ to bands)
@@ -98,7 +100,8 @@ EXECUTE:
   - harvest-close-only when rewrite liquidity fails but BTC PASSes
   - DTE < 10 harvest → close; rewrite only into 30–45 DTE at sleeve entry target
   - post-earnings refill only after one full session AND liquid sleeve-target-Δ candidate with spread PASS
-  - Conviction sleeve (NVDA, AMZN, ONEQ, SPY): rewrite to ~0.12–0.18Δ only; never rewrite to 0.20–0.30 on these names
+  - Conviction sleeve (NVDA, AMZN, ONEQ, SPY, MU): rewrite to ~0.12–0.18Δ only; never rewrite to 0.20–0.30 on these names
+  - Accumulation sleeve (AMD, META): open CSP at ~0.20–0.25Δ only when earnings clear + free cash supports collateral + ~$2k BP buffer; one at a time; if assigned → immediately open Conviction CC
   - idle CC fill only with share coverage; index CSP opens only with free cash + ~$2k BP buffer; prefer RSP then ITOT then SPY for new puts
 - review_option_order then place_option_order only if ALL gates pass for that leg.
 - Never place on gate failure; escalate in-thread.

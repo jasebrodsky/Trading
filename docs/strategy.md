@@ -16,14 +16,15 @@ The portfolio is split into two sleeves with different target entry Δ. The band
 
 | Sleeve | Entry target Δ | Names | Rationale |
 |--------|---------------|-------|-----------|
-| **Conviction** | **0.12–0.18** | NVDA, AMZN, ONEQ, SPY (when held as shares) | Long-term bullish; preserve upside; large embedded gains; lower rolling cost; IRA distributions provide income floor if premium is thin |
-| **Income** | **0.20–0.30** | MU, TSLA, DAL, AAL, MRNA, PFE, HOOD, INTC, VALE, and any name not explicitly listed as Conviction | Neutral-to-income; maximize premium; assignment is acceptable |
+| **Conviction** | **0.12–0.18** | NVDA, AMZN, ONEQ, SPY (when held as shares), MU | Long-term bullish; preserve upside; large embedded gains; lower rolling cost; IRA distributions provide income floor if premium is thin |
+| **Income** | **0.20–0.30** | TSLA, DAL, AAL, MRNA, PFE, HOOD, INTC, VALE, and any name not explicitly listed as Conviction | Neutral-to-income; maximize premium; assignment is acceptable |
+| **Accumulation** | **0.20–0.25 CSP** | AMD, META (and any Conviction candidate below 100 shares) | Sell cash-secured puts to acquire shares at a discount; collect premium while building toward 100-share CC coverage; once ≥100 shares held, graduate to Conviction CC |
 
 **Income floor note:** inherited IRA distributions (~$3k/month) cover any gap between Conviction-sleeve premium and cost of living. Conviction names should not be over-pressured for income — use the income sleeve and IRA for that.
 
 **Adding a name to Conviction:** requires explicit user instruction. Default is Income sleeve.
 
-**Embedded-gain note:** names with large unrealized LTCG (NVDA cost ~$77, AMZN cost ~$160) should avoid assignment by staying at low Δ entries and defending promptly if Δ spikes. Assignment on these would be a taxable event.
+**Embedded-gain note:** names with large unrealized LTCG (NVDA cost ~$77, AMZN cost ~$160, MU cost ~$130) should avoid assignment by staying at low Δ entries and defending promptly if Δ spikes. Assignment on these would be a taxable event.
 
 ## Bands
 
@@ -72,6 +73,37 @@ Close-only flatten still must pass spread / review / BP / coverage gates on the 
 - Do not chase thin names (wide tape / meme) just to “cover everything” — escalate or skip if economic spread fails.
 - Phase new underlyings in (e.g. start 2–4 contracts on a large new sleeve like ONEQ) rather than max capacity on day one when liquidity is uncertain.
 
+### Accumulation sleeve (CSP-to-CC wheel)
+
+**Purpose:** collect premium via cash-secured puts on Conviction candidates currently below 100 shares. Sell CSPs at a slight discount to current price so assignment is welcomed — you buy shares below market while earning income. Once assigned to ≥100 shares, the name graduates to the **Conviction CC sleeve** (0.12–0.18Δ calls).
+
+**Current accumulation targets:** AMD (45 sh → need 100), META (20 sh → need 100). Add any Conviction candidate below 100 shares.
+
+**CSP entry rules:**
+
+- Sell put at **~0.20–0.25Δ**, 30–45 DTE — higher Δ than index CSPs because assignment is the *goal*, not just a byproduct.
+- Strike should represent a price you are happy to own 100 shares at (a real discount to current price).
+- Same earnings blackout applies: no new CSP within 5 trading days of earnings; close existing if one is open.
+- Same economic spread gate applies.
+
+**Sizing (cash account):**
+
+- Collateral per accumulation put ≈ `strike × 100`.
+- Open **one accumulation CSP at a time** — these are high-notional single-stock puts. Do not stack alongside index CSPs if combined collateral would breach the ~$2k BP buffer.
+- Priority: free cash first goes to index sleeve (RSP/ITOT) if no accumulation target is ready; otherwise accumulation put takes the slot if earnings are clear and a conviction candidate is available.
+
+**Lifecycle:**
+
+| State | Action |
+|-------|--------|
+| CSP open, \|Δ\| 0.12–0.45 | Hold — collecting premium |
+| CSP \|Δ\| &lt; 0.12 (harvest) | BTC + resell at ~0.20–0.25Δ / 30–45 DTE |
+| CSP \|Δ\| &gt; 0.45 (defend) | BTC + resell further OTM, or BTC only if stock is running away from you |
+| Assigned | Own 100+ shares → open Conviction CC at ~0.12–0.18Δ immediately on next check |
+| Earnings ≤5 trading days | Flatten (BTC close-only); no rewrite until post-print + 1 session |
+
+**Graduation:** once ≥100 shares held (existing + assigned), the name moves from Accumulation → Conviction CC. No longer needs a CSP.
+
 ### Index sleeve (rebalance / accumulate)
 
 **Purpose:** over time, grow diversified US equity ballast funded by CC premium and free cash.
@@ -105,7 +137,7 @@ After `review_option_order`, **auto-place** when all gates pass. Escalate to hum
 ### Auto-place gates (all required)
 
 1. Account is Agentic `420763765`
-2. Action matches band table (harvest or defend), earnings flatten (close-only BTC), harvest close-only (rewrite liquidity failed / DTE floor close-only path), **or** a **new short** that fills idle CC capacity / opens or rolls an **index CSP** under the Index sleeve rules (coverage + free-cash sizing)
+2. Action matches band table (harvest or defend), earnings flatten (close-only BTC), harvest close-only (rewrite liquidity failed / DTE floor close-only path), a **new short** that fills idle CC capacity / opens or rolls an **index CSP** under the Index sleeve rules, **or** opens or rolls an **accumulation CSP** under the Accumulation sleeve rules (coverage + free-cash sizing + earnings clear)
 3. New short strike at **sleeve entry target Δ** when opening/rewriting: **~0.12–0.18Δ for Conviction names, ~0.20–0.30Δ for Income names** — omit open leg for close-only (BP/shares block, earnings flatten, or harvest rewrite liquidity fail)
 4. Net roll is credit **or** defend debit ≤ remaining extrinsic on the closed leg + $50 buffer — **N/A for close-only** (debit to flatten/harvest-close is allowed)
 5. **Spread / liquidity (economic):** a leg **PASSes** if **any** of these is true (missing quotes still fail):

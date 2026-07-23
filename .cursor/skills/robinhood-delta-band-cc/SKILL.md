@@ -56,6 +56,7 @@ Coverage check: calls need ≥ `100 × contracts` shares of underlying.
 Also compute from equities + shorts (see [docs/strategy.md](../../../docs/strategy.md)):
 
 - **Idle CC capacity** per symbol: `floor(shares/100) − open short call contracts` (include SPY when held).
+- **Accumulation sleeve status** per target (AMD, META): shares held, open CSP if any, earnings proximity, free cash vs collateral needed.
 - **Index CSP sleeve:** open short puts on SPY/RSP/ITOT; free cash vs collateral; whether a new RSP/ITOT (preferred) or SPY put can open without breaching the ~$2k BP buffer.
 
 ### 3. Classify each short
@@ -73,9 +74,11 @@ Otherwise by Δ:
 | 0.12 ≤ \|Δ\| ≤ 0.45 | hold | none |
 | \|Δ\| &gt; 0.45 | defend | BTC → roll up+out to sleeve entry target, or BTC only if needed |
 
-**Conviction sleeve** (NVDA, AMZN, ONEQ, SPY): target entry ~0.12–0.18Δ. Never rewrite to 0.20–0.30 on these names. Preserves upside and defers large embedded-gain assignment.
+**Conviction sleeve** (NVDA, AMZN, ONEQ, SPY, MU): target entry ~0.12–0.18Δ. Never rewrite to 0.20–0.30 on these names. Preserves upside and defers large embedded-gain assignment.
 
 **Income sleeve** (all others): target entry ~0.20–0.30Δ as usual.
+
+**Accumulation sleeve** (AMD, META — Conviction candidates below 100 shares): open CSP at ~0.20–0.25Δ when earnings clear + free cash supports collateral + ~$2k buffer (one at a time). If assigned → name holds ≥100 shares → immediately classify as Conviction CC on next check.
 
 **Harvest fallbacks** (still actionable — do not leave dead shorts stranded):
 
@@ -86,12 +89,13 @@ Use put Δ magnitude for CSPs. Prefer same chain; pick liquid strike near target
 
 **New shorts** (same bands; propose on every check when eligible):
 
-1. **Idle CC fill** — unused capacity on liquid holdings (and SPY if shares are in Agentic). Prefer names already in the overlay; phase large new sleeves. Skip if economic spread fails.
-2. **Index CSP open** — only when free cash supports full collateral + ~$2k buffer. Prefer **RSP**, then **ITOT**, then **SPY** for *new* puts. If collateral is already tied up (e.g. existing SPY put), report blocked — do not stack.
+1. **Idle CC fill** — unused capacity on liquid holdings (and SPY if shares are in Agentic). Use sleeve entry target Δ. Phase large new sleeves. Skip if economic spread fails.
+2. **Accumulation CSP open** — AMD or META (or any Conviction candidate <100 sh): only when earnings clear + free cash supports full collateral + ~$2k buffer + no other CSP already consuming cash. One at a time. Propose at ~0.20–0.25Δ / 30–45 DTE. If earnings within 5 days → flatten (BTC close-only) same as CCs.
+3. **Index CSP open** — only when free cash supports full collateral + ~$2k buffer AND no accumulation CSP slot already taken. Prefer **RSP**, then **ITOT**, then **SPY** for *new* puts.
 
 ### 4. Build orders
 
-For each actionable class (earnings-flatten, harvest, harvest-close-only, defend, idle-CC-fill, index-CSP-open):
+For each actionable class (earnings-flatten, harvest, harvest-close-only, defend, idle-CC-fill, accumulation-CSP-open, accumulation-CSP-assigned→CC, index-CSP-open):
 
 1. Resolve new `option_id` via chains → instruments → quotes (**skip** if close-only).
 2. Close leg: buy + `position_effect=close`.
