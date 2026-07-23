@@ -35,6 +35,7 @@ This automation is REPORT-ONLY.
 2. get_equity_positions + get_equity_quotes — unrealized $/% vs avg cost; top 3 winners & losers; sum unrealized.
 3. get_realized_pnl span=month and span=year; also asset_classes option and equity when useful. Optional get_pnl_trade_history span=month for 1–2 notable closes.
 4. Do not invent dividends. Label unrealized vs realized (MTD/YTD). Options realized ≠ paycheck.
+5. **Income sweep** (docs/income-sweep.md): compute sweep_available from cash, BP (~$2k buffer), and open put collateral; report $3k Amex sweep on the 15th — ready or blocked (+ shortfall). Extra detail on checks dated 13th–17th ET.
 
 === B) Overlay check ===
 1. Option positions (nonzero) + instruments + quotes + get_earnings_results.
@@ -57,7 +58,8 @@ MESSAGE 1 — Portfolio (scoreboard first)
 2. Quick take: 3–5 bullets (portfolio feel, biggest winner/loser, MTD & YTD realized one-liners)
 3. Scoreboard table: Account value, Equities, Options, Cash, BP, Unrealized equity P&L, Realized MTD (all/options/equity), Realized YTD (all/options/equity)
 4. Winners & losers table (top 3 each): Rank | Symbol | Unrealized $ | % | Notes
-5. One line: “Overlay actions → see next message.”
+5. **Income sweep** one-liner: Amex $3k on 15th — ready / blocked ($shortfall) · sweep_available $X · next date
+6. One line: “Overlay actions → see next message.”
 
 MESSAGE 2 — Overlay (actions second) — post as a follow-up in the same channel right after message 1 (thread reply under message 1 if the tool allows; otherwise a second channel message that clearly says “Overlay — continues morning check”)
 1. Quick take: counts hold / harvest / harvest-close-only / defend / earnings-flatten / waiting-refill / idle-CC-fill / index-CSP / accum-CSP; loudest red flag
@@ -154,6 +156,7 @@ Topics you can cover:
 - Individual positions: current value, gain/loss, earnings proximity, delta status, coverage
 - Strategy explanation: three-sleeve model (Conviction / Income / Accumulation), delta bands, harvest/hold/defend logic, index sleeve, accumulation CSP wheel
 - Income projections: estimated monthly premium, coverage gaps, what happens when SPY put expires
+- Income sweep: $3k/month Amex savings on the 15th, sweep_available vs blocked, link to docs/income-sweep.md
 - Tax discussion: AGI optimization, IRA drawdown timing, loss harvesting candidates, embedded-gain names
 - What-if scenarios: "what if NVDA drops 20%?", "what if I sell MRNA?", "what if AMD gets assigned?"
 - Options education: explain delta, theta, IV, rolling, the wheel, covered calls vs CSPs
