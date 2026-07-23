@@ -5,7 +5,7 @@
 | Run the overlay | Prompt: `Run covered-call delta band check` |
 | Dry-run (closed markets) | Prompt: `Dry-run covered-call delta band check` |
 | Change bands / gates | Edit `docs/strategy.md` |
-| Change savings sweep ($ / date / bank) | Edit `docs/income-sweep.md` + update Robinhood recurring transfer |
+| Change savings sweep ($ / date / bank) | Edit `docs/income-sweep.md` (manual monthly withdraw in Robinhood) |
 | Change agent procedure | Edit `.cursor/skills/robinhood-delta-band-cc/SKILL.md` |
 | Slack daily report / continue-stop | Edit prompts in `docs/slack-automations.md`, paste into [Automations](https://cursor.com/automations) (morning scoreboard + overlay actions) |
 
