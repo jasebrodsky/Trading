@@ -101,6 +101,7 @@ Use `get_portfolio` for cash and BP; infer `put_collateral` from open short put 
 
 **Report line (Slack overlay):** `Deploy focus: FILL-SLOTS | idle_cc=N | deployable_cash=$X | put_collateral=$Y | → …`
 
+Visual map: [strategy-canvas.md](strategy-canvas.md)
 
 **Purpose:** collect premium via cash-secured puts on Conviction candidates currently below 100 shares. Sell CSPs at a slight discount to current price so assignment is welcomed — you buy shares below market while earning income. Once assigned to ≥100 shares, the name graduates to the **Conviction CC sleeve** (0.12–0.18Δ calls).
 
