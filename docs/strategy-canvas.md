@@ -235,21 +235,29 @@ Spread PASS if **any**: ≤20% of mid · ≤$0.15 abs · adverse fill ≤10% rol
 
 ---
 
-## 9. Income scale (full book targets)
+## 9. Predicted income (visual projection)
+
+Illustrative forward path assuming **FILL-SLOTS** priority (~29 idle CCs filled over ~6 months), then index sleeve growth. **Not a guarantee** — defend months and spreads can dip below the floor.
+
+![Projected options income](assets/options-income-projection.png)
+
+| Horizon | Typical net / mo | Notes |
+|---------|------------------|-------|
+| **Now** (~20/49 slots) | **~$3–5k** | Partial book |
+| **~6 months** (full CC book) | **~$7–8k** | Gross ~$8.7–9.1k; ~88–91% after harvest/defend |
+| **12–18 months** | **~$8–9k** | Index CSP + slight capacity growth |
+| **Planning floor** (any month) | **≥ ~$6k** | Budget life on this once fully deployed |
+| **Strong / quiet month** | **~$8–9k** | Most legs expire/harvest; few defends |
 
 ```mermaid
-block-beta
-  columns 4
-  block:Idle["Today · ~29 idle CC slots"]:1
-  block:Partial["Partial book · ~$3–5k/mo net"]:1
-  block:Full["Full book · ~49 CC slots"]:1
-  block:Net["Target net · ~$7–8k/mo typical"]:1
+flowchart LR
+  N["Now · ~$4k net"] --> F["~6 mo · full book · ~$7–8k"]
+  F --> G["12–18 mo · ~$8–9k"]
+  F --> FL["Floor ≥ $6k"]
+  F --> ST["Strong ~$9k"]
 ```
 
-| Stage | Gross STO / mo | Net after harvest & defend |
-|-------|----------------|----------------------------|
-| Partial deployment | ~$4k open | ~$3–5k |
-| Full book | ~$8.7–9.1k | ~$7–8k typical · ≥$6k floor |
+**Assumptions baked into the chart:** ~49 CC capacity, ~20% of legs defend in a typical mix, spend **~$4.5k/mo** on travel for the surplus panel (condo-fund pace). Revisit when deployment or spend changes.
 
 ---
 
