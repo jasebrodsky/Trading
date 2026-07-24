@@ -70,8 +70,8 @@ Close-only flatten still must pass spread / review / BP / coverage gates on the 
 - On each check: inventory symbols with **unused CC capacity** (`floor(shares/100) − short call contracts > 0`).
 - Prefer filling idle capacity on liquid names already held (and on **SPY** when shares are in Agentic).
 - Entry Δ is **sleeve-specific** per Conviction tiers: ~0.12–0.18Δ for Conviction names, ~0.20–0.30Δ for Income names. Earnings flatten/refill rules apply per underlying.
-- Do not chase thin names (wide tape / meme) just to “cover everything” — escalate or skip if economic spread fails.
-- Phase new underlyings in (e.g. start 2–4 contracts on a large new sleeve like ONEQ) rather than max capacity on day one when liquidity is uncertain.
+- **Fill all unused CC capacity** that passes gates on a check — no artificial phase-in or “start with 2–4 contracts.” Size to full idle (`floor(shares/100) − short calls`) per symbol when spread / review / earnings / coverage PASS.
+- Do not chase thin names (wide tape / meme) just to “cover everything” — escalate or skip if economic spread fails; otherwise fill.
 
 ### Accumulation sleeve (CSP-to-CC wheel)
 

@@ -10,7 +10,7 @@
     "id": "idle-cc",
     "status": "now",
     "title": "Fill idle CC capacity",
-    "blurb": "Phase covered calls onto liquid names with unused contracts — skip thin tape.",
+    "blurb": "Fill covered calls to full idle on liquid names when gates pass — skip thin tape.",
     "links": ["docs/strategy.md#covered-call-book"]
   },
   {
@@ -50,17 +50,24 @@
   },
   {
     "id": "coverage-heatmap",
-    "status": "later",
+    "status": "done",
     "title": "Coverage heatmap",
-    "blurb": "Per-symbol idle vs covered vs earnings blackout.",
-    "links": []
+    "blurb": "Per-symbol idle vs covered vs earnings blackout on the ops dashboard.",
+    "links": ["canvas/index.html#ops"]
+  },
+  {
+    "id": "ops-dashboard",
+    "status": "done",
+    "title": "Ops dashboard",
+    "blurb": "Callouts, BP runway, forward income, performance pulse, capital mix, equity curve.",
+    "links": ["canvas/index.html#ops", "canvas/index.html#outlook", "canvas/index.html#returns"]
   },
   {
     "id": "premium-ledger",
-    "status": "later",
+    "status": "done",
     "title": "Premium ledger",
-    "blurb": "MTD/YTD options realized vs open credit, separate from equity P&L.",
-    "links": []
+    "blurb": "Month-to-month credits/debits, net income, account value, and appreciation + option income as total return.",
+    "links": ["canvas/index.html#returns", "canvas/data/snapshot.json"]
   },
   {
     "id": "tier-c-slack",

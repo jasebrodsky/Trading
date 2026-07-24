@@ -412,6 +412,175 @@
     footer strong { color: var(--mist); font-weight: 500; }
 
     .empty { color: var(--fog); font-style: italic; }
+
+    /* ——— Ledger / returns ——— */
+    .legend-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem 1.5rem;
+      margin: 0 0 1.25rem;
+      font-size: 0.82rem;
+      color: var(--fog);
+    }
+    .legend-row span {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.45rem;
+    }
+    .swatch {
+      width: 0.7rem;
+      height: 0.7rem;
+      border-radius: 2px;
+      display: inline-block;
+    }
+    .swatch.credit { background: var(--signal); }
+    .swatch.debit { background: var(--danger); }
+    .swatch.income { background: var(--signal); }
+    .swatch.apprec { background: var(--copper); }
+    .chart-wrap {
+      width: 100%;
+      overflow-x: auto;
+      margin-bottom: 2rem;
+    }
+    .chart-wrap svg {
+      display: block;
+      width: 100%;
+      min-width: 560px;
+      height: auto;
+    }
+    .chart-wrap text {
+      fill: var(--fog);
+      font-family: var(--sans);
+      font-size: 11px;
+    }
+    .chart-wrap .axis-label {
+      font-size: 10px;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+    td.up { color: var(--signal); }
+    td.down { color: var(--danger); }
+    .ledger-note {
+      margin-top: 1rem;
+      color: var(--fog);
+      font-size: 0.85rem;
+      max-width: 44rem;
+    }
+    .refresh-bar {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 0.65rem 0.85rem;
+      margin: 0.85rem 0 0;
+    }
+    .refresh-bar button {
+      font-family: var(--sans);
+      font-size: 0.82rem;
+      font-weight: 600;
+      padding: 0.55rem 0.95rem;
+      border-radius: 999px;
+      border: 1px solid var(--line);
+      background: rgba(18, 28, 24, 0.55);
+      color: var(--mist);
+      cursor: pointer;
+      transition: background 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+    }
+    .refresh-bar button:hover {
+      border-color: rgba(200, 241, 109, 0.45);
+      color: var(--signal);
+    }
+    .refresh-bar button.primary {
+      background: var(--signal);
+      color: var(--ink);
+      border-color: transparent;
+    }
+    .refresh-bar button.primary:hover { filter: brightness(1.05); color: var(--ink); }
+    .refresh-bar .hint {
+      font-size: 0.8rem;
+      color: var(--fog);
+      max-width: 28rem;
+    }
+    .refresh-bar .hint em { color: var(--mist); font-style: normal; }
+
+    .loudest {
+      margin: 0 0 1.75rem;
+      padding: 1rem 0;
+      border-top: 2px solid var(--signal);
+      border-bottom: 1px solid var(--line);
+      font-family: var(--display);
+      font-size: clamp(1.15rem, 2.5vw, 1.45rem);
+      line-height: 1.35;
+      color: var(--mist);
+    }
+    .count-strip {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.65rem 1.25rem;
+      margin-bottom: 1.5rem;
+      font-size: 0.85rem;
+      color: var(--fog);
+    }
+    .count-strip strong {
+      color: var(--mist);
+      font-weight: 600;
+      font-variant-numeric: tabular-nums;
+    }
+    .count-strip .hot strong { color: var(--danger); }
+    .count-strip .warm strong { color: var(--copper); }
+    .count-strip .ok strong { color: var(--signal); }
+    .action-list { list-style: none; margin: 0; padding: 0; }
+    .action-list li {
+      display: grid;
+      grid-template-columns: 5.5rem 1fr;
+      gap: 0.75rem;
+      padding: 0.85rem 0;
+      border-bottom: 1px solid var(--line);
+      font-size: 0.95rem;
+    }
+    @media (max-width: 560px) {
+      .action-list li { grid-template-columns: 1fr; gap: 0.25rem; }
+    }
+    .prio {
+      font-size: 0.72rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      font-weight: 600;
+      padding-top: 0.2rem;
+    }
+    .prio.now { color: var(--danger); }
+    .prio.watch { color: var(--copper); }
+    .prio.blocked { color: var(--fog); }
+    .prio.hold { color: var(--signal); }
+    .heat-cell {
+      display: inline-block;
+      width: 0.55rem;
+      height: 0.55rem;
+      border-radius: 2px;
+      margin-right: 0.15rem;
+      vertical-align: middle;
+    }
+    .heat-cell.on { background: var(--signal); }
+    .heat-cell.off { background: rgba(215,228,220,0.18); }
+    .heat-cell.warn { background: var(--copper); }
+    .bar-track {
+      height: 0.45rem;
+      background: rgba(215,228,220,0.12);
+      border-radius: 2px;
+      overflow: hidden;
+      margin-top: 0.35rem;
+    }
+    .bar-fill { height: 100%; background: var(--signal); }
+    .bar-fill.copper { background: var(--copper); }
+    .bar-fill.fog { background: var(--fog); }
+    .expiry-block {
+      padding: 1rem 0;
+      border-bottom: 1px solid var(--line);
+    }
+    .expiry-block h4 {
+      margin: 0 0 0.5rem;
+      font-family: var(--display);
+      font-size: 1.2rem;
+    }
   </style>
 </head>
 <body>
@@ -426,10 +595,12 @@
     </div>
     <div class="wrap hero-copy">
       <h1 class="brand">Agentic<span>Overlay</span></h1>
-      <p class="lede">Delta-band covered calls and cash-secured puts — strategy, live program stats, and what’s next.</p>
+      <p class="lede">Delta-band covered calls and cash-secured puts — live ops, performance, premium ledger, and forward income.</p>
       <div class="cta-row">
-        <a class="cta cta-primary" href="#stats">View program stats</a>
-        <a class="cta cta-ghost" href="#projects">Future projects</a>
+        <a class="cta cta-primary" href="#ops">Ops &amp; callouts</a>
+        <a class="cta cta-ghost" href="#stats">Scoreboard</a>
+        <a class="cta cta-ghost" href="#returns">Returns</a>
+        <a class="cta cta-ghost" href="#outlook">Forward income</a>
       </div>
     </div>
   </header>
@@ -439,8 +610,13 @@
       <div class="wrap">
         <div class="section-head">
           <h2>Program scoreboard</h2>
-          <p>Snapshot of the Agentic options book — account value, premium realized, open credit, and idle coverage.</p>
+          <p>Snapshot of the Agentic options book — account value, premium realized, open credit, idle coverage, and YTD premium flow.</p>
           <p class="meta" id="asOf">Loading…</p>
+          <div class="refresh-bar">
+            <button type="button" class="primary" id="btnReloadSnapshot">Reload snapshot</button>
+            <button type="button" id="btnCopyLivePrompt">Copy live-refresh prompt</button>
+            <span class="hint" id="refreshHint">Browser can reload <em>snapshot.json</em>. Live Robinhood data needs Cursor: paste the prompt in chat.</span>
+          </div>
         </div>
 
         <div class="scoreboard" id="scoreboard"></div>
@@ -463,6 +639,136 @@
         </div>
 
         <div class="wl" style="margin-top: 3rem;" id="winnersLosers"></div>
+      </div>
+    </section>
+
+    <section id="ops">
+      <div class="wrap">
+        <div class="section-head">
+          <h2>Ops &amp; callouts</h2>
+          <p>What needs attention — zone counts, coverage gaps, earnings blackouts, and BP runway.</p>
+        </div>
+
+        <p class="loudest" id="loudest"></p>
+        <div class="count-strip" id="zoneCounts"></div>
+        <ul class="action-list" id="actionList"></ul>
+
+        <div class="split split-2" style="margin-top: 3rem;">
+          <div>
+            <div class="section-head" style="margin-bottom: 1rem;">
+              <h2 style="font-size: clamp(1.5rem, 3vw, 2rem);">Coverage heatmap</h2>
+              <p>Idle vs covered CC capacity; earnings blackout flagged.</p>
+            </div>
+            <div id="coverageTable"></div>
+          </div>
+          <div>
+            <div class="section-head" style="margin-bottom: 1rem;">
+              <h2 style="font-size: clamp(1.5rem, 3vw, 2rem);">BP &amp; collateral</h2>
+              <p>Cash, CSP notional, buffer headroom for the next put.</p>
+            </div>
+            <div class="scoreboard" id="runwayBoard"></div>
+            <div id="assignmentRisks" style="margin-top: 1.5rem;"></div>
+            <div id="earningsPanel" style="margin-top: 1.5rem;"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="returns">
+      <div class="wrap">
+        <div class="section-head">
+          <h2>Premium &amp; returns</h2>
+          <p>Month-to-month option credits vs debits, account value, and total return as appreciation plus realized option income.</p>
+        </div>
+
+        <div class="scoreboard" id="ledgerScoreboard"></div>
+
+        <div style="margin-top: 3rem;">
+          <div class="section-head" style="margin-bottom: 0.75rem;">
+            <h2 style="font-size: clamp(1.5rem, 3vw, 2rem);">Credits vs debits</h2>
+            <p>Filled option premium by month — sells in, buys out.</p>
+          </div>
+          <div class="legend-row">
+            <span><i class="swatch credit" aria-hidden="true"></i> Credits</span>
+            <span><i class="swatch debit" aria-hidden="true"></i> Debits</span>
+          </div>
+          <div class="chart-wrap" id="premiumChart"></div>
+        </div>
+
+        <div style="margin-top: 2.5rem;">
+          <div class="section-head" style="margin-bottom: 0.75rem;">
+            <h2 style="font-size: clamp(1.5rem, 3vw, 2rem);">Total return stack</h2>
+            <p>Appreciation (Δ account value) stacked with realized option income.</p>
+          </div>
+          <div class="legend-row">
+            <span><i class="swatch apprec" aria-hidden="true"></i> Appreciation</span>
+            <span><i class="swatch income" aria-hidden="true"></i> Option income (realized)</span>
+          </div>
+          <div class="chart-wrap" id="returnChart"></div>
+        </div>
+
+        <div style="margin-top: 2.5rem;" id="ledgerTable"></div>
+        <p class="ledger-note" id="ledgerNote"></p>
+
+        <div style="margin-top: 3rem;">
+          <div class="section-head" style="margin-bottom: 0.75rem;">
+            <h2 style="font-size: clamp(1.5rem, 3vw, 2rem);">Performance pulse</h2>
+            <p>Run-rate income, sleeve split, unrealized equity, and roll quality.</p>
+          </div>
+          <div class="scoreboard" id="perfBoard"></div>
+          <div class="split split-2" style="margin-top: 2rem;">
+            <div>
+              <div class="section-head" style="margin-bottom: 0.75rem;">
+                <h2 style="font-size: clamp(1.25rem, 2.5vw, 1.6rem);">Sleeve income YTD</h2>
+              </div>
+              <div id="sleeveIncome"></div>
+            </div>
+            <div>
+              <div class="section-head" style="margin-bottom: 0.75rem;">
+                <h2 style="font-size: clamp(1.25rem, 2.5vw, 1.6rem);">Capital mix</h2>
+              </div>
+              <div id="capitalMix"></div>
+            </div>
+          </div>
+          <div style="margin-top: 2rem;">
+            <div class="section-head" style="margin-bottom: 0.75rem;">
+              <h2 style="font-size: clamp(1.25rem, 2.5vw, 1.6rem);">Account value</h2>
+              <p>Points recorded on each canvas refresh.</p>
+            </div>
+            <div class="chart-wrap" id="equityCurveChart"></div>
+          </div>
+          <p class="ledger-note" id="perfNote"></p>
+        </div>
+
+      </div>
+    </section>
+
+    <section id="outlook">
+      <div class="wrap">
+        <div class="section-head">
+          <h2>Forward income</h2>
+          <p>Open extrinsic still in the book, idle-fill estimate, expiry calendar, and index sleeve path.</p>
+        </div>
+
+        <div class="scoreboard" id="forwardBoard"></div>
+        <p class="ledger-note" id="forwardNote"></p>
+
+        <div class="split split-2" style="margin-top: 2.5rem;">
+          <div>
+            <div class="section-head" style="margin-bottom: 1rem;">
+              <h2 style="font-size: clamp(1.5rem, 3vw, 2rem);">Expiry calendar</h2>
+              <p>Next shorts rolling off — what frees and what to rewrite.</p>
+            </div>
+            <div id="expiryCalendar"></div>
+          </div>
+          <div>
+            <div class="section-head" style="margin-bottom: 1rem;">
+              <h2 style="font-size: clamp(1.5rem, 3vw, 2rem);">Index sleeve</h2>
+              <p>SPY / RSP / ITOT shares and CSP progress.</p>
+            </div>
+            <div id="indexSleeve"></div>
+          </div>
+        </div>
       </div>
     </section>
 
@@ -499,68 +805,1002 @@
   <footer>
     <div class="wrap">
       <p><strong>Informational only</strong> — not tax or investment advice. Trades the Agentic account only.</p>
-      <p style="margin-top: 0.5rem;">Refresh stats: prompt <em>“Refresh the strategy canvas snapshot”</em> after a daily check, or update <code>canvas/data/snapshot.json</code>.</p>
+      <p style="margin-top: 0.5rem;">Reload on-disk numbers with <em>Reload snapshot</em>. For live Robinhood data, prompt Cursor: <em>“Refresh the strategy canvas snapshot”</em> (or use Copy live-refresh prompt).</p>
     </div>
   </footer>
 
   <script type="application/json" id="snapshot-fallback">
-  {
-    "asOf": "2026-07-23T20:00:00-04:00",
-    "asOfLabel": "Jul 23, 2026 close · Agentic ••••3765",
-    "account": { "nickname": "Agentic", "masked": "••••3765", "optionLevel": "option_level_2", "autonomy": "Tier C" },
-    "portfolio": { "totalValue": 706571.78, "equityValue": 559269.46, "optionsValue": -3088, "cash": 150390.32, "buyingPower": 32890.32 },
-    "pnl": { "realizedMtdOptions": 3227, "realizedMtdEquity": 0, "realizedYtdOptions": 3227, "realizedYtdAll": 3227, "unrealizedEquitySample": 138460.89, "unrealizedNote": "Sample of major holdings only — not full book" },
-    "openBook": [
-      { "symbol": "NVDA", "side": "short", "optionType": "call", "strike": 225, "expiration": "2026-08-21", "dte": 29, "qty": 1, "credit": 259, "mark": 3.33, "delta": 0.263, "zone": "hold", "sleeve": "conviction", "role": "CC" },
-      { "symbol": "AMD", "side": "short", "optionType": "put", "strike": 460, "expiration": "2026-08-28", "dte": 36, "qty": 1, "credit": 2100, "mark": 21.8, "delta": 0.228, "zone": "hold", "sleeve": "accumulation", "role": "CSP" },
-      { "symbol": "SPY", "side": "short", "optionType": "put", "strike": 715, "expiration": "2026-08-21", "dte": 29, "qty": 1, "credit": 492, "mark": 5.75, "delta": 0.245, "zone": "hold", "sleeve": "index", "role": "CSP" }
+{
+  "asOf": "2026-07-24T20:15:00-04:00",
+  "asOfLabel": "Jul 24, 2026 close \u00b7 Agentic \u2022\u2022\u2022\u20223765",
+  "account": {
+    "nickname": "Agentic",
+    "masked": "\u2022\u2022\u2022\u20223765",
+    "optionLevel": "option_level_2",
+    "autonomy": "Tier C"
+  },
+  "portfolio": {
+    "totalValue": 695541.99,
+    "equityValue": 548361.21,
+    "optionsValue": -6016,
+    "cash": 153196.78,
+    "buyingPower": 32890.32
+  },
+  "pnl": {
+    "realizedMtdOptions": 3227,
+    "realizedMtdEquity": 0,
+    "realizedYtdOptions": 3227,
+    "realizedYtdAll": 3227,
+    "unrealizedEquity": 130001.49,
+    "unrealizedNote": "Full equity book vs avg cost"
+  },
+  "ledger": {
+    "year": 2026,
+    "note": "Credits/debits from filled option premiums. Net income = credits \u2212 debits. Option income in the return stack is realized P&L on closed trades. Appreciation is \u0394 account value vs prior month-end (tracked on refresh). Informational \u2014 not tax advice.",
+    "ytd": {
+      "credits": 9619,
+      "debits": 734,
+      "netIncome": 8885,
+      "realizedOptions": 3227,
+      "openCredit": 5658,
+      "startingValue": null,
+      "endingValue": 695541.99,
+      "appreciation": -11029.79,
+      "totalReturn": -7802.79
+    },
+    "months": [
+      {
+        "month": "2026-01",
+        "label": "Jan",
+        "credits": 0,
+        "debits": 0,
+        "netIncome": 0,
+        "realizedOptions": 0,
+        "totalValue": null,
+        "appreciation": null,
+        "totalReturn": 0
+      },
+      {
+        "month": "2026-02",
+        "label": "Feb",
+        "credits": 0,
+        "debits": 0,
+        "netIncome": 0,
+        "realizedOptions": 0,
+        "totalValue": null,
+        "appreciation": null,
+        "totalReturn": 0
+      },
+      {
+        "month": "2026-03",
+        "label": "Mar",
+        "credits": 0,
+        "debits": 0,
+        "netIncome": 0,
+        "realizedOptions": 0,
+        "totalValue": null,
+        "appreciation": null,
+        "totalReturn": 0
+      },
+      {
+        "month": "2026-04",
+        "label": "Apr",
+        "credits": 0,
+        "debits": 0,
+        "netIncome": 0,
+        "realizedOptions": 0,
+        "totalValue": null,
+        "appreciation": null,
+        "totalReturn": 0
+      },
+      {
+        "month": "2026-05",
+        "label": "May",
+        "credits": 0,
+        "debits": 0,
+        "netIncome": 0,
+        "realizedOptions": 0,
+        "totalValue": null,
+        "appreciation": null,
+        "totalReturn": 0
+      },
+      {
+        "month": "2026-06",
+        "label": "Jun",
+        "credits": 2476,
+        "debits": 0,
+        "netIncome": 2476,
+        "realizedOptions": 0,
+        "totalValue": null,
+        "appreciation": null,
+        "totalReturn": 0
+      },
+      {
+        "month": "2026-07",
+        "label": "Jul",
+        "credits": 7143,
+        "debits": 734,
+        "netIncome": 6409,
+        "realizedOptions": 3227,
+        "totalValue": 695541.99,
+        "appreciation": null,
+        "totalReturn": 3227
+      },
+      {
+        "month": "2026-08",
+        "label": "Aug",
+        "credits": 0,
+        "debits": 0,
+        "netIncome": 0,
+        "realizedOptions": 0,
+        "totalValue": null,
+        "appreciation": null,
+        "totalReturn": 0
+      },
+      {
+        "month": "2026-09",
+        "label": "Sep",
+        "credits": 0,
+        "debits": 0,
+        "netIncome": 0,
+        "realizedOptions": 0,
+        "totalValue": null,
+        "appreciation": null,
+        "totalReturn": 0
+      },
+      {
+        "month": "2026-10",
+        "label": "Oct",
+        "credits": 0,
+        "debits": 0,
+        "netIncome": 0,
+        "realizedOptions": 0,
+        "totalValue": null,
+        "appreciation": null,
+        "totalReturn": 0
+      },
+      {
+        "month": "2026-11",
+        "label": "Nov",
+        "credits": 0,
+        "debits": 0,
+        "netIncome": 0,
+        "realizedOptions": 0,
+        "totalValue": null,
+        "appreciation": null,
+        "totalReturn": 0
+      },
+      {
+        "month": "2026-12",
+        "label": "Dec",
+        "credits": 0,
+        "debits": 0,
+        "netIncome": 0,
+        "realizedOptions": 0,
+        "totalValue": null,
+        "appreciation": null,
+        "totalReturn": 0
+      }
+    ]
+  },
+  "callouts": {
+    "loudest": "49 idle CC contracts still the biggest income gap. META/AMZN earnings this week block new shorts on those names.",
+    "counts": {
+      "hold": 7,
+      "harvest": 0,
+      "defend": 0,
+      "earningsFlatten": 0,
+      "waitingRefill": 0,
+      "idleCcFill": 49,
+      "accumCspOpen": 1,
+      "indexCspOpen": 1
+    },
+    "actions": [
+      {
+        "priority": "now",
+        "kind": "idle-CC-fill",
+        "detail": "49 unused CC contracts \u2014 fill liquid names to full idle when gates pass"
+      },
+      {
+        "priority": "watch",
+        "kind": "earnings",
+        "detail": "META 7/29 and AMZN 7/30 within ~5 sessions \u2014 no new shorts; AMZN idle blocked until refill"
+      },
+      {
+        "priority": "watch",
+        "kind": "earnings",
+        "detail": "PFE short open with earnings 8/4 (~7 sessions) \u2014 flatten if inside 5d"
+      },
+      {
+        "priority": "blocked",
+        "kind": "accum-CSP",
+        "detail": "META CSP blocked: AMD slot open + BP ~$33k < META collateral + buffer"
+      },
+      {
+        "priority": "hold",
+        "kind": "open-book",
+        "detail": "7 shorts in hold (|\u0394| 0.15\u20130.29); NVDA/MU assignment watch"
+      }
+    ]
+  },
+  "coverage": [
+    {
+      "symbol": "AMZN",
+      "shares": 140.7,
+      "capacity": 1,
+      "covered": 0,
+      "idle": 1,
+      "puts": 0,
+      "sleeve": "conviction",
+      "status": "idle",
+      "earningsDate": "2026-07-30",
+      "earningsTradingDays": 4,
+      "earningsBlackout": true,
+      "assignmentRisk": false,
+      "assignmentNote": null
+    },
+    {
+      "symbol": "ONEQ",
+      "shares": 1181.4,
+      "capacity": 11,
+      "covered": 0,
+      "idle": 11,
+      "puts": 0,
+      "sleeve": "conviction",
+      "status": "idle",
+      "earningsDate": null,
+      "earningsTradingDays": null,
+      "earningsBlackout": false,
+      "assignmentRisk": false,
+      "assignmentNote": null
+    },
+    {
+      "symbol": "AAL",
+      "shares": 1465.1,
+      "capacity": 14,
+      "covered": 4,
+      "idle": 10,
+      "puts": 0,
+      "sleeve": "income",
+      "status": "partial",
+      "earningsDate": null,
+      "earningsTradingDays": null,
+      "earningsBlackout": false,
+      "assignmentRisk": false,
+      "assignmentNote": null
+    },
+    {
+      "symbol": "SNAP",
+      "shares": 600.0,
+      "capacity": 6,
+      "covered": 0,
+      "idle": 6,
+      "puts": 0,
+      "sleeve": "income",
+      "status": "idle",
+      "earningsDate": null,
+      "earningsTradingDays": null,
+      "earningsBlackout": false,
+      "assignmentRisk": false,
+      "assignmentNote": null
+    },
+    {
+      "symbol": "DAL",
+      "shares": 569.2,
+      "capacity": 5,
+      "covered": 0,
+      "idle": 5,
+      "puts": 0,
+      "sleeve": "income",
+      "status": "idle",
+      "earningsDate": null,
+      "earningsTradingDays": null,
+      "earningsBlackout": false,
+      "assignmentRisk": false,
+      "assignmentNote": null
+    },
+    {
+      "symbol": "DJT",
+      "shares": 420.0,
+      "capacity": 4,
+      "covered": 0,
+      "idle": 4,
+      "puts": 0,
+      "sleeve": "income",
+      "status": "idle",
+      "earningsDate": null,
+      "earningsTradingDays": null,
+      "earningsBlackout": false,
+      "assignmentRisk": false,
+      "assignmentNote": null
+    },
+    {
+      "symbol": "PFE",
+      "shares": 765.1,
+      "capacity": 7,
+      "covered": 3,
+      "idle": 4,
+      "puts": 0,
+      "sleeve": "income",
+      "status": "partial",
+      "earningsDate": "2026-08-04",
+      "earningsTradingDays": 7,
+      "earningsBlackout": false,
+      "assignmentRisk": false,
+      "assignmentNote": null
+    },
+    {
+      "symbol": "VALE",
+      "shares": 331.0,
+      "capacity": 3,
+      "covered": 0,
+      "idle": 3,
+      "puts": 0,
+      "sleeve": "income",
+      "status": "idle",
+      "earningsDate": null,
+      "earningsTradingDays": null,
+      "earningsBlackout": false,
+      "assignmentRisk": false,
+      "assignmentNote": null
+    },
+    {
+      "symbol": "HOOD",
+      "shares": 250.0,
+      "capacity": 2,
+      "covered": 0,
+      "idle": 2,
+      "puts": 0,
+      "sleeve": "income",
+      "status": "idle",
+      "earningsDate": null,
+      "earningsTradingDays": null,
+      "earningsBlackout": false,
+      "assignmentRisk": false,
+      "assignmentNote": null
+    },
+    {
+      "symbol": "INTC",
+      "shares": 295.7,
+      "capacity": 2,
+      "covered": 0,
+      "idle": 2,
+      "puts": 0,
+      "sleeve": "income",
+      "status": "idle",
+      "earningsDate": null,
+      "earningsTradingDays": null,
+      "earningsBlackout": false,
+      "assignmentRisk": false,
+      "assignmentNote": null
+    },
+    {
+      "symbol": "MRNA",
+      "shares": 108.0,
+      "capacity": 1,
+      "covered": 0,
+      "idle": 1,
+      "puts": 0,
+      "sleeve": "income",
+      "status": "idle",
+      "earningsDate": null,
+      "earningsTradingDays": null,
+      "earningsBlackout": false,
+      "assignmentRisk": false,
+      "assignmentNote": null
+    },
+    {
+      "symbol": "AMD",
+      "shares": 45.0,
+      "capacity": 0,
+      "covered": 0,
+      "idle": 0,
+      "puts": 1,
+      "sleeve": "accumulation",
+      "status": "csp-only",
+      "earningsDate": "2026-08-04",
+      "earningsTradingDays": 7,
+      "earningsBlackout": false,
+      "assignmentRisk": false,
+      "assignmentNote": null
+    },
+    {
+      "symbol": "MU",
+      "shares": 100.2,
+      "capacity": 1,
+      "covered": 1,
+      "idle": 0,
+      "puts": 0,
+      "sleeve": "conviction",
+      "status": "covered",
+      "earningsDate": null,
+      "earningsTradingDays": null,
+      "earningsBlackout": false,
+      "assignmentRisk": true,
+      "assignmentNote": "Embedded LTCG \u2014 defend if |\u0394| spikes"
+    },
+    {
+      "symbol": "NVDA",
+      "shares": 141.9,
+      "capacity": 1,
+      "covered": 1,
+      "idle": 0,
+      "puts": 0,
+      "sleeve": "conviction",
+      "status": "covered",
+      "earningsDate": "2026-08-26",
+      "earningsTradingDays": 23,
+      "earningsBlackout": false,
+      "assignmentRisk": true,
+      "assignmentNote": "Embedded LTCG \u2014 defend if |\u0394| spikes"
+    },
+    {
+      "symbol": "TSLA",
+      "shares": 108.9,
+      "capacity": 1,
+      "covered": 1,
+      "idle": 0,
+      "puts": 0,
+      "sleeve": "income",
+      "status": "covered",
+      "earningsDate": null,
+      "earningsTradingDays": null,
+      "earningsBlackout": false,
+      "assignmentRisk": false,
+      "assignmentNote": null
+    }
+  ],
+  "earnings": {
+    "blackout": [
+      {
+        "symbol": "META",
+        "date": "2026-07-29",
+        "timing": "pm",
+        "verified": true,
+        "tradingDays": 3,
+        "action": "no new short / flatten if short open"
+      },
+      {
+        "symbol": "AMZN",
+        "date": "2026-07-30",
+        "timing": "pm",
+        "verified": true,
+        "tradingDays": 4,
+        "action": "no new short / flatten if short open"
+      }
     ],
-    "program": {
-      "openContracts": 3, "openCredit": 2851, "idleCcContracts": 58, "cspCollateralApprox": 117500, "bpBufferTarget": 2000,
-      "accumulation": [
-        { "symbol": "AMD", "shares": 45, "need": 100, "csp": "open", "note": "Aug28 460p · |Δ| 0.23" },
-        { "symbol": "META", "shares": 20, "need": 100, "csp": "waiting-slot", "note": "One accum CSP at a time" }
+    "watch": [
+      {
+        "symbol": "META",
+        "date": "2026-07-29",
+        "timing": "pm",
+        "verified": true,
+        "tradingDays": 3
+      },
+      {
+        "symbol": "AMZN",
+        "date": "2026-07-30",
+        "timing": "pm",
+        "verified": true,
+        "tradingDays": 4
+      },
+      {
+        "symbol": "AMD",
+        "date": "2026-08-04",
+        "timing": "pm",
+        "verified": true,
+        "tradingDays": 7
+      },
+      {
+        "symbol": "PFE",
+        "date": "2026-08-04",
+        "timing": "am",
+        "verified": true,
+        "tradingDays": 7
+      }
+    ]
+  },
+  "runway": {
+    "cash": 153196.78,
+    "buyingPower": 32890.32,
+    "cspCollateral": 117500,
+    "bpBufferTarget": 2000,
+    "bpHeadroom": 30890.32,
+    "nextAccumFits": false,
+    "nextIndexFits": true,
+    "nextAccumSymbol": "META",
+    "nextAccumCollateralEst": 59520.0,
+    "nextAccumNeededWithBuffer": 61520.0,
+    "note": "Cash account: BP \u2248 cash \u2212 CSP collateral. One accum+index slot at a time."
+  },
+  "performance": {
+    "realizedMtdOptions": 3227,
+    "realizedYtdOptions": 3227,
+    "realized30d": 3227,
+    "realized90d": 3227,
+    "runRateAnnualized": 39262.0,
+    "runRatePctOfAccount": 5.64,
+    "unrealizedEquity": 130001.49,
+    "appreciationYtd": -11029.79,
+    "totalReturnYtd": -7802.79,
+    "sleeveIncomeYtd": {
+      "conviction": 1270,
+      "income": 1655,
+      "accumulation": 0,
+      "index": 302
+    },
+    "note": "Run-rate annualizes last ~30d realized; thin sample. Appreciation vs Jul 23 snapshot."
+  },
+  "rollStats": {
+    "closes": 9,
+    "harvestPct": 100.0,
+    "defendPct": 0.0,
+    "avgCreditKept": 358.56,
+    "avgKeepPct": 78.0,
+    "defendDebitDragMtd": 0,
+    "note": "All YTD closes were harvest BTCs \u2014 no defend rolls yet."
+  },
+  "forward": {
+    "openExtrinsic": 6016,
+    "openCredit": 5658,
+    "markPnL": -358,
+    "idleContracts": 49,
+    "idleFillEstimate": 9800,
+    "idleFillNote": "Rough mid ~$200/contract \u00d7 49 idle \u2014 one-cycle estimate only, not a quote",
+    "expiryCalendar": [
+      {
+        "expiration": "2026-08-21",
+        "dte": 28,
+        "legs": [
+          {
+            "symbol": "NVDA",
+            "type": "call",
+            "strike": 225,
+            "qty": 1,
+            "credit": 259,
+            "mark": 2.64,
+            "extrinsic": 264,
+            "action": "hold / harvest if |\u0394|<0.12"
+          },
+          {
+            "symbol": "SPY",
+            "type": "put",
+            "strike": 715,
+            "qty": 1,
+            "credit": 492,
+            "mark": 5.58,
+            "extrinsic": 558,
+            "action": "hold; close frees ~$71.5k for RSP/ITOT"
+          }
+        ]
+      },
+      {
+        "expiration": "2026-08-28",
+        "dte": 35,
+        "legs": [
+          {
+            "symbol": "MU",
+            "type": "call",
+            "strike": 1300,
+            "qty": 1,
+            "credit": 1900,
+            "mark": 17.65,
+            "extrinsic": 1765,
+            "action": "hold (conviction)"
+          },
+          {
+            "symbol": "TSLA",
+            "type": "call",
+            "strike": 345,
+            "qty": 1,
+            "credit": 695,
+            "mark": 7.63,
+            "extrinsic": 763,
+            "action": "hold"
+          },
+          {
+            "symbol": "PFE",
+            "type": "call",
+            "strike": 26,
+            "qty": 3,
+            "credit": 69,
+            "mark": 0.23,
+            "extrinsic": 69,
+            "action": "watch earn 8/4"
+          },
+          {
+            "symbol": "AAL",
+            "type": "call",
+            "strike": 16,
+            "qty": 4,
+            "credit": 143,
+            "mark": 0.36,
+            "extrinsic": 144,
+            "action": "hold"
+          },
+          {
+            "symbol": "AMD",
+            "type": "put",
+            "strike": 460,
+            "qty": 1,
+            "credit": 2100,
+            "mark": 24.53,
+            "extrinsic": 2453,
+            "action": "hold; assignment \u2192 Conviction CC"
+          }
+        ]
+      }
+    ]
+  },
+  "capital": {
+    "equityPct": 78.8,
+    "cashPct": 22.0,
+    "optionsMarkPct": 0.86,
+    "cspCollateralPct": 16.9,
+    "equityValue": 548361.21,
+    "cash": 153196.78,
+    "optionsMark": -6016,
+    "cspCollateral": 117500
+  },
+  "indexSleeve": {
+    "spyShares": 0,
+    "rspShares": 0,
+    "itotShares": 0,
+    "openCsps": [
+      {
+        "symbol": "SPY",
+        "strike": 715,
+        "expiration": "2026-08-21",
+        "credit": 492,
+        "collateral": 71500
+      }
+    ],
+    "cspNotional": 71500,
+    "note": "No SPY/RSP/ITOT shares yet \u2014 index via SPY CSP only."
+  },
+  "equityCurve": [
+    {
+      "date": "2026-07-23",
+      "totalValue": 706571.78
+    },
+    {
+      "date": "2026-07-24",
+      "totalValue": 695541.99
+    }
+  ],
+  "assignmentRisks": [
+    {
+      "symbol": "MU",
+      "note": "Embedded LTCG \u2014 defend if |\u0394| spikes",
+      "delta": 0.147
+    },
+    {
+      "symbol": "NVDA",
+      "note": "Embedded LTCG \u2014 defend if |\u0394| spikes",
+      "delta": 0.228
+    }
+  ],
+  "openBook": [
+    {
+      "symbol": "MU",
+      "side": "short",
+      "optionType": "call",
+      "strike": 1300,
+      "expiration": "2026-08-28",
+      "dte": 35,
+      "qty": 1,
+      "credit": 1900,
+      "mark": 17.65,
+      "delta": 0.147,
+      "zone": "hold",
+      "sleeve": "conviction",
+      "role": "CC",
+      "extrinsic": 1765
+    },
+    {
+      "symbol": "TSLA",
+      "side": "short",
+      "optionType": "call",
+      "strike": 345,
+      "expiration": "2026-08-28",
+      "dte": 35,
+      "qty": 1,
+      "credit": 695,
+      "mark": 7.63,
+      "delta": 0.286,
+      "zone": "hold",
+      "sleeve": "income",
+      "role": "CC",
+      "extrinsic": 763
+    },
+    {
+      "symbol": "PFE",
+      "side": "short",
+      "optionType": "call",
+      "strike": 26,
+      "expiration": "2026-08-28",
+      "dte": 35,
+      "qty": 3,
+      "credit": 69,
+      "mark": 0.23,
+      "delta": 0.234,
+      "zone": "hold",
+      "sleeve": "income",
+      "role": "CC",
+      "extrinsic": 69
+    },
+    {
+      "symbol": "AAL",
+      "side": "short",
+      "optionType": "call",
+      "strike": 16,
+      "expiration": "2026-08-28",
+      "dte": 35,
+      "qty": 4,
+      "credit": 143,
+      "mark": 0.36,
+      "delta": 0.285,
+      "zone": "hold",
+      "sleeve": "income",
+      "role": "CC",
+      "extrinsic": 144
+    },
+    {
+      "symbol": "AMD",
+      "side": "short",
+      "optionType": "put",
+      "strike": 460,
+      "expiration": "2026-08-28",
+      "dte": 35,
+      "qty": 1,
+      "credit": 2100,
+      "mark": 24.53,
+      "delta": 0.263,
+      "zone": "hold",
+      "sleeve": "accumulation",
+      "role": "CSP",
+      "extrinsic": 2453
+    },
+    {
+      "symbol": "NVDA",
+      "side": "short",
+      "optionType": "call",
+      "strike": 225,
+      "expiration": "2026-08-21",
+      "dte": 28,
+      "qty": 1,
+      "credit": 259,
+      "mark": 2.64,
+      "delta": 0.228,
+      "zone": "hold",
+      "sleeve": "conviction",
+      "role": "CC",
+      "extrinsic": 264
+    },
+    {
+      "symbol": "SPY",
+      "side": "short",
+      "optionType": "put",
+      "strike": 715,
+      "expiration": "2026-08-21",
+      "dte": 28,
+      "qty": 1,
+      "credit": 492,
+      "mark": 5.58,
+      "delta": 0.24,
+      "zone": "hold",
+      "sleeve": "index",
+      "role": "CSP",
+      "extrinsic": 558
+    }
+  ],
+  "program": {
+    "openContracts": 12,
+    "openCredit": 5658,
+    "idleCcContracts": 49,
+    "cspCollateralApprox": 117500,
+    "bpBufferTarget": 2000,
+    "accumulation": [
+      {
+        "symbol": "AMD",
+        "shares": 45,
+        "need": 100,
+        "csp": "open",
+        "note": "Aug28 460p \u00b7 |\u0394| 0.26 \u00b7 earn 8/4"
+      },
+      {
+        "symbol": "META",
+        "shares": 20,
+        "need": 100,
+        "csp": "blocked-collateral",
+        "note": "Earn 7/29 \u00b7 need ~$60k + buffer; AMD slot open"
+      }
+    ]
+  },
+  "winners": [
+    {
+      "symbol": "MU",
+      "unrealized": 79154.07,
+      "pct": 608.31
+    },
+    {
+      "symbol": "ONEQ",
+      "unrealized": 43383.63,
+      "pct": 59.58
+    },
+    {
+      "symbol": "DAL",
+      "unrealized": 25145.97,
+      "pct": 108.1
+    }
+  ],
+  "losers": [
+    {
+      "symbol": "SNAP",
+      "unrealized": -27627.0,
+      "pct": -91.4
+    },
+    {
+      "symbol": "MRNA",
+      "unrealized": -18242.28,
+      "pct": -75.76
+    },
+    {
+      "symbol": "PFE",
+      "unrealized": -18072.5,
+      "pct": -49.03
+    }
+  ],
+  "sleeves": {
+    "conviction": {
+      "entryDelta": "0.12\u20130.18",
+      "names": [
+        "NVDA",
+        "AMZN",
+        "ONEQ",
+        "SPY",
+        "MU"
       ]
     },
-    "winners": [
-      { "symbol": "MU", "unrealized": 86170.51, "pct": 662.23 },
-      { "symbol": "ONEQ", "unrealized": 44088.91, "pct": 60.54 },
-      { "symbol": "DAL", "unrealized": 23392.92, "pct": 100.56 }
-    ],
-    "losers": [
-      { "symbol": "SNAP", "unrealized": -27582.0, "pct": -91.25 },
-      { "symbol": "MRNA", "unrealized": -17921.52, "pct": -74.43 },
-      { "symbol": "PFE", "unrealized": -17720.54, "pct": -48.08 }
-    ],
-    "sleeves": {
-      "conviction": { "entryDelta": "0.12–0.18", "names": ["NVDA", "AMZN", "ONEQ", "SPY", "MU"] },
-      "income": { "entryDelta": "0.20–0.30", "names": ["TSLA", "DAL", "AAL", "MRNA", "PFE", "HOOD", "INTC", "VALE", "+ others"] },
-      "accumulation": { "entryDelta": "0.20–0.25 CSP", "names": ["AMD", "META"] }
+    "income": {
+      "entryDelta": "0.20\u20130.30",
+      "names": [
+        "TSLA",
+        "DAL",
+        "AAL",
+        "MRNA",
+        "PFE",
+        "HOOD",
+        "INTC",
+        "VALE",
+        "+ others"
+      ]
     },
-    "bands": [
-      { "zone": "Conviction entry", "delta": "0.12–0.18", "action": "Sell CC ~30–45 DTE" },
-      { "zone": "Income entry", "delta": "0.20–0.30", "action": "Sell CC / CSP ~30–45 DTE" },
-      { "zone": "Harvest", "delta": "< 0.12", "action": "BTC + rewrite at sleeve target" },
-      { "zone": "Hold", "delta": "0.12–0.45", "action": "No trade" },
-      { "zone": "Defend", "delta": "> 0.45", "action": "BTC and/or roll up+out" }
-    ]
-  }
+    "accumulation": {
+      "entryDelta": "0.20\u20130.25 CSP",
+      "names": [
+        "AMD",
+        "META"
+      ]
+    }
+  },
+  "bands": [
+    {
+      "zone": "Conviction entry",
+      "delta": "0.12\u20130.18",
+      "action": "Sell CC ~30\u201345 DTE"
+    },
+    {
+      "zone": "Income entry",
+      "delta": "0.20\u20130.30",
+      "action": "Sell CC / CSP ~30\u201345 DTE"
+    },
+    {
+      "zone": "Harvest",
+      "delta": "< 0.12",
+      "action": "BTC + rewrite at sleeve target"
+    },
+    {
+      "zone": "Hold",
+      "delta": "0.12\u20130.45",
+      "action": "No trade"
+    },
+    {
+      "zone": "Defend",
+      "delta": "> 0.45",
+      "action": "BTC and/or roll up+out"
+    }
+  ]
+}
   </script>
 
   <script type="application/json" id="projects-fallback">
-  [
-    { "id": "strategy-canvas", "status": "now", "title": "Strategy canvas", "blurb": "One reference surface for sleeves, bands, open book, and program stats." },
-    { "id": "idle-cc", "status": "now", "title": "Fill idle CC capacity", "blurb": "Phase covered calls onto liquid names with unused contracts — skip thin tape." },
-    { "id": "amd-accum", "status": "now", "title": "AMD accumulation", "blurb": "CSP open toward 100 shares; graduate to Conviction CC on assignment." },
-    { "id": "meta-accum", "status": "next", "title": "META accumulation CSP", "blurb": "Open when AMD slot frees and the ~$2k BP buffer still clears." },
-    { "id": "index-sleeve", "status": "next", "title": "Index sleeve growth", "blurb": "Prefer RSP then ITOT CSPs; buy SPY/RSP/ITOT with free cash and CC credits." },
-    { "id": "harvest-polish", "status": "next", "title": "Harvest automation polish", "blurb": "Keep Slack action boards crisp for harvest-close-only vs full rewrite." },
-    { "id": "live-refresh", "status": "later", "title": "Live canvas refresh", "blurb": "Rewrite snapshot.json from Robinhood MCP after each daily check." },
-    { "id": "coverage-heatmap", "status": "later", "title": "Coverage heatmap", "blurb": "Per-symbol idle vs covered vs earnings blackout." },
-    { "id": "premium-ledger", "status": "later", "title": "Premium ledger", "blurb": "MTD/YTD options realized vs open credit, separate from equity P&L." },
-    { "id": "tier-c-slack", "status": "done", "title": "Tier C + Slack automations", "blurb": "Daily report, continue/stop gate, and portfolio chat are live." },
-    { "id": "three-sleeve", "status": "done", "title": "Three-sleeve model", "blurb": "Conviction / Income / Accumulation + index CSP rules documented." }
-  ]
+[
+  {
+    "id": "strategy-canvas",
+    "status": "now",
+    "title": "Strategy canvas",
+    "blurb": "One reference surface for sleeves, bands, open book, and program stats.",
+    "links": ["canvas/index.html", "docs/strategy.md"]
+  },
+  {
+    "id": "idle-cc",
+    "status": "now",
+    "title": "Fill idle CC capacity",
+    "blurb": "Fill covered calls to full idle on liquid names when gates pass — skip thin tape.",
+    "links": ["docs/strategy.md#covered-call-book"]
+  },
+  {
+    "id": "amd-accum",
+    "status": "now",
+    "title": "AMD accumulation",
+    "blurb": "CSP open toward 100 shares; graduate to Conviction CC on assignment.",
+    "links": ["docs/strategy.md#accumulation-sleeve-csp-to-cc-wheel"]
+  },
+  {
+    "id": "meta-accum",
+    "status": "next",
+    "title": "META accumulation CSP",
+    "blurb": "Open when AMD slot frees and the ~$2k BP buffer still clears.",
+    "links": ["docs/strategy.md#accumulation-sleeve-csp-to-cc-wheel"]
+  },
+  {
+    "id": "index-sleeve",
+    "status": "next",
+    "title": "Index sleeve growth",
+    "blurb": "Prefer RSP then ITOT CSPs; buy SPY/RSP/ITOT with free cash and CC credits.",
+    "links": ["docs/strategy.md#index-sleeve-rebalance--accumulate"]
+  },
+  {
+    "id": "harvest-polish",
+    "status": "next",
+    "title": "Harvest automation polish",
+    "blurb": "Keep Slack action boards crisp for harvest-close-only vs full rewrite.",
+    "links": ["docs/slack-automations.md"]
+  },
+  {
+    "id": "live-refresh",
+    "status": "later",
+    "title": "Live canvas refresh",
+    "blurb": "Rewrite snapshot.json from Robinhood MCP after each daily check.",
+    "links": ["canvas/data/snapshot.json"]
+  },
+  {
+    "id": "coverage-heatmap",
+    "status": "done",
+    "title": "Coverage heatmap",
+    "blurb": "Per-symbol idle vs covered vs earnings blackout on the ops dashboard.",
+    "links": ["canvas/index.html#ops"]
+  },
+  {
+    "id": "ops-dashboard",
+    "status": "done",
+    "title": "Ops dashboard",
+    "blurb": "Callouts, BP runway, forward income, performance pulse, capital mix, equity curve.",
+    "links": ["canvas/index.html#ops", "canvas/index.html#outlook", "canvas/index.html#returns"]
+  },
+  {
+    "id": "premium-ledger",
+    "status": "done",
+    "title": "Premium ledger",
+    "blurb": "Month-to-month credits/debits, net income, account value, and appreciation + option income as total return.",
+    "links": ["canvas/index.html#returns", "canvas/data/snapshot.json"]
+  },
+  {
+    "id": "tier-c-slack",
+    "status": "done",
+    "title": "Tier C + Slack automations",
+    "blurb": "Daily report, continue/stop gate, and portfolio chat are live.",
+    "links": ["docs/slack-automations.md"]
+  },
+  {
+    "id": "three-sleeve",
+    "status": "done",
+    "title": "Three-sleeve model",
+    "blurb": "Conviction / Income / Accumulation + index CSP rules documented.",
+    "links": ["docs/strategy.md"]
+  }
+]
   </script>
 
   <script>
@@ -599,16 +1839,26 @@
       const p = s.portfolio;
       const g = s.program;
       const pnl = s.pnl;
+      const ytd = s.ledger?.ytd;
       const items = [
         { label: "Account value", value: money(p.totalValue) },
         { label: "Equities", value: money(p.equityValue) },
         { label: "Cash", value: money(p.cash) },
         { label: "Buying power", value: money(p.buyingPower), tone: "muted" },
         { label: "Options realized MTD", value: money(pnl.realizedMtdOptions), tone: "up" },
+        { label: "Unrealized equity", value: money(pnl.unrealizedEquity ?? pnl.unrealizedEquitySample ?? 0), tone: toneClass(pnl.unrealizedEquity ?? pnl.unrealizedEquitySample ?? 0) },
         { label: "Open credit", value: money(g.openCredit), tone: "up" },
         { label: "Open contracts", value: String(g.openContracts) },
         { label: "Idle CC capacity", value: String(g.idleCcContracts), tone: "muted" },
       ];
+      if (ytd) {
+        items.push(
+          { label: "YTD option credits", value: money(ytd.credits), tone: "up" },
+          { label: "YTD option debits", value: money(ytd.debits), tone: ytd.debits ? "down" : "" },
+          { label: "YTD net premium", value: money(ytd.netIncome), tone: ytd.netIncome >= 0 ? "up" : "down" },
+          { label: "YTD realized options", value: money(ytd.realizedOptions), tone: "up" },
+        );
+      }
       document.getElementById("scoreboard").innerHTML = items.map((it) => `
         <div class="stat">
           <span class="stat-label">${it.label}</span>
@@ -618,13 +1868,179 @@
       document.getElementById("asOf").textContent = s.asOfLabel;
     }
 
+    function moneyOrDash(n) {
+      return n == null ? "—" : money(n);
+    }
+
+    function toneClass(n) {
+      if (n == null || n === 0) return "";
+      return n > 0 ? "up" : "down";
+    }
+
+    function renderPremiumChart(months) {
+      const W = 720, H = 220;
+      const pad = { t: 16, r: 16, b: 36, l: 52 };
+      const plotW = W - pad.l - pad.r;
+      const plotH = H - pad.t - pad.b;
+      const maxV = Math.max(1, ...months.map((m) => Math.max(m.credits || 0, m.debits || 0)));
+      const n = months.length;
+      const groupW = plotW / n;
+      const barW = Math.min(14, groupW * 0.32);
+      const y = (v) => pad.t + plotH - (v / maxV) * plotH;
+      const ticks = [0, 0.5, 1].map((t) => Math.round(maxV * t));
+
+      const grid = ticks.map((tv) => {
+        const yy = y(tv);
+        return `<line x1="${pad.l}" x2="${W - pad.r}" y1="${yy}" y2="${yy}" stroke="rgba(215,228,220,0.12)" />
+          <text x="${pad.l - 8}" y="${yy + 3}" text-anchor="end">${tv >= 1000 ? Math.round(tv / 1000) + "k" : tv}</text>`;
+      }).join("");
+
+      const bars = months.map((m, i) => {
+        const cx = pad.l + groupW * i + groupW / 2;
+        const cH = ((m.credits || 0) / maxV) * plotH;
+        const dH = ((m.debits || 0) / maxV) * plotH;
+        return `
+          <rect x="${cx - barW - 2}" y="${pad.t + plotH - cH}" width="${barW}" height="${cH}" fill="#c8f16d" opacity="0.92" />
+          <rect x="${cx + 2}" y="${pad.t + plotH - dH}" width="${barW}" height="${Math.max(dH, 0)}" fill="#e07060" opacity="0.9" />
+          <text x="${cx}" y="${H - 12}" text-anchor="middle">${m.label}</text>`;
+      }).join("");
+
+      document.getElementById("premiumChart").innerHTML = `
+        <svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Monthly option credits versus debits">
+          ${grid}
+          ${bars}
+          <text class="axis-label" x="${pad.l}" y="12">Premium ($)</text>
+        </svg>`;
+    }
+
+    function renderReturnChart(months) {
+      const W = 720, H = 220;
+      const pad = { t: 16, r: 16, b: 36, l: 52 };
+      const plotW = W - pad.l - pad.r;
+      const plotH = H - pad.t - pad.b;
+      const vals = months.map((m) => ({
+        ap: m.appreciation || 0,
+        inc: m.realizedOptions || 0,
+        total: (m.appreciation || 0) + (m.realizedOptions || 0),
+      }));
+      const maxAbs = Math.max(1, ...vals.flatMap((v) => [Math.abs(v.ap), Math.abs(v.inc), Math.abs(v.total)]));
+      const n = months.length;
+      const groupW = plotW / n;
+      const barW = Math.min(22, groupW * 0.45);
+      const zeroY = pad.t + plotH / 2;
+      const scale = (plotH / 2) / maxAbs;
+      const yPos = (v) => zeroY - v * scale;
+
+      const ticks = [-1, -0.5, 0, 0.5, 1].map((t) => Math.round(maxAbs * t));
+      const grid = ticks.map((tv) => {
+        const yy = yPos(tv);
+        return `<line x1="${pad.l}" x2="${W - pad.r}" y1="${yy}" y2="${yy}" stroke="rgba(215,228,220,0.12)" />
+          <text x="${pad.l - 8}" y="${yy + 3}" text-anchor="end">${tv >= 1000 || tv <= -1000 ? Math.round(tv / 1000) + "k" : tv}</text>`;
+      }).join("");
+
+      const bars = months.map((m, i) => {
+        const v = vals[i];
+        const cx = pad.l + groupW * i + groupW / 2;
+        const x = cx - barW / 2;
+        let parts = "";
+        let yUp = zeroY;
+        for (const part of [
+          { val: Math.max(0, v.ap), color: "#d4a574" },
+          { val: Math.max(0, v.inc), color: "#c8f16d" },
+        ]) {
+          if (!part.val) continue;
+          const h = part.val * scale;
+          yUp -= h;
+          parts += `<rect x="${x}" y="${yUp}" width="${barW}" height="${h}" fill="${part.color}" opacity="0.92" />`;
+        }
+        let yDown = zeroY;
+        for (const part of [
+          { val: Math.min(0, v.ap), color: "#d4a574" },
+          { val: Math.min(0, v.inc), color: "#c8f16d" },
+        ]) {
+          if (!part.val) continue;
+          const h = Math.abs(part.val) * scale;
+          parts += `<rect x="${x}" y="${yDown}" width="${barW}" height="${h}" fill="${part.color}" opacity="0.92" />`;
+          yDown += h;
+        }
+        return `${parts}<text x="${cx}" y="${H - 12}" text-anchor="middle">${m.label}</text>`;
+      }).join("");
+
+      document.getElementById("returnChart").innerHTML = `
+        <svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Monthly total return as appreciation plus option income">
+          ${grid}
+          <line x1="${pad.l}" x2="${W - pad.r}" y1="${zeroY}" y2="${zeroY}" stroke="rgba(215,228,220,0.35)" />
+          ${bars}
+          <text class="axis-label" x="${pad.l}" y="12">Return ($)</text>
+        </svg>`;
+    }
+
+    function renderLedger(s) {
+      const ledger = s.ledger;
+      if (!ledger) return;
+      const ytd = ledger.ytd;
+      const items = [
+        { label: "YTD credits", value: money(ytd.credits), tone: "up" },
+        { label: "YTD debits", value: money(ytd.debits), tone: ytd.debits ? "down" : "" },
+        { label: "YTD net income", value: money(ytd.netIncome), tone: toneClass(ytd.netIncome) },
+        { label: "YTD option income", value: money(ytd.realizedOptions), tone: "up" },
+        { label: "Account value", value: money(ytd.endingValue) },
+        { label: "YTD appreciation", value: moneyOrDash(ytd.appreciation), tone: toneClass(ytd.appreciation) },
+        { label: "YTD total return", value: moneyOrDash(ytd.totalReturn), tone: toneClass(ytd.totalReturn) },
+        { label: "Open credit", value: money(ytd.openCredit), tone: "muted" },
+      ];
+      document.getElementById("ledgerScoreboard").innerHTML = items.map((it) => `
+        <div class="stat">
+          <span class="stat-label">${it.label}</span>
+          <div class="stat-value ${it.tone || ""}">${it.value}</div>
+        </div>
+      `).join("");
+
+      renderPremiumChart(ledger.months);
+      renderReturnChart(ledger.months);
+
+      const rows = ledger.months.map((m) => {
+        const hasActivity = m.credits || m.debits || m.realizedOptions || m.totalValue != null;
+        const rowStyle = hasActivity ? "" : ' style="opacity:0.45"';
+        return `<tr${rowStyle}>
+          <td class="sym">${m.label}</td>
+          <td class="num up">${money(m.credits)}</td>
+          <td class="num ${m.debits ? "down" : ""}">${money(m.debits)}</td>
+          <td class="num ${toneClass(m.netIncome)}">${money(m.netIncome)}</td>
+          <td class="num">${moneyOrDash(m.totalValue)}</td>
+          <td class="num ${toneClass(m.appreciation)}">${moneyOrDash(m.appreciation)}</td>
+          <td class="num ${toneClass(m.realizedOptions)}">${money(m.realizedOptions)}</td>
+          <td class="num ${toneClass(m.totalReturn)}">${money(m.totalReturn)}</td>
+        </tr>`;
+      }).join("");
+
+      document.getElementById("ledgerTable").innerHTML = `
+        <table>
+          <thead>
+            <tr>
+              <th>Month</th>
+              <th class="num">Credits</th>
+              <th class="num">Debits</th>
+              <th class="num">Net income</th>
+              <th class="num">Account value</th>
+              <th class="num">Appreciation</th>
+              <th class="num">Option income</th>
+              <th class="num">Total return</th>
+            </tr>
+          </thead>
+          <tbody>${rows}</tbody>
+        </table>`;
+      document.getElementById("ledgerNote").textContent = ledger.note || "";
+    }
+
     function renderOpenBook(s) {
       if (!s.openBook?.length) {
         document.getElementById("openBook").innerHTML = `<p class="empty">No open shorts.</p>`;
         return;
       }
       const rows = s.openBook.map((o) => {
-        const markPnL = o.credit - o.mark * 100 * o.qty;
+        const extrinsic = o.extrinsic != null ? o.extrinsic : o.mark * 100 * o.qty;
+        const markPnL = o.credit - extrinsic;
         const type = o.optionType === "put" ? "p" : "c";
         return `<tr>
           <td class="sym">${o.symbol}</td>
@@ -632,6 +2048,7 @@
           <td class="num">${o.dte}d</td>
           <td class="num">${o.delta.toFixed(2)}</td>
           <td class="num">${money(o.credit)}</td>
+          <td class="num">${money(extrinsic)}</td>
           <td class="num ${markPnL >= 0 ? "up" : "down"}" style="color: ${markPnL >= 0 ? "var(--signal)" : "var(--danger)"}">${money(markPnL)}</td>
           <td>${zonePill(o.zone)}</td>
           <td>${o.sleeve}</td>
@@ -642,7 +2059,7 @@
           <thead>
             <tr>
               <th>Symbol</th><th>Contract</th><th class="num">DTE</th><th class="num">|Δ|</th>
-              <th class="num">Credit</th><th class="num">Mark P&amp;L</th><th>Zone</th><th>Sleeve</th>
+              <th class="num">Credit</th><th class="num">Extrinsic</th><th class="num">Mark P&amp;L</th><th>Zone</th><th>Sleeve</th>
             </tr>
           </thead>
           <tbody>${rows}</tbody>
@@ -713,6 +2130,235 @@
       `).join("");
     }
 
+
+    function renderCallouts(s) {
+      const c = s.callouts;
+      if (!c) return;
+      document.getElementById("loudest").textContent = c.loudest || "";
+      const counts = c.counts || {};
+      const items = [
+        ["hold", counts.hold, "ok"],
+        ["harvest", counts.harvest, counts.harvest ? "warm" : "ok"],
+        ["defend", counts.defend, counts.defend ? "hot" : "ok"],
+        ["earnings flatten", counts.earningsFlatten, counts.earningsFlatten ? "hot" : "ok"],
+        ["waiting refill", counts.waitingRefill, "warm"],
+        ["idle CC", counts.idleCcFill, counts.idleCcFill ? "warm" : "ok"],
+        ["accum CSP", counts.accumCspOpen, "ok"],
+        ["index CSP", counts.indexCspOpen, "ok"],
+      ];
+      document.getElementById("zoneCounts").innerHTML = items.map(([label, n, cls]) =>
+        `<span class="${cls}">${label} <strong>${n ?? 0}</strong></span>`
+      ).join("");
+      document.getElementById("actionList").innerHTML = (c.actions || []).map((a) => `
+        <li>
+          <div class="prio ${a.priority}">${a.priority}</div>
+          <div><strong style="color:var(--mist)">${a.kind}</strong> — ${a.detail}</div>
+        </li>`).join("");
+    }
+
+    function heatDots(covered, capacity) {
+      const n = Math.min(capacity, 16);
+      let html = "";
+      for (let i = 0; i < n; i++) {
+        html += `<i class="heat-cell ${i < covered ? "on" : "off"}" aria-hidden="true"></i>`;
+      }
+      if (capacity > 16) html += `<span style="color:var(--fog);font-size:0.75rem">+${capacity - 16}</span>`;
+      return html || "—";
+    }
+
+    function renderCoverage(s) {
+      const rows = (s.coverage || []).map((r) => {
+        const earn = r.earningsBlackout
+          ? `<span class="pill defend">${r.earningsDate?.slice(5)} · ${r.earningsTradingDays}d</span>`
+          : (r.earningsDate ? `<span style="color:var(--fog);font-size:0.8rem">${r.earningsDate.slice(5)} · ${r.earningsTradingDays}d</span>` : "—");
+        return `<tr>
+          <td class="sym">${r.symbol}</td>
+          <td>${r.sleeve}</td>
+          <td class="num">${r.covered}/${r.capacity}</td>
+          <td>${heatDots(r.covered, r.capacity)}</td>
+          <td class="num ${r.idle ? "up" : ""}" style="${r.idle ? "color:var(--copper)" : ""}">${r.idle}</td>
+          <td>${earn}</td>
+        </tr>`;
+      }).join("");
+      document.getElementById("coverageTable").innerHTML = `
+        <table>
+          <thead><tr>
+            <th>Symbol</th><th>Sleeve</th><th class="num">Cov/Cap</th><th>Book</th><th class="num">Idle</th><th>Earnings</th>
+          </tr></thead>
+          <tbody>${rows}</tbody>
+        </table>`;
+    }
+
+    function renderRunway(s) {
+      const r = s.runway;
+      if (!r) return;
+      const items = [
+        { label: "Cash", value: money(r.cash) },
+        { label: "Buying power", value: money(r.buyingPower), tone: "muted" },
+        { label: "CSP collateral", value: money(r.cspCollateral) },
+        { label: "BP headroom", value: money(r.bpHeadroom), tone: r.bpHeadroom > r.bpBufferTarget ? "up" : "down" },
+        { label: "Next accum (META)", value: money(r.nextAccumNeededWithBuffer), tone: r.nextAccumFits ? "up" : "down" },
+        { label: "Accum fits?", value: r.nextAccumFits ? "Yes" : "No", tone: r.nextAccumFits ? "up" : "down" },
+      ];
+      document.getElementById("runwayBoard").innerHTML = items.map((it) => `
+        <div class="stat">
+          <span class="stat-label">${it.label}</span>
+          <div class="stat-value ${it.tone || ""}">${it.value}</div>
+        </div>`).join("");
+
+      const risks = s.assignmentRisks || [];
+      document.getElementById("assignmentRisks").innerHTML = risks.length ? `
+        <h3 style="font-family:var(--display);font-size:1.2rem;margin:0 0 0.5rem">Assignment watch</h3>
+        <table><thead><tr><th>Symbol</th><th class="num">|Δ|</th><th>Note</th></tr></thead>
+        <tbody>${risks.map((x) => `<tr><td class="sym">${x.symbol}</td><td class="num">${x.delta.toFixed(2)}</td><td>${x.note}</td></tr>`).join("")}</tbody></table>` : "";
+
+      const e = s.earnings || {};
+      const black = e.blackout || [];
+      const watch = e.watch || [];
+      let earnHtml = `<h3 style="font-family:var(--display);font-size:1.2rem;margin:0 0 0.5rem">Earnings</h3>`;
+      if (black.length) {
+        earnHtml += `<p class="meta" style="margin-bottom:0.5rem">Blackout (≤5 sessions)</p>
+          <table><thead><tr><th>Symbol</th><th>Date</th><th class="num">Sessions</th></tr></thead>
+          <tbody>${black.map((b) => `<tr><td class="sym">${b.symbol}</td><td>${b.date}</td><td class="num" style="color:var(--danger)">${b.tradingDays}</td></tr>`).join("")}</tbody></table>`;
+      }
+      if (watch.length) {
+        earnHtml += `<p class="meta" style="margin:1rem 0 0.5rem">Watch (≤15 sessions)</p>
+          <table><thead><tr><th>Symbol</th><th>Date</th><th class="num">Sessions</th></tr></thead>
+          <tbody>${watch.map((b) => `<tr><td class="sym">${b.symbol}</td><td>${b.date}</td><td class="num">${b.tradingDays}</td></tr>`).join("")}</tbody></table>`;
+      }
+      document.getElementById("earningsPanel").innerHTML = earnHtml;
+    }
+
+    function renderPerformance(s) {
+      const p = s.performance;
+      const rs = s.rollStats;
+      if (!p) return;
+      const items = [
+        { label: "Realized 30d", value: money(p.realized30d), tone: "up" },
+        { label: "Realized 90d", value: money(p.realized90d), tone: "up" },
+        { label: "Run-rate ann.", value: money(p.runRateAnnualized), tone: "muted" },
+        { label: "Run-rate % acct", value: `${p.runRatePctOfAccount}%`, tone: "muted" },
+        { label: "Unrealized equity", value: money(p.unrealizedEquity), tone: toneClass(p.unrealizedEquity) },
+        { label: "YTD total return", value: moneyOrDash(p.totalReturnYtd), tone: "up" },
+        { label: "Avg credit kept", value: money(rs?.avgCreditKept || 0), tone: "up" },
+        { label: "Keep rate", value: `${rs?.avgKeepPct || 0}%`, tone: "up" },
+      ];
+      document.getElementById("perfBoard").innerHTML = items.map((it) => `
+        <div class="stat">
+          <span class="stat-label">${it.label}</span>
+          <div class="stat-value ${it.tone || ""}">${it.value}</div>
+        </div>`).join("");
+
+      const sleeves = p.sleeveIncomeYtd || {};
+      const maxS = Math.max(1, ...Object.values(sleeves));
+      document.getElementById("sleeveIncome").innerHTML = Object.entries(sleeves).map(([k, v]) => `
+        <div style="padding:0.65rem 0;border-bottom:1px solid var(--line)">
+          <div style="display:flex;justify-content:space-between;font-size:0.92rem">
+            <span class="sym">${k}</span>
+            <span class="num" style="color:var(--signal)">${money(v)}</span>
+          </div>
+          <div class="bar-track"><div class="bar-fill" style="width:${(v/maxS)*100}%"></div></div>
+        </div>`).join("");
+
+      const cap = s.capital || {};
+      const mix = [
+        ["Equities", cap.equityPct, ""],
+        ["Cash", cap.cashPct, "copper"],
+        ["CSP collateral", cap.cspCollateralPct, "fog"],
+      ];
+      document.getElementById("capitalMix").innerHTML = mix.map(([label, pct, cls]) => `
+        <div style="padding:0.65rem 0;border-bottom:1px solid var(--line)">
+          <div style="display:flex;justify-content:space-between;font-size:0.92rem">
+            <span>${label}</span><span class="num">${pct}%</span>
+          </div>
+          <div class="bar-track"><div class="bar-fill ${cls}" style="width:${pct}%"></div></div>
+        </div>`).join("") + (rs ? `<p class="meta" style="margin-top:1rem">${rs.note || ""} · harvest ${rs.harvestPct}% / defend ${rs.defendPct}% of closes</p>` : "");
+
+      renderEquityCurve(s.equityCurve || []);
+      document.getElementById("perfNote").textContent = p.note || "";
+    }
+
+    function renderEquityCurve(points) {
+      if (!points.length) {
+        document.getElementById("equityCurveChart").innerHTML = "";
+        return;
+      }
+      const W = 720, H = 180;
+      const pad = { t: 16, r: 16, b: 36, l: 64 };
+      const plotW = W - pad.l - pad.r;
+      const plotH = H - pad.t - pad.b;
+      const vals = points.map((p) => p.totalValue);
+      const minV = Math.min(...vals) * 0.999;
+      const maxV = Math.max(...vals) * 1.001;
+      const x = (i) => pad.l + (points.length === 1 ? plotW / 2 : (i / (points.length - 1)) * plotW);
+      const y = (v) => pad.t + plotH - ((v - minV) / (maxV - minV || 1)) * plotH;
+      const path = points.map((p, i) => `${i ? "L" : "M"}${x(i).toFixed(1)},${y(p.totalValue).toFixed(1)}`).join(" ");
+      const labels = points.map((p, i) => `<text x="${x(i)}" y="${H - 12}" text-anchor="middle">${p.date.slice(5)}</text>`).join("");
+      document.getElementById("equityCurveChart").innerHTML = `
+        <svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Account value over time">
+          <line x1="${pad.l}" x2="${W - pad.r}" y1="${y(minV)}" y2="${y(minV)}" stroke="rgba(215,228,220,0.12)" />
+          <line x1="${pad.l}" x2="${W - pad.r}" y1="${y(maxV)}" y2="${y(maxV)}" stroke="rgba(215,228,220,0.12)" />
+          <path d="${path}" fill="none" stroke="#c8f16d" stroke-width="2.2" stroke-linecap="round" />
+          ${points.map((p, i) => `<circle cx="${x(i)}" cy="${y(p.totalValue)}" r="3.5" fill="#c8f16d" />`).join("")}
+          <text x="${pad.l - 8}" y="${y(maxV) + 3}" text-anchor="end">${Math.round(maxV / 1000)}k</text>
+          <text x="${pad.l - 8}" y="${y(minV) + 3}" text-anchor="end">${Math.round(minV / 1000)}k</text>
+          ${labels}
+        </svg>`;
+    }
+
+    function renderForward(s) {
+      const f = s.forward;
+      if (!f) return;
+      const items = [
+        { label: "Open credit", value: money(f.openCredit), tone: "up" },
+        { label: "Open extrinsic", value: money(f.openExtrinsic), tone: "muted" },
+        { label: "Mark P&L (open)", value: money(f.markPnL), tone: toneClass(f.markPnL) },
+        { label: "Idle contracts", value: String(f.idleContracts) },
+        { label: "Idle-fill estimate", value: money(f.idleFillEstimate), tone: "up" },
+        { label: "If idle filled (illust.)", value: money((s.performance?.realized30d || 0) + f.idleFillEstimate), tone: "muted" },
+      ];
+      document.getElementById("forwardBoard").innerHTML = items.map((it) => `
+        <div class="stat">
+          <span class="stat-label">${it.label}</span>
+          <div class="stat-value ${it.tone || ""}">${it.value}</div>
+        </div>`).join("");
+      document.getElementById("forwardNote").textContent = f.idleFillNote || "";
+
+      document.getElementById("expiryCalendar").innerHTML = (f.expiryCalendar || []).map((ex) => `
+        <div class="expiry-block">
+          <h4>${ex.expiration} · ${ex.dte}d</h4>
+          <table>
+            <thead><tr><th>Symbol</th><th>Contract</th><th class="num">Credit</th><th class="num">Extrinsic</th><th>Action</th></tr></thead>
+            <tbody>${(ex.legs || []).map((leg) => `
+              <tr>
+                <td class="sym">${leg.symbol}</td>
+                <td>${leg.strike}${leg.type === "put" ? "p" : "c"} ×${leg.qty}</td>
+                <td class="num">${money(leg.credit)}</td>
+                <td class="num">${money(leg.extrinsic)}</td>
+                <td>${leg.action}</td>
+              </tr>`).join("")}</tbody>
+          </table>
+        </div>`).join("");
+
+      const ix = s.indexSleeve;
+      if (!ix) { document.getElementById("indexSleeve").innerHTML = ""; return; }
+      document.getElementById("indexSleeve").innerHTML = `
+        <div class="scoreboard" style="margin-bottom:1rem">
+          <div class="stat"><span class="stat-label">SPY shares</span><div class="stat-value">${ix.spyShares}</div></div>
+          <div class="stat"><span class="stat-label">RSP shares</span><div class="stat-value">${ix.rspShares}</div></div>
+          <div class="stat"><span class="stat-label">ITOT shares</span><div class="stat-value">${ix.itotShares}</div></div>
+          <div class="stat"><span class="stat-label">CSP notional</span><div class="stat-value muted">${money(ix.cspNotional)}</div></div>
+        </div>
+        <table>
+          <thead><tr><th>Open CSP</th><th>Strike</th><th>Exp</th><th class="num">Credit</th><th class="num">Collateral</th></tr></thead>
+          <tbody>${(ix.openCsps || []).map((c) => `
+            <tr><td class="sym">${c.symbol}</td><td>${c.strike}</td><td>${c.expiration.slice(5)}</td>
+            <td class="num">${money(c.credit)}</td><td class="num">${money(c.collateral)}</td></tr>`).join("") || '<tr><td colspan="5" class="empty">None</td></tr>'}
+          </tbody>
+        </table>
+        <p class="meta" style="margin-top:0.75rem">${ix.note || ""}</p>`;
+    }
+
     function renderProjects(projects) {
       const order = { now: 0, next: 1, later: 2, done: 3 };
       const sorted = [...projects].sort((a, b) => (order[a.status] ?? 9) - (order[b.status] ?? 9));
@@ -727,18 +2373,57 @@
       `).join("");
     }
 
+    function applySnapshot(snapshot, projects) {
+      renderScoreboard(snapshot);
+      renderOpenBook(snapshot);
+      renderAccum(snapshot);
+      renderWL(snapshot);
+      renderCallouts(snapshot);
+      renderCoverage(snapshot);
+      renderRunway(snapshot);
+      renderLedger(snapshot);
+      renderPerformance(snapshot);
+      renderForward(snapshot);
+      renderSleeves(snapshot);
+      renderBands(snapshot);
+      if (projects) renderProjects(projects);
+    }
+
+    const LIVE_REFRESH_PROMPT = "Refresh the strategy canvas snapshot";
+
+    async function reloadSnapshotFromDisk() {
+      const hint = document.getElementById("refreshHint");
+      const btn = document.getElementById("btnReloadSnapshot");
+      btn.disabled = true;
+      try {
+        const snapshot = await loadJson("./data/snapshot.json", "snapshot-fallback");
+        applySnapshot(snapshot, null);
+        hint.innerHTML = `Reloaded <em>snapshot.json</em> · ${snapshot.asOfLabel || "ok"}. Live RH still needs Cursor.`;
+      } catch (e) {
+        hint.textContent = "Reload failed — check that the local server can read data/snapshot.json.";
+      } finally {
+        btn.disabled = false;
+      }
+    }
+
+    async function copyLiveRefreshPrompt() {
+      const hint = document.getElementById("refreshHint");
+      try {
+        await navigator.clipboard.writeText(LIVE_REFRESH_PROMPT);
+        hint.innerHTML = `Copied: <em>${LIVE_REFRESH_PROMPT}</em> — paste into Cursor chat.`;
+      } catch {
+        hint.innerHTML = `Copy failed — type in Cursor: <em>${LIVE_REFRESH_PROMPT}</em>`;
+      }
+    }
+
     (async () => {
       const [snapshot, projects] = await Promise.all([
         loadJson("./data/snapshot.json", "snapshot-fallback"),
         loadJson("./data/projects.json", "projects-fallback"),
       ]);
-      renderScoreboard(snapshot);
-      renderOpenBook(snapshot);
-      renderAccum(snapshot);
-      renderWL(snapshot);
-      renderSleeves(snapshot);
-      renderBands(snapshot);
-      renderProjects(projects);
+      applySnapshot(snapshot, projects);
+      document.getElementById("btnReloadSnapshot").addEventListener("click", reloadSnapshotFromDisk);
+      document.getElementById("btnCopyLivePrompt").addEventListener("click", copyLiveRefreshPrompt);
     })();
   </script>
 </body>

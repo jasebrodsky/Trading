@@ -12,7 +12,7 @@ Editable roadmap for the options program. The canvas at [`canvas/index.html`](..
 ## Now
 
 1. **Strategy canvas** — single reference surface for sleeves, bands, open book, and program stats.
-2. **Fill idle CC capacity** — liquid Income / Conviction names with unused contracts (phase in; don’t chase thin tape).
+2. **Fill idle CC capacity** — liquid Income / Conviction names with unused contracts (full idle when gates pass; don’t chase thin tape).
 3. **AMD accumulation** — CSP open toward 100 shares; graduate to Conviction CC on assignment.
 
 ## Next
@@ -24,10 +24,10 @@ Editable roadmap for the options program. The canvas at [`canvas/index.html`](..
 ## Later
 
 1. **Live canvas refresh** — agent prompt or small script to rewrite `canvas/data/snapshot.json` from Robinhood MCP after each daily check.
-2. **Coverage heatmap** — per-symbol idle vs covered vs earnings blackout.
-3. **Premium ledger** — MTD/YTD options realized vs open credit, separate from equity P&L.
 
 ## Done
 
-1. Tier C delta-band skill + Slack daily / continue-stop / portfolio-chat automations.
-2. Three-sleeve model (Conviction / Income / Accumulation) + index CSP rules in `docs/strategy.md`.
+1. **Ops dashboard** — callouts, coverage heatmap, BP runway, earnings blackouts, forward income / expiry calendar, performance pulse, capital mix, equity curve.
+2. **Premium ledger** — month-to-month credits/debits, net income, account value, appreciation + realized option income → total return on the strategy canvas.
+3. Tier C delta-band skill + Slack daily / continue-stop / portfolio-chat automations.
+4. Three-sleeve model (Conviction / Income / Accumulation) + index CSP rules in `docs/strategy.md`.

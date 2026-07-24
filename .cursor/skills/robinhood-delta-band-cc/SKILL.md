@@ -90,7 +90,7 @@ Use put Δ magnitude for CSPs. Prefer same chain; pick liquid strike near target
 
 **New shorts** (same bands; propose on every check when eligible):
 
-1. **Idle CC fill** — unused capacity on liquid holdings (and SPY if shares are in Agentic). Use sleeve entry target Δ. Phase large new sleeves. Skip if economic spread fails.
+1. **Idle CC fill** — unused capacity on liquid holdings (and SPY if shares are in Agentic). Use sleeve entry target Δ. **Fill full idle** per symbol when gates PASS (no phase-in). Skip only if economic spread fails, earnings blackout, or thin/meme tape.
 2. **Accumulation CSP open** — AMD or META (or any Conviction candidate <100 sh): only when earnings clear + free cash supports full collateral + ~$2k buffer + no other CSP already consuming cash. One at a time. Propose at ~0.20–0.25Δ / 30–45 DTE. If earnings within 5 days → flatten (BTC close-only) same as CCs.
 3. **Index CSP open** — only when free cash supports full collateral + ~$2k buffer AND no accumulation CSP slot already taken. Prefer **RSP**, then **ITOT**, then **SPY** for *new* puts.
 
@@ -130,10 +130,23 @@ Slack daily-check: **two messages** per [docs/slack-automations.md](../../../doc
 
 When asked to refresh the strategy canvas (or optionally at the end of a daily check):
 
-1. Pull portfolio, equities, quotes, open options + instruments/quotes, realized P&L (options + equity, MTD/YTD).
-2. Recompute idle CC capacity, open credit, accumulation status, winners/losers.
-3. Write [`canvas/data/snapshot.json`](../../../canvas/data/snapshot.json) and update the `#snapshot-fallback` JSON in [`canvas/index.html`](../../../canvas/index.html).
-4. Do not invent projects — edit [`docs/projects.md`](../../../docs/projects.md) + [`canvas/data/projects.json`](../../../canvas/data/projects.json) only when the user asks.
+1. Pull portfolio, equities + quotes, open options + instruments/quotes, realized P&L (options + equity, MTD/YTD/30d/90d), filled option orders YTD, earnings for holdings with CC capacity or open shorts.
+2. Rebuild the **premium ledger** for the calendar year:
+   - Credits/debits from filled `processed_premium` by month; `netIncome = credits − debits`.
+   - `realizedOptions` per month from closed trades.
+   - Upsert month `totalValue`; **appreciation** = Δ vs prior known month; **totalReturn** = `(appreciation || 0) + realizedOptions`. Append point to `equityCurve`.
+3. Rebuild **ops dashboard** fields:
+   - `callouts` — zone counts + actions + loudest flag (harvest/defend/earnings-flatten/waiting-refill/idle-CC/accum/index).
+   - `coverage` — per-symbol capacity / covered / idle / earnings blackout (≤5 trading days).
+   - `earnings.blackout` + `earnings.watch`; `assignmentRisks` for embedded-gain shorts.
+   - `runway` — cash, BP, CSP collateral, buffer headroom, whether next META/index CSP fits.
+4. Rebuild **performance**:
+   - 30d/90d realized, run-rate annualized vs account value, full-book unrealized equity, `sleeveIncomeYtd`, `rollStats` (harvest vs defend, avg credit kept).
+   - `capital` mix (equity / cash / CSP collateral %).
+5. Rebuild **forward income**:
+   - Open extrinsic + mark P&L; idle-fill estimate (label as estimate); `expiryCalendar`; `indexSleeve` shares + CSP notional.
+6. Write [`canvas/data/snapshot.json`](../../../canvas/data/snapshot.json) and update `#snapshot-fallback` in [`canvas/index.html`](../../../canvas/index.html).
+7. Do not invent projects — edit docs/projects + `projects.json` only when the user asks.
 
 ## Safety
 
