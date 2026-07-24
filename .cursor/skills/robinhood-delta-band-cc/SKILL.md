@@ -39,7 +39,8 @@ Interactive Cloud/desktop sessions (no Slack continue/stop automation in play): 
 
 1. Confirm workspace is the Trading repo (not HelloAgain).
 2. `get_accounts` → use Agentic `420763765` (`agentic_allowed=true`). Abort if false.
-3. If markets closed, user said dry-run, **or** you are the Slack daily-check automation → **report only**, never `place_option_order`. Still do the full snapshot + classify + gate evaluation + report; dry-run is not a skip.
+3. **Market hours (Gate #8) — timezone:** Always compute “now” in **`America/New_York`**. Cloud agents often run in UTC; **do not** label UTC wall-clock time as ET or compare it to 9:30/16:00. Verify with `TZ=America/New_York date` (or `datetime.now(ZoneInfo("America/New_York"))`) before claiming markets are closed. Regular hours: Mon–Fri 9:30 AM–4:00 PM America/New_York. Report headers that say “ET” must show New York local time after conversion.
+4. If markets closed (per America/New_York), user said dry-run, **or** you are the Slack daily-check automation → **report only**, never `place_option_order`. Still do the full snapshot + classify + gate evaluation + report; dry-run is not a skip.
 
 ### 2. Snapshot
 

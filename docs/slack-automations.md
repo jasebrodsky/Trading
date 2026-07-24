@@ -53,7 +53,7 @@ This automation is REPORT-ONLY.
 Use mrkdwn + fenced monospace tables. Suze prose around grids. Scannable.
 
 MESSAGE 1 — Portfolio (scoreboard first)
-1. Header: Morning money check / dry-run, ••••3765, time ET, account value, cash, BP
+1. Header: Morning money check / dry-run, ••••3765, time ET (America/New_York — convert from UTC; never paste UTC as ET), account value, cash, BP
 2. Quick take: 3–5 bullets (portfolio feel, biggest winner/loser, MTD & YTD realized one-liners)
 3. Scoreboard table: Account value, Equities, Options, Cash, BP, Unrealized equity P&L, Realized MTD (all/options/equity), Realized YTD (all/options/equity)
 4. Winners & losers table (top 3 each): Rank | Symbol | Unrealized $ | % | Notes
@@ -110,7 +110,7 @@ EXECUTE:
 - Never trade non-Agentic. Never skip review.
 - Reply scannable: bottom line; table Symbol | Action | Result | Order id | $ | Why; bullets for escalations / waiting refill.
 
-Markets closed: do not place; say so.
+Market hours (Gate #8): resolve “now” in America/New_York only — cloud hosts are often UTC. Never treat UTC wall-clock as ET. Verify with `TZ=America/New_York date` before saying markets are closed. Regular session Mon–Fri 9:30 AM–4:00 PM ET. Timestamps labeled ET must be New York local after conversion (e.g. 16:25 UTC in July = 12:25 PM ET, not 4:25 PM ET). Markets closed (true ET): do not place; say so with the verified ET time.
 ```
 
 ---
