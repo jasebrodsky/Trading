@@ -22,11 +22,23 @@ Details: [docs/strategy.md](docs/strategy.md) · Agent playbook: [.cursor/skills
 3. Prompt: `Run covered-call delta band check` (markets open) or `Dry-run covered-call delta band check` (weekend / closed).
 4. Slack: use the two automations in [docs/slack-automations.md](docs/slack-automations.md) (daily report ≠ continue/stop gate).
 
+## Strategy canvas
+
+Visual reference for program stats, sleeves/bands, and future projects:
+
+- Open [`canvas/index.html`](canvas/index.html) (or `cd canvas && python3 -m http.server 8765`)
+- Roadmap: [`docs/projects.md`](docs/projects.md)
+- Snapshot data: [`canvas/data/snapshot.json`](canvas/data/snapshot.json)
+
+Prompt **Refresh the strategy canvas snapshot** after a daily check to update the numbers.
+
 ## Layout
 
 | Path | Purpose |
 |------|---------|
+| `canvas/` | Strategy + stats + projects canvas |
 | `docs/strategy.md` | Rules, bands, account scope |
+| `docs/projects.md` | Future projects roadmap |
 | `docs/slack-automations.md` | Slack daily-check + continue/stop prompts |
 | `runbooks/` | Dated session notes / checklists |
 | `.cursor/skills/robinhood-delta-band-cc/` | Tier C agent skill |

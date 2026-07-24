@@ -17,6 +17,7 @@ Read [docs/strategy.md](../../../docs/strategy.md) first. Account: Agentic `4207
 - "Run the trading strategy"
 - "Roll / harvest options on Agentic"
 - "Dry-run covered-call delta band check"
+- "Refresh the strategy canvas snapshot" → rewrite [`canvas/data/snapshot.json`](../../../canvas/data/snapshot.json) (and keep the HTML fallback block in sync); do **not** place orders
 
 These triggers **are the go-ahead** for the **check/report** path. Do not invent an EXECUTE/SKIP approval gate, wait for emoji ack, or ask whether to proceed before snapshotting. Slack/desktop/cloud invocations of the trigger phrases above mean: run snapshot → classify → propose → gate-evaluate → report **now**.
 
@@ -124,6 +125,15 @@ Never place on non-Agentic accounts. Never skip review unless user explicitly sa
 Portfolio + overlay summary (optional `runbooks/YYYY-MM-DD.md`).
 
 Slack daily-check: **two messages** per [docs/slack-automations.md](../../../docs/slack-automations.md) — (1) portfolio scoreboard, (2) overlay actions + CTA.
+
+### Canvas snapshot refresh
+
+When asked to refresh the strategy canvas (or optionally at the end of a daily check):
+
+1. Pull portfolio, equities, quotes, open options + instruments/quotes, realized P&L (options + equity, MTD/YTD).
+2. Recompute idle CC capacity, open credit, accumulation status, winners/losers.
+3. Write [`canvas/data/snapshot.json`](../../../canvas/data/snapshot.json) and update the `#snapshot-fallback` JSON in [`canvas/index.html`](../../../canvas/index.html).
+4. Do not invent projects — edit [`docs/projects.md`](../../../docs/projects.md) + [`canvas/data/projects.json`](../../../canvas/data/projects.json) only when the user asks.
 
 ## Safety
 

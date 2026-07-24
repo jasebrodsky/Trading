@@ -1,0 +1,126 @@
+{
+  "asOf": "2026-07-23T20:00:00-04:00",
+  "asOfLabel": "Jul 23, 2026 close · Agentic ••••3765",
+  "account": {
+    "nickname": "Agentic",
+    "masked": "••••3765",
+    "optionLevel": "option_level_2",
+    "autonomy": "Tier C"
+  },
+  "portfolio": {
+    "totalValue": 706571.78,
+    "equityValue": 559269.46,
+    "optionsValue": -3088,
+    "cash": 150390.32,
+    "buyingPower": 32890.32
+  },
+  "pnl": {
+    "realizedMtdOptions": 3227,
+    "realizedMtdEquity": 0,
+    "realizedYtdOptions": 3227,
+    "realizedYtdAll": 3227,
+    "unrealizedEquitySample": 138460.89,
+    "unrealizedNote": "Sample of major holdings only — not full book"
+  },
+  "openBook": [
+    {
+      "symbol": "NVDA",
+      "side": "short",
+      "optionType": "call",
+      "strike": 225,
+      "expiration": "2026-08-21",
+      "dte": 29,
+      "qty": 1,
+      "credit": 259,
+      "mark": 3.33,
+      "delta": 0.263,
+      "zone": "hold",
+      "sleeve": "conviction",
+      "role": "CC"
+    },
+    {
+      "symbol": "AMD",
+      "side": "short",
+      "optionType": "put",
+      "strike": 460,
+      "expiration": "2026-08-28",
+      "dte": 36,
+      "qty": 1,
+      "credit": 2100,
+      "mark": 21.8,
+      "delta": 0.228,
+      "zone": "hold",
+      "sleeve": "accumulation",
+      "role": "CSP"
+    },
+    {
+      "symbol": "SPY",
+      "side": "short",
+      "optionType": "put",
+      "strike": 715,
+      "expiration": "2026-08-21",
+      "dte": 29,
+      "qty": 1,
+      "credit": 492,
+      "mark": 5.75,
+      "delta": 0.245,
+      "zone": "hold",
+      "sleeve": "index",
+      "role": "CSP"
+    }
+  ],
+  "program": {
+    "openContracts": 3,
+    "openCredit": 2851,
+    "idleCcContracts": 58,
+    "cspCollateralApprox": 117500,
+    "bpBufferTarget": 2000,
+    "accumulation": [
+      {
+        "symbol": "AMD",
+        "shares": 45,
+        "need": 100,
+        "csp": "open",
+        "note": "Aug28 460p · |Δ| 0.23"
+      },
+      {
+        "symbol": "META",
+        "shares": 20,
+        "need": 100,
+        "csp": "waiting-slot",
+        "note": "One accum CSP at a time"
+      }
+    ]
+  },
+  "winners": [
+    { "symbol": "MU", "unrealized": 86170.51, "pct": 662.23 },
+    { "symbol": "ONEQ", "unrealized": 44088.91, "pct": 60.54 },
+    { "symbol": "DAL", "unrealized": 23392.92, "pct": 100.56 }
+  ],
+  "losers": [
+    { "symbol": "SNAP", "unrealized": -27582.0, "pct": -91.25 },
+    { "symbol": "MRNA", "unrealized": -17921.52, "pct": -74.43 },
+    { "symbol": "PFE", "unrealized": -17720.54, "pct": -48.08 }
+  ],
+  "sleeves": {
+    "conviction": {
+      "entryDelta": "0.12–0.18",
+      "names": ["NVDA", "AMZN", "ONEQ", "SPY", "MU"]
+    },
+    "income": {
+      "entryDelta": "0.20–0.30",
+      "names": ["TSLA", "DAL", "AAL", "MRNA", "PFE", "HOOD", "INTC", "VALE", "+ others"]
+    },
+    "accumulation": {
+      "entryDelta": "0.20–0.25 CSP",
+      "names": ["AMD", "META"]
+    }
+  },
+  "bands": [
+    { "zone": "Conviction entry", "delta": "0.12–0.18", "action": "Sell CC ~30–45 DTE" },
+    { "zone": "Income entry", "delta": "0.20–0.30", "action": "Sell CC / CSP ~30–45 DTE" },
+    { "zone": "Harvest", "delta": "< 0.12", "action": "BTC + rewrite at sleeve target" },
+    { "zone": "Hold", "delta": "0.12–0.45", "action": "No trade" },
+    { "zone": "Defend", "delta": "> 0.45", "action": "BTC and/or roll up+out" }
+  ]
+}

@@ -1,0 +1,745 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Agentic — Options program canvas</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,700&family=Sora:wght@400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --ink: #0b1210;
+      --ink-2: #121c18;
+      --mist: #d7e4dc;
+      --fog: #9bb0a4;
+      --signal: #c8f16d;
+      --copper: #d4a574;
+      --danger: #e07060;
+      --line: rgba(215, 228, 220, 0.12);
+      --glow: rgba(200, 241, 109, 0.16);
+      --display: "Fraunces", Georgia, serif;
+      --sans: "Sora", sans-serif;
+      --pad: clamp(1.25rem, 4vw, 3.5rem);
+      --max: 1120px;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      color: var(--mist);
+      font-family: var(--sans);
+      background: var(--ink);
+      line-height: 1.5;
+      overflow-x: hidden;
+    }
+
+    a { color: var(--signal); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    .atmosphere {
+      position: fixed;
+      inset: 0;
+      z-index: -1;
+      background:
+        radial-gradient(ellipse 80% 55% at 70% -10%, rgba(200, 241, 109, 0.14), transparent 55%),
+        radial-gradient(ellipse 60% 45% at -10% 30%, rgba(212, 165, 116, 0.1), transparent 50%),
+        linear-gradient(180deg, #0b1210 0%, #0e1713 45%, #0b1210 100%);
+    }
+    .atmosphere::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      opacity: 0.35;
+      background-image:
+        linear-gradient(var(--line) 1px, transparent 1px),
+        linear-gradient(90deg, var(--line) 1px, transparent 1px);
+      background-size: 64px 64px;
+      mask-image: radial-gradient(ellipse at 50% 20%, black, transparent 70%);
+      animation: gridDrift 28s linear infinite;
+    }
+
+    @keyframes gridDrift {
+      from { background-position: 0 0, 0 0; }
+      to { background-position: 0 64px, 64px 0; }
+    }
+    @keyframes riseIn {
+      from { opacity: 0; transform: translateY(18px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes drawCurve {
+      from { stroke-dashoffset: 1200; }
+      to { stroke-dashoffset: 0; }
+    }
+    @keyframes pulseSoft {
+      0%, 100% { opacity: 0.45; }
+      50% { opacity: 0.85; }
+    }
+
+    .wrap {
+      width: min(100% - 2 * var(--pad), var(--max));
+      margin-inline: auto;
+    }
+
+    /* ——— Hero ——— */
+    .hero {
+      min-height: 100svh;
+      display: grid;
+      align-items: end;
+      position: relative;
+      padding: calc(var(--pad) + 1rem) 0 var(--pad);
+    }
+    .hero-visual {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      overflow: hidden;
+    }
+    .hero-visual svg {
+      position: absolute;
+      right: -8%;
+      bottom: 8%;
+      width: min(92vw, 820px);
+      height: auto;
+      opacity: 0.9;
+    }
+    .hero-visual path.curve {
+      fill: none;
+      stroke: var(--signal);
+      stroke-width: 2.2;
+      stroke-linecap: round;
+      stroke-dasharray: 1200;
+      animation: drawCurve 2.4s ease-out forwards;
+      filter: drop-shadow(0 0 18px var(--glow));
+    }
+    .hero-visual path.ghost {
+      fill: none;
+      stroke: var(--copper);
+      stroke-width: 1.2;
+      opacity: 0.35;
+      animation: pulseSoft 5s ease-in-out infinite;
+    }
+    .hero-copy {
+      position: relative;
+      z-index: 1;
+      max-width: 34rem;
+      animation: riseIn 0.9s ease-out both;
+    }
+    .brand {
+      font-family: var(--display);
+      font-weight: 700;
+      font-size: clamp(3.4rem, 11vw, 6.5rem);
+      line-height: 0.92;
+      letter-spacing: -0.03em;
+      margin: 0 0 1.1rem;
+      color: var(--mist);
+    }
+    .brand span {
+      display: block;
+      color: var(--signal);
+    }
+    .lede {
+      margin: 0 0 1.75rem;
+      font-size: clamp(1.05rem, 2.2vw, 1.25rem);
+      color: var(--fog);
+      max-width: 28rem;
+    }
+    .cta-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem 1rem;
+    }
+    .cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.85rem 1.25rem;
+      border-radius: 999px;
+      font-weight: 600;
+      font-size: 0.92rem;
+      border: 1px solid transparent;
+      transition: transform 0.2s ease, background 0.2s ease, border-color 0.2s ease;
+    }
+    .cta:hover { text-decoration: none; transform: translateY(-1px); }
+    .cta-primary {
+      background: var(--signal);
+      color: var(--ink);
+    }
+    .cta-ghost {
+      border-color: var(--line);
+      color: var(--mist);
+      background: rgba(18, 28, 24, 0.55);
+      backdrop-filter: blur(8px);
+    }
+
+    /* ——— Sections ——— */
+    section {
+      padding: clamp(3.5rem, 8vw, 6rem) 0;
+      border-top: 1px solid var(--line);
+    }
+    .section-head {
+      margin-bottom: clamp(1.5rem, 4vw, 2.5rem);
+      max-width: 36rem;
+      animation: riseIn 0.7s ease-out both;
+    }
+    .section-head h2 {
+      font-family: var(--display);
+      font-size: clamp(2rem, 5vw, 3rem);
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      margin: 0 0 0.6rem;
+      line-height: 1.1;
+    }
+    .section-head p {
+      margin: 0;
+      color: var(--fog);
+      font-size: 1.02rem;
+    }
+    .meta {
+      color: var(--fog);
+      font-size: 0.85rem;
+      margin-top: 0.75rem;
+    }
+
+    /* Stats strip — not cards; typographic scoreboard */
+    .scoreboard {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 1.25rem 1.5rem;
+    }
+    @media (min-width: 720px) {
+      .scoreboard { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+    }
+    .stat {
+      padding: 0.25rem 0 1rem;
+      border-bottom: 1px solid var(--line);
+      animation: riseIn 0.6s ease-out both;
+    }
+    .stat:nth-child(1) { animation-delay: 0.05s; }
+    .stat:nth-child(2) { animation-delay: 0.1s; }
+    .stat:nth-child(3) { animation-delay: 0.15s; }
+    .stat:nth-child(4) { animation-delay: 0.2s; }
+    .stat:nth-child(5) { animation-delay: 0.25s; }
+    .stat:nth-child(6) { animation-delay: 0.3s; }
+    .stat:nth-child(7) { animation-delay: 0.35s; }
+    .stat:nth-child(8) { animation-delay: 0.4s; }
+    .stat-label {
+      display: block;
+      font-size: 0.78rem;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--fog);
+      margin-bottom: 0.35rem;
+    }
+    .stat-value {
+      font-family: var(--display);
+      font-size: clamp(1.55rem, 3.5vw, 2.15rem);
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      line-height: 1.1;
+    }
+    .stat-value.up { color: var(--signal); }
+    .stat-value.down { color: var(--danger); }
+    .stat-value.muted { color: var(--copper); }
+
+    .split {
+      display: grid;
+      gap: 2rem;
+    }
+    @media (min-width: 860px) {
+      .split-2 { grid-template-columns: 1.2fr 0.8fr; align-items: start; }
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.92rem;
+    }
+    th, td {
+      text-align: left;
+      padding: 0.7rem 0.55rem;
+      border-bottom: 1px solid var(--line);
+      vertical-align: top;
+    }
+    th {
+      font-size: 0.72rem;
+      letter-spacing: 0.07em;
+      text-transform: uppercase;
+      color: var(--fog);
+      font-weight: 500;
+    }
+    td.num, th.num { text-align: right; font-variant-numeric: tabular-nums; }
+    .sym { font-weight: 600; color: var(--mist); }
+    .pill {
+      display: inline-block;
+      font-size: 0.72rem;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      color: var(--ink);
+      background: var(--signal);
+      padding: 0.15rem 0.45rem;
+      border-radius: 4px;
+      font-weight: 600;
+    }
+    .pill.hold { background: var(--fog); }
+    .pill.harvest { background: var(--signal); }
+    .pill.defend { background: var(--danger); color: #fff; }
+    .pill.accum { background: var(--copper); }
+
+    .sleeve-grid {
+      display: grid;
+      gap: 1.5rem;
+    }
+    @media (min-width: 760px) {
+      .sleeve-grid { grid-template-columns: repeat(3, 1fr); }
+    }
+    .sleeve {
+      padding-top: 1rem;
+      border-top: 2px solid var(--signal);
+      animation: riseIn 0.7s ease-out both;
+    }
+    .sleeve:nth-child(2) { border-top-color: var(--copper); animation-delay: 0.1s; }
+    .sleeve:nth-child(3) { border-top-color: var(--fog); animation-delay: 0.2s; }
+    .sleeve h3 {
+      font-family: var(--display);
+      font-size: 1.55rem;
+      margin: 0 0 0.35rem;
+    }
+    .sleeve .delta {
+      color: var(--signal);
+      font-weight: 600;
+      font-size: 0.95rem;
+      margin-bottom: 0.75rem;
+    }
+    .sleeve:nth-child(2) .delta { color: var(--copper); }
+    .sleeve:nth-child(3) .delta { color: var(--fog); }
+    .sleeve p {
+      margin: 0;
+      color: var(--fog);
+      font-size: 0.95rem;
+    }
+    .names {
+      margin-top: 0.9rem;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+    }
+    .names span {
+      font-size: 0.8rem;
+      font-weight: 500;
+      letter-spacing: 0.02em;
+      color: var(--mist);
+      border-bottom: 1px solid var(--line);
+      padding-bottom: 0.1rem;
+    }
+
+    .band-list {
+      display: grid;
+      gap: 0;
+    }
+    .band-row {
+      display: grid;
+      grid-template-columns: 8.5rem 6.5rem 1fr;
+      gap: 0.75rem;
+      padding: 0.85rem 0;
+      border-bottom: 1px solid var(--line);
+      align-items: baseline;
+      font-size: 0.95rem;
+    }
+    @media (max-width: 640px) {
+      .band-row { grid-template-columns: 1fr; gap: 0.2rem; }
+    }
+    .band-zone { font-weight: 600; }
+    .band-delta { color: var(--signal); font-variant-numeric: tabular-nums; }
+
+    .projects {
+      display: grid;
+      gap: 0;
+    }
+    .project {
+      display: grid;
+      grid-template-columns: 5.5rem 1fr;
+      gap: 1rem;
+      padding: 1.15rem 0;
+      border-bottom: 1px solid var(--line);
+      animation: riseIn 0.55s ease-out both;
+    }
+    @media (max-width: 560px) {
+      .project { grid-template-columns: 1fr; gap: 0.35rem; }
+    }
+    .status {
+      font-size: 0.72rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      font-weight: 600;
+      padding-top: 0.35rem;
+    }
+    .status.now { color: var(--signal); }
+    .status.next { color: var(--copper); }
+    .status.later { color: var(--fog); }
+    .status.done { color: #5f7568; }
+    .project h3 {
+      margin: 0 0 0.3rem;
+      font-size: 1.15rem;
+      font-weight: 600;
+    }
+    .project p {
+      margin: 0;
+      color: var(--fog);
+      font-size: 0.95rem;
+    }
+
+    .wl {
+      display: grid;
+      gap: 1.5rem;
+    }
+    @media (min-width: 720px) {
+      .wl { grid-template-columns: 1fr 1fr; }
+    }
+    .wl h3 {
+      font-family: var(--display);
+      font-size: 1.35rem;
+      margin: 0 0 0.75rem;
+    }
+
+    footer {
+      padding: 2.5rem 0 3.5rem;
+      border-top: 1px solid var(--line);
+      color: var(--fog);
+      font-size: 0.88rem;
+    }
+    footer strong { color: var(--mist); font-weight: 500; }
+
+    .empty { color: var(--fog); font-style: italic; }
+  </style>
+</head>
+<body>
+  <div class="atmosphere" aria-hidden="true"></div>
+
+  <header class="hero">
+    <div class="hero-visual" aria-hidden="true">
+      <svg viewBox="0 0 800 520" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path class="ghost" d="M40 420 C 140 410, 180 300, 260 280 S 380 320, 430 250 S 540 90, 620 120 S 720 220, 760 180" />
+        <path class="curve" d="M40 380 C 120 370, 170 250, 250 230 S 360 280, 420 210 S 530 70, 610 95 S 710 200, 760 150" />
+      </svg>
+    </div>
+    <div class="wrap hero-copy">
+      <h1 class="brand">Agentic<span>Overlay</span></h1>
+      <p class="lede">Delta-band covered calls and cash-secured puts — strategy, live program stats, and what’s next.</p>
+      <div class="cta-row">
+        <a class="cta cta-primary" href="#stats">View program stats</a>
+        <a class="cta cta-ghost" href="#projects">Future projects</a>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section id="stats">
+      <div class="wrap">
+        <div class="section-head">
+          <h2>Program scoreboard</h2>
+          <p>Snapshot of the Agentic options book — account value, premium realized, open credit, and idle coverage.</p>
+          <p class="meta" id="asOf">Loading…</p>
+        </div>
+
+        <div class="scoreboard" id="scoreboard"></div>
+
+        <div class="split split-2" style="margin-top: 3rem;">
+          <div>
+            <div class="section-head" style="margin-bottom: 1rem;">
+              <h2 style="font-size: clamp(1.5rem, 3vw, 2rem);">Open book</h2>
+              <p>Short options currently on — zone from |Δ| bands.</p>
+            </div>
+            <div id="openBook"></div>
+          </div>
+          <div>
+            <div class="section-head" style="margin-bottom: 1rem;">
+              <h2 style="font-size: clamp(1.5rem, 3vw, 2rem);">Accumulation</h2>
+              <p>CSP wheel toward Conviction CC coverage.</p>
+            </div>
+            <div id="accum"></div>
+          </div>
+        </div>
+
+        <div class="wl" style="margin-top: 3rem;" id="winnersLosers"></div>
+      </div>
+    </section>
+
+    <section id="strategy">
+      <div class="wrap">
+        <div class="section-head">
+          <h2>Three sleeves</h2>
+          <p>Same harvest / hold / defend bands everywhere — only the entry delta changes by sleeve.</p>
+        </div>
+        <div class="sleeve-grid" id="sleeves"></div>
+
+        <div class="section-head" style="margin-top: 3.5rem;">
+          <h2>Delta bands</h2>
+          <p>Act after a full session outside band, or if Δ moved ≥0.10 from entry since last review.</p>
+        </div>
+        <div class="band-list" id="bands"></div>
+        <p class="meta" style="margin-top: 1.25rem;">
+          Full rules in <a href="../docs/strategy.md">docs/strategy.md</a> · Autonomy: Tier C auto-place within gates.
+        </p>
+      </div>
+    </section>
+
+    <section id="projects">
+      <div class="wrap">
+        <div class="section-head">
+          <h2>Future projects</h2>
+          <p>Roadmap for the overlay — edit <code>docs/projects.md</code> and <code>canvas/data/projects.json</code>.</p>
+        </div>
+        <div class="projects" id="projectsList"></div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="wrap">
+      <p><strong>Informational only</strong> — not tax or investment advice. Trades the Agentic account only.</p>
+      <p style="margin-top: 0.5rem;">Refresh stats: prompt <em>“Refresh the strategy canvas snapshot”</em> after a daily check, or update <code>canvas/data/snapshot.json</code>.</p>
+    </div>
+  </footer>
+
+  <script type="application/json" id="snapshot-fallback">
+  {
+    "asOf": "2026-07-23T20:00:00-04:00",
+    "asOfLabel": "Jul 23, 2026 close · Agentic ••••3765",
+    "account": { "nickname": "Agentic", "masked": "••••3765", "optionLevel": "option_level_2", "autonomy": "Tier C" },
+    "portfolio": { "totalValue": 706571.78, "equityValue": 559269.46, "optionsValue": -3088, "cash": 150390.32, "buyingPower": 32890.32 },
+    "pnl": { "realizedMtdOptions": 3227, "realizedMtdEquity": 0, "realizedYtdOptions": 3227, "realizedYtdAll": 3227, "unrealizedEquitySample": 138460.89, "unrealizedNote": "Sample of major holdings only — not full book" },
+    "openBook": [
+      { "symbol": "NVDA", "side": "short", "optionType": "call", "strike": 225, "expiration": "2026-08-21", "dte": 29, "qty": 1, "credit": 259, "mark": 3.33, "delta": 0.263, "zone": "hold", "sleeve": "conviction", "role": "CC" },
+      { "symbol": "AMD", "side": "short", "optionType": "put", "strike": 460, "expiration": "2026-08-28", "dte": 36, "qty": 1, "credit": 2100, "mark": 21.8, "delta": 0.228, "zone": "hold", "sleeve": "accumulation", "role": "CSP" },
+      { "symbol": "SPY", "side": "short", "optionType": "put", "strike": 715, "expiration": "2026-08-21", "dte": 29, "qty": 1, "credit": 492, "mark": 5.75, "delta": 0.245, "zone": "hold", "sleeve": "index", "role": "CSP" }
+    ],
+    "program": {
+      "openContracts": 3, "openCredit": 2851, "idleCcContracts": 58, "cspCollateralApprox": 117500, "bpBufferTarget": 2000,
+      "accumulation": [
+        { "symbol": "AMD", "shares": 45, "need": 100, "csp": "open", "note": "Aug28 460p · |Δ| 0.23" },
+        { "symbol": "META", "shares": 20, "need": 100, "csp": "waiting-slot", "note": "One accum CSP at a time" }
+      ]
+    },
+    "winners": [
+      { "symbol": "MU", "unrealized": 86170.51, "pct": 662.23 },
+      { "symbol": "ONEQ", "unrealized": 44088.91, "pct": 60.54 },
+      { "symbol": "DAL", "unrealized": 23392.92, "pct": 100.56 }
+    ],
+    "losers": [
+      { "symbol": "SNAP", "unrealized": -27582.0, "pct": -91.25 },
+      { "symbol": "MRNA", "unrealized": -17921.52, "pct": -74.43 },
+      { "symbol": "PFE", "unrealized": -17720.54, "pct": -48.08 }
+    ],
+    "sleeves": {
+      "conviction": { "entryDelta": "0.12–0.18", "names": ["NVDA", "AMZN", "ONEQ", "SPY", "MU"] },
+      "income": { "entryDelta": "0.20–0.30", "names": ["TSLA", "DAL", "AAL", "MRNA", "PFE", "HOOD", "INTC", "VALE", "+ others"] },
+      "accumulation": { "entryDelta": "0.20–0.25 CSP", "names": ["AMD", "META"] }
+    },
+    "bands": [
+      { "zone": "Conviction entry", "delta": "0.12–0.18", "action": "Sell CC ~30–45 DTE" },
+      { "zone": "Income entry", "delta": "0.20–0.30", "action": "Sell CC / CSP ~30–45 DTE" },
+      { "zone": "Harvest", "delta": "< 0.12", "action": "BTC + rewrite at sleeve target" },
+      { "zone": "Hold", "delta": "0.12–0.45", "action": "No trade" },
+      { "zone": "Defend", "delta": "> 0.45", "action": "BTC and/or roll up+out" }
+    ]
+  }
+  </script>
+
+  <script type="application/json" id="projects-fallback">
+  [
+    { "id": "strategy-canvas", "status": "now", "title": "Strategy canvas", "blurb": "One reference surface for sleeves, bands, open book, and program stats." },
+    { "id": "idle-cc", "status": "now", "title": "Fill idle CC capacity", "blurb": "Phase covered calls onto liquid names with unused contracts — skip thin tape." },
+    { "id": "amd-accum", "status": "now", "title": "AMD accumulation", "blurb": "CSP open toward 100 shares; graduate to Conviction CC on assignment." },
+    { "id": "meta-accum", "status": "next", "title": "META accumulation CSP", "blurb": "Open when AMD slot frees and the ~$2k BP buffer still clears." },
+    { "id": "index-sleeve", "status": "next", "title": "Index sleeve growth", "blurb": "Prefer RSP then ITOT CSPs; buy SPY/RSP/ITOT with free cash and CC credits." },
+    { "id": "harvest-polish", "status": "next", "title": "Harvest automation polish", "blurb": "Keep Slack action boards crisp for harvest-close-only vs full rewrite." },
+    { "id": "live-refresh", "status": "later", "title": "Live canvas refresh", "blurb": "Rewrite snapshot.json from Robinhood MCP after each daily check." },
+    { "id": "coverage-heatmap", "status": "later", "title": "Coverage heatmap", "blurb": "Per-symbol idle vs covered vs earnings blackout." },
+    { "id": "premium-ledger", "status": "later", "title": "Premium ledger", "blurb": "MTD/YTD options realized vs open credit, separate from equity P&L." },
+    { "id": "tier-c-slack", "status": "done", "title": "Tier C + Slack automations", "blurb": "Daily report, continue/stop gate, and portfolio chat are live." },
+    { "id": "three-sleeve", "status": "done", "title": "Three-sleeve model", "blurb": "Conviction / Income / Accumulation + index CSP rules documented." }
+  ]
+  </script>
+
+  <script>
+    const money = (n, opts = {}) => {
+      const abs = Math.abs(n);
+      const digits = abs >= 1000 ? 0 : 2;
+      const s = new Intl.NumberFormat("en-US", {
+        style: "currency",
+        currency: "USD",
+        maximumFractionDigits: digits,
+        minimumFractionDigits: digits,
+        ...opts,
+      }).format(n);
+      return s;
+    };
+
+    const pct = (n) => `${n > 0 ? "+" : ""}${n.toFixed(1)}%`;
+
+    async function loadJson(url, fallbackId) {
+      try {
+        const res = await fetch(url, { cache: "no-store" });
+        if (!res.ok) throw new Error(res.statusText);
+        return await res.json();
+      } catch {
+        return JSON.parse(document.getElementById(fallbackId).textContent);
+      }
+    }
+
+    function zonePill(zone) {
+      const z = (zone || "hold").toLowerCase();
+      const cls = z.includes("defend") ? "defend" : z.includes("harvest") ? "harvest" : "hold";
+      return `<span class="pill ${cls}">${zone}</span>`;
+    }
+
+    function renderScoreboard(s) {
+      const p = s.portfolio;
+      const g = s.program;
+      const pnl = s.pnl;
+      const items = [
+        { label: "Account value", value: money(p.totalValue) },
+        { label: "Equities", value: money(p.equityValue) },
+        { label: "Cash", value: money(p.cash) },
+        { label: "Buying power", value: money(p.buyingPower), tone: "muted" },
+        { label: "Options realized MTD", value: money(pnl.realizedMtdOptions), tone: "up" },
+        { label: "Open credit", value: money(g.openCredit), tone: "up" },
+        { label: "Open contracts", value: String(g.openContracts) },
+        { label: "Idle CC capacity", value: String(g.idleCcContracts), tone: "muted" },
+      ];
+      document.getElementById("scoreboard").innerHTML = items.map((it) => `
+        <div class="stat">
+          <span class="stat-label">${it.label}</span>
+          <div class="stat-value ${it.tone || ""}">${it.value}</div>
+        </div>
+      `).join("");
+      document.getElementById("asOf").textContent = s.asOfLabel;
+    }
+
+    function renderOpenBook(s) {
+      if (!s.openBook?.length) {
+        document.getElementById("openBook").innerHTML = `<p class="empty">No open shorts.</p>`;
+        return;
+      }
+      const rows = s.openBook.map((o) => {
+        const markPnL = o.credit - o.mark * 100 * o.qty;
+        const type = o.optionType === "put" ? "p" : "c";
+        return `<tr>
+          <td class="sym">${o.symbol}</td>
+          <td>${o.expiration.slice(5)} ${o.strike}${type} ×${o.qty}</td>
+          <td class="num">${o.dte}d</td>
+          <td class="num">${o.delta.toFixed(2)}</td>
+          <td class="num">${money(o.credit)}</td>
+          <td class="num ${markPnL >= 0 ? "up" : "down"}" style="color: ${markPnL >= 0 ? "var(--signal)" : "var(--danger)"}">${money(markPnL)}</td>
+          <td>${zonePill(o.zone)}</td>
+          <td>${o.sleeve}</td>
+        </tr>`;
+      }).join("");
+      document.getElementById("openBook").innerHTML = `
+        <table>
+          <thead>
+            <tr>
+              <th>Symbol</th><th>Contract</th><th class="num">DTE</th><th class="num">|Δ|</th>
+              <th class="num">Credit</th><th class="num">Mark P&amp;L</th><th>Zone</th><th>Sleeve</th>
+            </tr>
+          </thead>
+          <tbody>${rows}</tbody>
+        </table>`;
+    }
+
+    function renderAccum(s) {
+      const rows = (s.program.accumulation || []).map((a) => `
+        <tr>
+          <td class="sym">${a.symbol}</td>
+          <td class="num">${a.shares} / ${a.need}</td>
+          <td><span class="pill accum">${a.csp}</span></td>
+          <td>${a.note || ""}</td>
+        </tr>
+      `).join("");
+      document.getElementById("accum").innerHTML = `
+        <table>
+          <thead><tr><th>Symbol</th><th class="num">Shares</th><th>CSP</th><th>Note</th></tr></thead>
+          <tbody>${rows}</tbody>
+        </table>
+        <p class="meta">CSP collateral ≈ ${money(s.program.cspCollateralApprox)} · BP buffer target ${money(s.program.bpBufferTarget)}</p>`;
+    }
+
+    function renderWL(s) {
+      const side = (title, list, good) => `
+        <div>
+          <h3>${title}</h3>
+          <table>
+            <thead><tr><th>Symbol</th><th class="num">Unrealized</th><th class="num">%</th></tr></thead>
+            <tbody>
+              ${list.map((x) => `
+                <tr>
+                  <td class="sym">${x.symbol}</td>
+                  <td class="num" style="color: ${good ? "var(--signal)" : "var(--danger)"}">${money(x.unrealized)}</td>
+                  <td class="num">${pct(x.pct)}</td>
+                </tr>`).join("")}
+            </tbody>
+          </table>
+        </div>`;
+      document.getElementById("winnersLosers").innerHTML =
+        side("Top unrealized", s.winners, true) + side("Bottom unrealized", s.losers, false);
+    }
+
+    function renderSleeves(s) {
+      const order = [
+        ["conviction", "Conviction", "Preserve upside on long-term names; defend embedded gains."],
+        ["income", "Income", "Maximize premium; assignment is acceptable."],
+        ["accumulation", "Accumulation", "CSP into Conviction candidates below 100 shares."],
+      ];
+      document.getElementById("sleeves").innerHTML = order.map(([key, title, blurb]) => {
+        const sleeve = s.sleeves[key];
+        return `<article class="sleeve">
+          <h3>${title}</h3>
+          <div class="delta">Entry Δ ${sleeve.entryDelta}</div>
+          <p>${blurb}</p>
+          <div class="names">${sleeve.names.map((n) => `<span>${n}</span>`).join("")}</div>
+        </article>`;
+      }).join("");
+    }
+
+    function renderBands(s) {
+      document.getElementById("bands").innerHTML = s.bands.map((b) => `
+        <div class="band-row">
+          <div class="band-zone">${b.zone}</div>
+          <div class="band-delta">${b.delta}</div>
+          <div>${b.action}</div>
+        </div>
+      `).join("");
+    }
+
+    function renderProjects(projects) {
+      const order = { now: 0, next: 1, later: 2, done: 3 };
+      const sorted = [...projects].sort((a, b) => (order[a.status] ?? 9) - (order[b.status] ?? 9));
+      document.getElementById("projectsList").innerHTML = sorted.map((p, i) => `
+        <article class="project" style="animation-delay: ${i * 0.04}s">
+          <div class="status ${p.status}">${p.status}</div>
+          <div>
+            <h3>${p.title}</h3>
+            <p>${p.blurb}</p>
+          </div>
+        </article>
+      `).join("");
+    }
+
+    (async () => {
+      const [snapshot, projects] = await Promise.all([
+        loadJson("./data/snapshot.json", "snapshot-fallback"),
+        loadJson("./data/projects.json", "projects-fallback"),
+      ]);
+      renderScoreboard(snapshot);
+      renderOpenBook(snapshot);
+      renderAccum(snapshot);
+      renderWL(snapshot);
+      renderSleeves(snapshot);
+      renderBands(snapshot);
+      renderProjects(projects);
+    })();
+  </script>
+</body>
+</html>
