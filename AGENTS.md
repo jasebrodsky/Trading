@@ -4,7 +4,10 @@
 |------------|---------|
 | Run the overlay | Prompt: `Run covered-call delta band check` |
 | Dry-run (closed markets) | Prompt: `Dry-run covered-call delta band check` |
+| Open strategy canvas | Open `canvas/index.html` (ops · scoreboard · returns · forward income · strategy) |
+| Refresh canvas stats | Prompt: `Refresh the strategy canvas snapshot` |
 | Change bands / gates | Edit `docs/strategy.md` |
+| Change future projects | Edit `docs/projects.md` + `canvas/data/projects.json` |
 | Change agent procedure | Edit `.cursor/skills/robinhood-delta-band-cc/SKILL.md` |
 | Slack daily report / continue-stop | Edit prompts in `docs/slack-automations.md`, paste into [Automations](https://cursor.com/automations) (morning scoreboard + overlay actions) |
 

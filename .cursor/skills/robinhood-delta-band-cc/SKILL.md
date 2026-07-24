@@ -17,6 +17,7 @@ Read [docs/strategy.md](../../../docs/strategy.md) first. Account: Agentic `4207
 - "Run the trading strategy"
 - "Roll / harvest options on Agentic"
 - "Dry-run covered-call delta band check"
+- "Refresh the strategy canvas snapshot" → rewrite [`canvas/data/snapshot.json`](../../../canvas/data/snapshot.json) (and keep the HTML fallback block in sync); do **not** place orders
 
 These triggers **are the go-ahead** for the **check/report** path. Do not invent an EXECUTE/SKIP approval gate, wait for emoji ack, or ask whether to proceed before snapshotting. Slack/desktop/cloud invocations of the trigger phrases above mean: run snapshot → classify → propose → gate-evaluate → report **now**.
 
@@ -125,6 +126,28 @@ Never place on non-Agentic accounts. Never skip review unless user explicitly sa
 Portfolio + overlay summary (optional `runbooks/YYYY-MM-DD.md`).
 
 Slack daily-check: **two messages** per [docs/slack-automations.md](../../../docs/slack-automations.md) — (1) portfolio scoreboard, (2) overlay actions + CTA.
+
+### Canvas snapshot refresh
+
+When asked to refresh the strategy canvas (or optionally at the end of a daily check):
+
+1. Pull portfolio, equities + quotes, open options + instruments/quotes, realized P&L (options + equity, MTD/YTD/30d/90d), filled option orders YTD, earnings for holdings with CC capacity or open shorts.
+2. Rebuild the **premium ledger** for the calendar year:
+   - Credits/debits from filled `processed_premium` by month; `netIncome = credits − debits`.
+   - `realizedOptions` per month from closed trades.
+   - Upsert month `totalValue`; **appreciation** = Δ vs prior known month; **totalReturn** = `(appreciation || 0) + realizedOptions`. Append point to `equityCurve`.
+3. Rebuild **ops dashboard** fields:
+   - `callouts` — zone counts + actions + loudest flag (harvest/defend/earnings-flatten/waiting-refill/idle-CC/accum/index).
+   - `coverage` — per-symbol capacity / covered / idle / earnings blackout (≤5 trading days).
+   - `earnings.blackout` + `earnings.watch`; `assignmentRisks` for embedded-gain shorts.
+   - `runway` — cash, BP, CSP collateral, buffer headroom, whether next META/index CSP fits.
+4. Rebuild **performance**:
+   - 30d/90d realized, run-rate annualized vs account value, full-book unrealized equity, `sleeveIncomeYtd`, `rollStats` (harvest vs defend, avg credit kept).
+   - `capital` mix (equity / cash / CSP collateral %).
+5. Rebuild **forward income**:
+   - Open extrinsic + mark P&L; idle-fill estimate (label as estimate); `expiryCalendar`; `indexSleeve` shares + CSP notional.
+6. Write [`canvas/data/snapshot.json`](../../../canvas/data/snapshot.json) and update `#snapshot-fallback` in [`canvas/index.html`](../../../canvas/index.html).
+7. Do not invent projects — edit docs/projects + `projects.json` only when the user asks.
 
 ## Safety
 
