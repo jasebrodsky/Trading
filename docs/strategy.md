@@ -147,7 +147,7 @@ After `review_option_order`, **auto-place** when all gates pass. Escalate to hum
    Rationale: do not block a multi-hundred-dollar credit (or a cheap BTC that removes dead risk) over a couple cents of tape width. Still fail truly garbage / unquoted markets.
 6. No pending assignment / exercise quantities on the position
 7. `review_option_order` returns no blocking / hard-fail alerts user must acknowledge specially — **except** treat `OPTION_WIDE_BID_ASK_SPREAD` as advisory when the economic spread rule above already PASSes; other hard alerts still block
-8. Regular market hours (or explicit dry-run)
+8. **Regular market hours** (or explicit dry-run). Resolve “now” in **`America/New_York` only** — never treat the host/container UTC clock as ET. Regular session: Mon–Fri **9:30 AM–4:00 PM** America/New_York (zone handles EDT/EST). Before failing this gate, verify with `TZ=America/New_York date` (or equivalent). Timestamps labeled “ET” in reports must be converted from UTC first (e.g. 16:25 UTC in July = **12:25 PM ET**, not 4:25 PM ET).
 9. Post-earnings **refill** also requires one full session since the print (see Earnings)
 
 ### Always escalate (do not auto-place)
