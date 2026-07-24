@@ -35,6 +35,7 @@ This automation is REPORT-ONLY.
 2. get_equity_positions + get_equity_quotes — unrealized $/% vs avg cost; top 3 winners & losers; sum unrealized.
 3. get_realized_pnl span=month and span=year; also asset_classes option and equity when useful. Optional get_pnl_trade_history span=month for 1–2 notable closes.
 4. Do not invent dividends. Label unrealized vs realized (MTD/YTD). Options realized ≠ paycheck.
+5. **Income sweep** (docs/income-sweep.md): compute sweep_available from cash, BP (~$2k buffer), and open put collateral; report $3k Amex sweep on the 15th — ready or blocked (+ shortfall). Extra detail on checks dated 13th–17th ET.
 
 === B) Overlay check ===
 1. Option positions (nonzero) + instruments + quotes + get_earnings_results.
@@ -47,6 +48,7 @@ This automation is REPORT-ONLY.
    - **Income sleeve** (all others): entry target ~0.20–0.30Δ as usual.
    - **Accumulation sleeve** (AMD, META, and any Conviction candidate below 100 shares): check if a CSP is open; if not and earnings are clear and free cash supports collateral + ~$2k BP buffer (one at a time), propose open accumulation CSP at ~0.20–0.25Δ / 30–45 DTE. If assigned → graduate to Conviction CC immediately. If earnings within 5 days → earnings-flatten (BTC close-only) same as CCs.
 3. Also report **idle CC capacity** (floor(shares/100) − short calls), **accumulation CSP status** (AMD/META: open / waiting-earnings / blocked-collateral / graduated), and **index CSP sleeve** status (free cash vs put collateral; prefer new puts on RSP then ITOT then SPY; ~$2k BP buffer). One slot at a time for accumulation + index CSPs combined — do not stack if combined collateral breaches BP buffer.
+4. **Deployment focus** (docs/strategy.md): compute idle_cc_total, put_collateral, deployable_cash = max(0, cash − max(0,2000−BP) − put_collateral). Label **FILL-SLOTS** (idle_cc≥5 or main income lever), **INDEX** (idle_cc=0 + cash for RSP/ITOT), **MIXED** (1–4 idle + index/accum slot), or **DEPLOY BLOCKED**. One-liner in overlay: Deploy focus | idle_cc | deployable_cash | put_collateral | bias.
 4. Coverage check. Build orders. Evaluate gates per leg using the **economic spread rule** in docs/strategy.md (PASS if spread ≤20% of mid OR ≤$0.15 abs OR adverse fill ≤10% of expected roll credit / ≤$0.25 on close-only). Never PASS a rewrite in earnings-flatten or before refill rules clear. Do not leave harvest as “do nothing” when BTC-only would PASS. Treat broker OPTION_WIDE_BID_ASK_SPREAD as advisory when the economic rule PASSes.
 
 === C) Post TWO Slack messages to #all-agentic-trading ===
@@ -57,7 +59,8 @@ MESSAGE 1 — Portfolio (scoreboard first)
 2. Quick take: 3–5 bullets (portfolio feel, biggest winner/loser, MTD & YTD realized one-liners)
 3. Scoreboard table: Account value, Equities, Options, Cash, BP, Unrealized equity P&L, Realized MTD (all/options/equity), Realized YTD (all/options/equity)
 4. Winners & losers table (top 3 each): Rank | Symbol | Unrealized $ | % | Notes
-5. One line: “Overlay actions → see next message.”
+5. **Income sweep** one-liner: Amex $3k on 15th — ready / blocked ($shortfall) · sweep_available $X · next date
+6. One line: “Overlay actions → see next message.”
 
 MESSAGE 2 — Overlay (actions second) — post as a follow-up in the same channel right after message 1 (thread reply under message 1 if the tool allows; otherwise a second channel message that clearly says “Overlay — continues morning check”)
 1. Quick take: counts hold / harvest / harvest-close-only / defend / earnings-flatten / waiting-refill / idle-CC-fill / index-CSP / accum-CSP; loudest red flag
@@ -66,10 +69,11 @@ MESSAGE 2 — Overlay (actions second) — post as a follow-up in the same chann
 3. Short book: Symbol | Strike | Type | Exp | DTE | Qty | |Δ| | Mark | Class | Sleeve
 4. Accumulation status: AMD X sh (need Y) — CSP: [open/waiting-earnings/blocked-collateral/graduated]; META same
 5. Idle CC / index sleeve one-liner (capacity + free cash / preferred CSP ticker)
-5. Proposals: Symbol | Close | Open (or —) | Est net $ | Gate | Why
-6. Escalations / waiting refill bullets
-7. Open risk (nearest Δ to bands)
-8. CTA: Reply continue or stop in THIS thread (or white_check_mark / X). Continue/stop automation places only after continue. This run never places. Your money, your say.
+6. **Deployment focus:** FILL-SLOTS | INDEX | MIXED | DEPLOY BLOCKED — idle_cc_total · deployable_cash · put_collateral · one-sentence bias (fill slots vs index month)
+7. Proposals: Symbol | Close | Open (or —) | Est net $ | Gate | Why
+8. Escalations / waiting refill bullets
+9. Open risk (nearest Δ to bands)
+10. CTA: Reply continue or stop in THIS thread (or white_check_mark / X). Continue/stop automation places only after continue. This run never places. Your money, your say.
 ```
 
 ---
@@ -154,6 +158,7 @@ Topics you can cover:
 - Individual positions: current value, gain/loss, earnings proximity, delta status, coverage
 - Strategy explanation: three-sleeve model (Conviction / Income / Accumulation), delta bands, harvest/hold/defend logic, index sleeve, accumulation CSP wheel
 - Income projections: estimated monthly premium, coverage gaps, what happens when SPY put expires
+- Income sweep: $3k/month Amex savings on the 15th, sweep_available vs blocked, link to docs/income-sweep.md
 - Tax discussion: AGI optimization, IRA drawdown timing, loss harvesting candidates, embedded-gain names
 - What-if scenarios: "what if NVDA drops 20%?", "what if I sell MRNA?", "what if AMD gets assigned?"
 - Options education: explain delta, theta, IV, rolling, the wheel, covered calls vs CSPs
