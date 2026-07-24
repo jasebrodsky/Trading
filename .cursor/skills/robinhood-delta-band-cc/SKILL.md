@@ -90,7 +90,7 @@ Use put Δ magnitude for CSPs. Prefer same chain; pick liquid strike near target
 
 **New shorts** (same bands; propose on every check when eligible):
 
-1. **Idle CC fill** — unused capacity on liquid holdings (and SPY if shares are in Agentic). Use sleeve entry target Δ. Phase large new sleeves. Skip if economic spread fails.
+1. **Idle CC fill** — unused capacity on liquid holdings (and SPY if shares are in Agentic). Use sleeve entry target Δ. **Fill full idle** per symbol when gates PASS (no phase-in). Skip only if economic spread fails, earnings blackout, or thin/meme tape.
 2. **Accumulation CSP open** — AMD or META (or any Conviction candidate <100 sh): only when earnings clear + free cash supports full collateral + ~$2k buffer + no other CSP already consuming cash. One at a time. Propose at ~0.20–0.25Δ / 30–45 DTE. If earnings within 5 days → flatten (BTC close-only) same as CCs.
 3. **Index CSP open** — only when free cash supports full collateral + ~$2k buffer AND no accumulation CSP slot already taken. Prefer **RSP**, then **ITOT**, then **SPY** for *new* puts.
 
