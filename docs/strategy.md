@@ -20,7 +20,7 @@ The portfolio is split into two sleeves with different target entry Δ. The band
 | **Income** | **0.20–0.30** | TSLA, DAL, AAL, MRNA, PFE, HOOD, INTC, VALE, and any name not explicitly listed as Conviction | Neutral-to-income; maximize premium; assignment is acceptable |
 | **Accumulation** | **0.20–0.25 CSP** | AMD, META (and any Conviction candidate below 100 shares) | Sell cash-secured puts to acquire shares at a discount; collect premium while building toward 100-share CC coverage; once ≥100 shares held, graduate to Conviction CC |
 
-**Income floor note:** inherited IRA distributions (~$3k/month) cover any gap between Conviction-sleeve premium and cost of living. Conviction names should not be over-pressured for income — use the income sleeve and IRA for that.
+**Income floor note:** options income on the full book typically covers **~$6k–8k/month** net once deployed; plan on **≥$6k** as a conservative floor. **$3k/month** sweeps to Amex savings on the **15th** when withdrawable cash allows (see [income-sweep.md](income-sweep.md)). Inherited IRA auto-withdrawals can stay paused while premium + sweep cover spending; optional year-end IRA draws for bracket top-up are a separate tax decision. Conviction names should not be over-pressured for income — use the income sleeve (and external sweep), not low-Δ CCs on embedded-gain names, for that.
 
 **Adding a name to Conviction:** requires explicit user instruction. Default is Income sleeve.
 
@@ -73,7 +73,34 @@ Close-only flatten still must pass spread / review / BP / coverage gates on the 
 - Do not chase thin names (wide tape / meme) just to “cover everything” — escalate or skip if economic spread fails.
 - Phase new underlyings in (e.g. start 2–4 contracts on a large new sleeve like ONEQ) rather than max capacity on day one when liquidity is uncertain.
 
-### Accumulation sleeve (CSP-to-CC wheel)
+### Deployment focus — fill-slots month vs index month
+
+Each daily check labels **where new premium should go** after harvest/defend/earnings are handled. This is **report guidance** — not a override of band table or gates.
+
+**Compute on every check:**
+
+```
+idle_cc_total     = Σ max(0, floor(shares/100) − open short calls)  per equity symbol (incl. SPY)
+put_collateral    = Σ (strike × 100 × contracts) on open short puts (SPY/RSP/ITOT/accum)
+bp_reserve        = max(0, 2000 − buying_power)
+deployable_cash   = max(0, cash − bp_reserve − put_collateral)
+```
+
+Use `get_portfolio` for cash and BP; infer `put_collateral` from open short put positions when broker holds are not broken out.
+
+**Primary focus label (pick one for the report):**
+
+| Label | When | Action bias |
+|-------|------|-------------|
+| **FILL-SLOTS** | `idle_cc_total ≥ 5` **or** any idle CC with spread PASS and no earnings block | **Prioritize idle CC fills** (income + conviction sleeves). Income scales fastest here. Defer new index CSP unless book is nearly full. |
+| **INDEX** | `idle_cc_total == 0` **and** `deployable_cash` supports one **RSP/ITOT** CSP (or share buy) + ~$2k BP buffer after open | **Prioritize index sleeve** — buy **RSP/ITOT/SPY** shares **or** one index CSP (RSP → ITOT → SPY). Book is full on CCs; grow ballast + premium via index. |
+| **MIXED** | `1 ≤ idle_cc_total ≤ 4` **and** deployable cash supports accumulation or index slot | Fill idle CCs **first** on action board; **one** index or accumulation CSP if slot free and gates pass. |
+| **DEPLOY BLOCKED** | Idle CC blocked (earnings/spread) **and** CSP blocked (collateral/buffer/spread) | Report why; hold cash above buffer — no forced deploy. |
+
+**Accumulation CSP** (AMD/META) still takes **one slot at a time** when earnings clear — competes with index CSP only when idle CC work is done or blocked (see Accumulation sleeve priority).
+
+**Report line (Slack overlay):** `Deploy focus: FILL-SLOTS | idle_cc=N | deployable_cash=$X | put_collateral=$Y | → …`
+
 
 **Purpose:** collect premium via cash-secured puts on Conviction candidates currently below 100 shares. Sell CSPs at a slight discount to current price so assignment is welcomed — you buy shares below market while earning income. Once assigned to ≥100 shares, the name graduates to the **Conviction CC sleeve** (0.12–0.18Δ calls).
 
@@ -129,6 +156,8 @@ Close-only flatten still must pass spread / review / BP / coverage gates on the 
 - Assignment → own 100 shares → that name joins the CC book.
 
 **CC income → index path:** when harvest/close frees premium or cash builds above CSP needs + buffer, prefer deploying into index **shares** (SPY/RSP/ITOT) or a new index CSP that still PASSes gates — do not let large idle cash sit uninvested without a stated reason on the report.
+
+**CC income → savings path:** after CSP collateral and the ~$2k BP buffer, cash above the **$3k monthly Amex sweep** reserve can still deploy into the index sleeve. On the **15th**, **manually** withdraw **$3k** to Amex savings if `sweep_available ≥ $3k` per [income-sweep.md](income-sweep.md) (Robinhood has no recurring outbound ACH — agents report readiness only).
 
 ## Autonomy — Tier C
 
