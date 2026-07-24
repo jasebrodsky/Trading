@@ -46,7 +46,7 @@ This automation is REPORT-ONLY.
    - **Conviction sleeve** (NVDA, AMZN, ONEQ, SPY, MU): entry target ~0.12–0.18Δ. Do NOT rewrite to 0.20–0.30Δ on these names — stay at low Δ to preserve upside and avoid triggering large embedded-gain assignment events.
    - **Income sleeve** (all others): entry target ~0.20–0.30Δ as usual.
    - **Accumulation sleeve** (AMD, META, and any Conviction candidate below 100 shares): check if a CSP is open; if not and earnings are clear and free cash supports collateral + ~$2k BP buffer (one at a time), propose open accumulation CSP at ~0.20–0.25Δ / 30–45 DTE. If assigned → graduate to Conviction CC immediately. If earnings within 5 days → earnings-flatten (BTC close-only) same as CCs.
-3. Also report **idle CC capacity** (floor(shares/100) − short calls), **accumulation CSP status** (AMD/META: open / waiting-earnings / blocked-collateral / graduated), and **index CSP sleeve** status (free cash vs put collateral; prefer new puts on RSP then ITOT then SPY; ~$2k BP buffer). One slot at a time for accumulation + index CSPs combined — do not stack if combined collateral breaches BP buffer.
+3. Also report **idle CC capacity** (floor(shares/100) − short calls), **accumulation CSP status** (AMD/META: open / waiting-earnings / blocked-collateral / graduated), and **index CSP sleeve** status (free cash vs put collateral; prefer new puts on RSP then ITOT then SPY; ~$2k BP buffer). One slot at a time for accumulation + index CSPs combined — do not stack if combined collateral breaches BP buffer. For idle CC: propose **full idle** per liquid symbol at sleeve entry Δ when gates PASS — no phase-in / no “start with 2–4 contracts.” Skip only thin/meme tape that fails the economic spread gate, or earnings blackout.
 4. Coverage check. Build orders. Evaluate gates per leg using the **economic spread rule** in docs/strategy.md (PASS if spread ≤20% of mid OR ≤$0.15 abs OR adverse fill ≤10% of expected roll credit / ≤$0.25 on close-only). Never PASS a rewrite in earnings-flatten or before refill rules clear. Do not leave harvest as “do nothing” when BTC-only would PASS. Treat broker OPTION_WIDE_BID_ASK_SPREAD as advisory when the economic rule PASSes.
 
 === C) Post TWO Slack messages to #all-agentic-trading ===
@@ -104,7 +104,7 @@ EXECUTE:
   - post-earnings refill only after one full session AND liquid sleeve-target-Δ candidate with spread PASS
   - Conviction sleeve (NVDA, AMZN, ONEQ, SPY, MU): rewrite to ~0.12–0.18Δ only; never rewrite to 0.20–0.30 on these names
   - Accumulation sleeve (AMD, META): open CSP at ~0.20–0.25Δ only when earnings clear + free cash supports collateral + ~$2k BP buffer; one at a time; if assigned → immediately open Conviction CC
-  - idle CC fill only with share coverage; index CSP opens only with free cash + ~$2k BP buffer; prefer RSP then ITOT then SPY for new puts
+  - idle CC fill: **full idle** per liquid symbol at sleeve entry Δ when gates PASS (no phase-in); skip only thin/meme tape that fails economic spread, or earnings blackout; share coverage required. Index CSP opens only with free cash + ~$2k BP buffer; prefer RSP then ITOT then SPY for new puts
 - review_option_order then place_option_order only if ALL gates pass for that leg.
 - Never place on gate failure; escalate in-thread.
 - Never trade non-Agentic. Never skip review.
