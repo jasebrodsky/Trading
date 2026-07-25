@@ -1,0 +1,49 @@
+<svg viewBox="0 0 320 400" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Stylized financial advisor portrait">
+  <defs>
+    <linearGradient id="bg" x1="40" y1="0" x2="280" y2="400" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#121c18"/>
+      <stop offset="1" stop-color="#0b1210"/>
+    </linearGradient>
+    <linearGradient id="hair" x1="120" y1="40" x2="220" y2="180" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#e8d4a8"/>
+      <stop offset="1" stop-color="#c9a86a"/>
+    </linearGradient>
+    <linearGradient id="skin" x1="110" y1="120" x2="210" y2="260" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#f0d8c4"/>
+      <stop offset="1" stop-color="#d4a574"/>
+    </linearGradient>
+    <linearGradient id="blazer" x1="40" y1="250" x2="280" y2="400" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#1a2a22"/>
+      <stop offset="1" stop-color="#0e1713"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(250 80) rotate(90) scale(180)">
+      <stop stop-color="#c8f16d" stop-opacity="0.22"/>
+      <stop offset="1" stop-color="#c8f16d" stop-opacity="0"/>
+    </radialGradient>
+    <clipPath id="frame">
+      <rect width="320" height="400" rx="24"/>
+    </clipPath>
+  </defs>
+  <g clip-path="url(#frame)">
+    <rect width="320" height="400" fill="url(#bg)"/>
+    <rect width="320" height="400" fill="url(#glow)"/>
+    <path d="M0 340 H320" stroke="#c8f16d" stroke-opacity="0.12" stroke-width="1"/>
+    <path d="M24 360 H296" stroke="#d4a574" stroke-opacity="0.18" stroke-width="1"/>
+    <ellipse cx="160" cy="430" rx="150" ry="90" fill="#0e1713"/>
+    <path d="M28 400 C70 330, 110 300, 160 295 C210 300, 250 330, 292 400 Z" fill="url(#blazer)"/>
+    <path d="M72 400 C95 350, 125 330, 160 328 C195 330, 225 350, 248 400 Z" fill="#16241e"/>
+    <path d="M118 395 C135 360, 148 345, 160 343 C172 345, 185 360, 202 395 Z" fill="#d7e4dc" fill-opacity="0.08"/>
+    <path d="M95 210 C95 145, 122 95, 160 88 C198 95, 225 145, 225 210 C225 245, 210 268, 160 272 C110 268, 95 245, 95 210 Z" fill="url(#skin)"/>
+    <path d="M98 175 C88 120, 115 62, 160 52 C205 62, 232 120, 222 175 C215 130, 190 98, 160 94 C130 98, 105 130, 98 175 Z" fill="url(#hair)"/>
+    <path d="M98 175 C105 150, 125 132, 160 128 C195 132, 215 150, 222 175 C210 160, 185 148, 160 146 C135 148, 110 160, 98 175 Z" fill="#b8925a" fill-opacity="0.55"/>
+    <path d="M118 188 C130 182, 148 180, 160 181 C172 180, 190 182, 202 188" stroke="#c9a070" stroke-width="2" stroke-linecap="round"/>
+    <path d="M132 205 C138 212, 146 216, 160 216 C174 216, 182 212, 188 205" stroke="#b07d52" stroke-width="2.2" stroke-linecap="round"/>
+    <circle cx="136" cy="192" r="4" fill="#2a1f18"/>
+    <circle cx="184" cy="192" r="4" fill="#2a1f18"/>
+    <path d="M148 228 C154 236, 166 240, 160 240 C154 240, 166 236, 172 228" stroke="#a86f48" stroke-width="2" stroke-linecap="round"/>
+    <path d="M52 120 C90 70, 250 55, 285 115" stroke="#c8f16d" stroke-opacity="0.35" stroke-width="1.5" stroke-linecap="round"/>
+    <path d="M36 300 C120 255, 200 255, 284 300" stroke="#c8f16d" stroke-opacity="0.18" stroke-width="1.2" stroke-linecap="round"/>
+    <circle cx="268" cy="56" r="3" fill="#c8f16d" fill-opacity="0.7"/>
+    <circle cx="52" cy="88" r="2" fill="#d4a574" fill-opacity="0.8"/>
+  </g>
+</svg>

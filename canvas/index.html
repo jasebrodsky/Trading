@@ -104,6 +104,14 @@
       height: auto;
       opacity: 0.9;
     }
+    @media (min-width: 900px) {
+      .hero-visual svg {
+        right: 8%;
+        bottom: 4%;
+        width: min(72vw, 680px);
+        opacity: 0.55;
+      }
+    }
     .hero-visual path.curve {
       fill: none;
       stroke: var(--signal);
@@ -120,11 +128,163 @@
       opacity: 0.35;
       animation: pulseSoft 5s ease-in-out infinite;
     }
-    .hero-copy {
+    .hero-grid {
       position: relative;
       z-index: 1;
+      display: grid;
+      gap: clamp(2rem, 5vw, 3rem);
+      align-items: end;
+    }
+    @media (min-width: 900px) {
+      .hero-grid {
+        grid-template-columns: minmax(0, 1fr) minmax(220px, 300px);
+        align-items: center;
+        gap: clamp(2rem, 4vw, 3.5rem);
+      }
+    }
+    .hero-copy {
       max-width: 34rem;
       animation: riseIn 0.9s ease-out both;
+    }
+    .advisor-card {
+      position: relative;
+      display: grid;
+      gap: 1.1rem;
+      padding: clamp(1rem, 2.5vw, 1.35rem);
+      border: 1px solid var(--line);
+      border-radius: 1.15rem;
+      background:
+        linear-gradient(155deg, rgba(18, 28, 24, 0.92) 0%, rgba(11, 18, 16, 0.72) 100%);
+      backdrop-filter: blur(14px);
+      box-shadow: 0 24px 60px rgba(0, 0, 0, 0.28);
+      animation: riseIn 0.95s ease-out 0.12s both;
+      overflow: hidden;
+    }
+    .advisor-card::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse 90% 70% at 100% 0%, rgba(200, 241, 109, 0.14), transparent 55%);
+      pointer-events: none;
+    }
+    .advisor-card::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      border-radius: inherit;
+      box-shadow: inset 0 1px 0 rgba(215, 228, 220, 0.08);
+      pointer-events: none;
+    }
+    .advisor-card > * { position: relative; z-index: 1; }
+    .advisor-portrait {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 0.9rem 1rem;
+      align-items: center;
+    }
+    .portrait-frame {
+      position: relative;
+      width: 4.75rem;
+      aspect-ratio: 4 / 5;
+      border-radius: 0.85rem;
+      overflow: hidden;
+      flex-shrink: 0;
+      border: 1px solid rgba(200, 241, 109, 0.28);
+      box-shadow:
+        0 0 0 1px rgba(11, 18, 16, 0.45),
+        0 12px 28px rgba(0, 0, 0, 0.35),
+        0 0 32px rgba(200, 241, 109, 0.1);
+    }
+    .portrait-frame img,
+    .portrait-frame svg {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .portrait-frame .portrait-accent {
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--signal), var(--copper));
+      opacity: 0.9;
+    }
+    .advisor-identity {
+      min-width: 0;
+    }
+    .advisor-eyebrow {
+      margin: 0 0 0.2rem;
+      font-size: 0.68rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--signal);
+      font-weight: 600;
+    }
+    .advisor-name {
+      margin: 0;
+      font-family: var(--display);
+      font-size: clamp(1.2rem, 2.4vw, 1.45rem);
+      line-height: 1.05;
+      letter-spacing: -0.02em;
+      color: var(--mist);
+    }
+    .advisor-role {
+      margin: 0.25rem 0 0;
+      font-size: 0.82rem;
+      color: var(--fog);
+    }
+    .advisor-quote {
+      margin: 0;
+      padding: 0.85rem 0 0;
+      border-top: 1px solid var(--line);
+      font-family: var(--display);
+      font-size: clamp(0.98rem, 2vw, 1.08rem);
+      line-height: 1.4;
+      color: var(--mist);
+    }
+    .advisor-quote::before {
+      content: "“";
+      color: var(--signal);
+      margin-right: 0.1rem;
+    }
+    .advisor-quote::after {
+      content: "”";
+      color: var(--signal);
+      margin-left: 0.05rem;
+    }
+    .advisor-principles {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+    .advisor-principles li {
+      font-size: 0.72rem;
+      letter-spacing: 0.03em;
+      text-transform: uppercase;
+      font-weight: 600;
+      color: var(--ink);
+      background: rgba(200, 241, 109, 0.92);
+      padding: 0.22rem 0.5rem;
+      border-radius: 999px;
+    }
+    .advisor-principles li:nth-child(2) {
+      background: rgba(212, 165, 116, 0.92);
+    }
+    .advisor-principles li:nth-child(3) {
+      color: var(--mist);
+      background: rgba(215, 228, 220, 0.12);
+      border: 1px solid var(--line);
+    }
+    .advisor-meta {
+      margin: 0;
+      font-size: 0.76rem;
+      color: var(--fog);
+      line-height: 1.45;
     }
     .brand {
       font-family: var(--display);
@@ -593,15 +753,38 @@
         <path class="curve" d="M40 380 C 120 370, 170 250, 250 230 S 360 280, 420 210 S 530 70, 610 95 S 710 200, 760 150" />
       </svg>
     </div>
-    <div class="wrap hero-copy">
-      <h1 class="brand">Agentic<span>Overlay</span></h1>
-      <p class="lede">Delta-band covered calls and cash-secured puts — live ops, performance, premium ledger, and forward income.</p>
-      <div class="cta-row">
-        <a class="cta cta-primary" href="#ops">Ops &amp; callouts</a>
-        <a class="cta cta-ghost" href="#stats">Scoreboard</a>
-        <a class="cta cta-ghost" href="#returns">Returns</a>
-        <a class="cta cta-ghost" href="#outlook">Forward income</a>
+    <div class="wrap hero-grid">
+      <div class="hero-copy">
+        <h1 class="brand">Agentic<span>Overlay</span></h1>
+        <p class="lede">Delta-band covered calls and cash-secured puts — live ops, performance, premium ledger, and forward income.</p>
+        <div class="cta-row">
+          <a class="cta cta-primary" href="#ops">Ops &amp; callouts</a>
+          <a class="cta cta-ghost" href="#stats">Scoreboard</a>
+          <a class="cta cta-ghost" href="#returns">Returns</a>
+          <a class="cta cta-ghost" href="#outlook">Forward income</a>
+        </div>
       </div>
+
+      <aside class="advisor-card" aria-labelledby="advisor-name">
+        <div class="advisor-portrait">
+          <div class="portrait-frame">
+            <img src="assets/advisor-portrait.svg" width="320" height="400" alt="" decoding="async" />
+            <span class="portrait-accent" aria-hidden="true"></span>
+          </div>
+          <div class="advisor-identity">
+            <p class="advisor-eyebrow">Voice &amp; tone</p>
+            <h2 class="advisor-name" id="advisor-name">Suze Orman</h2>
+            <p class="advisor-role">Portfolio advisor · Slack automations</p>
+          </div>
+        </div>
+        <blockquote class="advisor-quote" id="advisorQuote">Protect people and principal first. Plain English on symbols, deltas, and dollars — never cute about real money.</blockquote>
+        <ul class="advisor-principles" aria-label="Advisor principles">
+          <li>Principal first</li>
+          <li>Plain English</li>
+          <li>Precise numbers</li>
+        </ul>
+        <p class="advisor-meta">Daily check · continue/stop · #portfolio-chat</p>
+      </aside>
     </div>
   </header>
 
@@ -2131,9 +2314,18 @@
     }
 
 
+    function renderAdvisorQuote(s) {
+      const quote = document.getElementById("advisorQuote");
+      if (!quote) return;
+      const loudest = s.callouts?.loudest;
+      quote.textContent = loudest
+        || "Protect people and principal first. Plain English on symbols, deltas, and dollars — never cute about real money.";
+    }
+
     function renderCallouts(s) {
       const c = s.callouts;
       if (!c) return;
+      renderAdvisorQuote(s);
       document.getElementById("loudest").textContent = c.loudest || "";
       const counts = c.counts || {};
       const items = [
