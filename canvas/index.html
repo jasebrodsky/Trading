@@ -76,9 +76,32 @@
       0%, 100% { opacity: 0.45; }
       50% { opacity: 0.85; }
     }
+    @keyframes chartReveal {
+      from { opacity: 0; filter: blur(10px); transform: translateY(28px) scale(0.97); }
+      to { opacity: 1; filter: blur(0); transform: none; }
+    }
+    @keyframes barRise {
+      from { transform: scaleY(0); opacity: 0; }
+      to { transform: scaleY(1); opacity: 1; }
+    }
+    @keyframes pathDraw {
+      to { stroke-dashoffset: 0; }
+    }
+    @keyframes dotPop {
+      from { transform: scale(0); opacity: 0; }
+      to { transform: scale(1); opacity: 1; }
+    }
+    @keyframes heatPop {
+      from { transform: scale(0.4); opacity: 0; }
+      to { transform: scale(1); opacity: 1; }
+    }
 
     .wrap {
       width: min(100% - 2 * var(--pad), var(--max));
+      margin-inline: auto;
+    }
+    .wrap-wide {
+      width: min(100% - 2 * var(--pad), 1280px);
       margin-inline: auto;
     }
 
@@ -210,6 +233,52 @@
     }
     @media (min-width: 720px) {
       .scoreboard { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+      .scoreboard-hero { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    }
+    @media (min-width: 980px) {
+      .scoreboard-hero { grid-template-columns: repeat(6, minmax(0, 1fr)); }
+    }
+
+    details.more-details {
+      border-top: 1px solid var(--line);
+      padding-top: 1rem;
+    }
+    details.more-details summary {
+      cursor: pointer;
+      color: var(--fog);
+      font-size: 0.92rem;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      list-style: none;
+    }
+    details.more-details summary::-webkit-details-marker { display: none; }
+    details.more-details summary:hover { color: var(--signal); }
+
+    .delta-zone {
+      display: inline-flex;
+      flex-wrap: nowrap;
+      align-items: center;
+      gap: 0.4rem;
+      white-space: nowrap;
+    }
+    .delta-zone .d {
+      font-variant-numeric: tabular-nums;
+      font-weight: 600;
+      min-width: 2.4ch;
+    }
+    .delta-zone .pill {
+      flex: 0 0 auto;
+    }
+    a.contract-link {
+      color: var(--mist);
+      text-decoration: none;
+      border-bottom: 1px dotted rgba(155, 176, 164, 0.45);
+    }
+    a.contract-link:hover {
+      color: var(--signal);
+      border-bottom-color: rgba(200, 241, 109, 0.55);
+      text-decoration: none;
     }
     .stat {
       padding: 0.25rem 0 1rem;
@@ -242,6 +311,27 @@
     .stat-value.up { color: var(--signal); }
     .stat-value.down { color: var(--danger); }
     .stat-value.muted { color: var(--copper); }
+    .stat-value.compact {
+      font-size: clamp(1.2rem, 2.6vw, 1.65rem);
+    }
+    .stat-value .cc-written {
+      display: inline-flex;
+      align-items: baseline;
+      gap: 0.35rem;
+      white-space: nowrap;
+      font-variant-numeric: tabular-nums;
+    }
+    .stat-value .cc-written .cc-sep {
+      color: var(--fog);
+      font-weight: 500;
+    }
+    .stat-value .cc-written .cc-pct {
+      font-size: 0.72em;
+      font-weight: 600;
+      color: var(--fog);
+      letter-spacing: 0;
+    }
+    .stat-value.up .cc-written .cc-pct { color: var(--signal); }
 
     .split {
       display: grid;
@@ -270,7 +360,107 @@
       font-weight: 500;
     }
     td.num, th.num { text-align: right; font-variant-numeric: tabular-nums; }
+    tfoot tr.book-totals td {
+      border-bottom: none;
+      border-top: 1px solid rgba(200, 241, 109, 0.35);
+      padding-top: 0.9rem;
+      font-weight: 600;
+      color: var(--mist);
+    }
+    tfoot tr.book-totals td:first-child {
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      font-size: 0.72rem;
+      color: var(--fog);
+      font-weight: 500;
+    }
+
+    /* Mobile: tables → stacked label/value cards */
+    @media (max-width: 720px) {
+      .chart-wrap svg { min-width: 0; }
+      .coverage-full table th:nth-child(3),
+      .coverage-full table td:nth-child(3) { min-width: 0; }
+
+      table.stack-mobile {
+        display: block;
+      }
+      table.stack-mobile thead {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        padding: 0;
+        margin: -1px;
+        overflow: hidden;
+        clip: rect(0, 0, 0, 0);
+        white-space: nowrap;
+        border: 0;
+      }
+      table.stack-mobile tbody {
+        display: block;
+      }
+      table.stack-mobile tbody tr {
+        display: block;
+        padding: 1.05rem 0 1.2rem;
+        border-bottom: 1px solid var(--line);
+      }
+      table.stack-mobile tbody tr:last-child {
+        border-bottom: none;
+      }
+      table.stack-mobile tbody td {
+        display: flex;
+        justify-content: space-between;
+        align-items: baseline;
+        gap: 0.85rem 1rem;
+        border: none;
+        padding: 0.32rem 0;
+        text-align: right;
+      }
+      table.stack-mobile tbody td.num {
+        text-align: right;
+      }
+      table.stack-mobile tbody td::before {
+        content: attr(data-label);
+        flex: 0 1 44%;
+        max-width: 11rem;
+        text-align: left;
+        font-size: 0.7rem;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+        color: var(--fog);
+        font-weight: 500;
+        line-height: 1.3;
+      }
+      table.stack-mobile tbody td:first-child {
+        display: block;
+        text-align: left;
+        font-size: 1.05rem;
+        padding: 0 0 0.65rem;
+        margin-bottom: 0.2rem;
+        border-bottom: 1px solid rgba(215, 228, 220, 0.1);
+      }
+      table.stack-mobile tbody td:first-child::before {
+        display: none;
+      }
+      table.stack-mobile tbody td .jump-links {
+        justify-content: flex-end;
+      }
+      table.stack-mobile tbody td .shares-sub {
+        display: inline;
+        margin-left: 0.4rem;
+      }
+    }
     .sym { font-weight: 600; color: var(--mist); }
+    a.sym {
+      color: var(--mist);
+      text-decoration: none;
+      border-bottom: 1px solid transparent;
+      transition: color 0.15s ease, border-color 0.15s ease;
+    }
+    a.sym:hover {
+      color: var(--signal);
+      border-bottom-color: rgba(200, 241, 109, 0.55);
+      text-decoration: none;
+    }
     .pill {
       display: inline-block;
       font-size: 0.72rem;
@@ -286,6 +476,85 @@
     .pill.harvest { background: var(--signal); }
     .pill.defend { background: var(--danger); color: #fff; }
     .pill.accum { background: var(--copper); }
+    .pill.fill-full {
+      background: rgba(200, 241, 109, 0.22);
+      color: var(--signal);
+      border: 1px solid rgba(200, 241, 109, 0.45);
+    }
+    .pill.watch-blackout {
+      background: var(--danger);
+      color: #fff;
+    }
+    .pill.watch-earnings {
+      background: #c4893a;
+      color: #1a1208;
+    }
+    .pill.watch-assignment {
+      background: #e07060;
+      color: #fff;
+    }
+    .pill.watch-tape {
+      background: #6b8a9e;
+      color: #0b1210;
+    }
+    .pill.watch-other {
+      background: rgba(215, 228, 220, 0.22);
+      color: var(--mist);
+      border: 1px solid rgba(215, 228, 220, 0.28);
+      text-transform: none;
+      letter-spacing: 0.02em;
+      font-weight: 500;
+    }
+
+    .sleeve-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      white-space: nowrap;
+    }
+    .sleeve-ico {
+      width: 1rem;
+      height: 1rem;
+      flex: 0 0 auto;
+      display: block;
+    }
+    .sleeve-badge.sleeve-conviction .sleeve-ico { color: var(--signal); }
+    .sleeve-badge.sleeve-income .sleeve-ico { color: var(--copper); }
+    .sleeve-badge.sleeve-accumulation .sleeve-ico { color: #9ec5ff; }
+    .sleeve-badge.sleeve-index .sleeve-ico { color: var(--fog); }
+
+    th.sortable-th {
+      cursor: pointer;
+      user-select: none;
+      position: relative;
+      padding-right: 1.15rem;
+    }
+    th.sortable-th:hover { color: var(--mist); }
+    th.sortable-th::after {
+      content: "↕";
+      position: absolute;
+      right: 0.2rem;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 0.65rem;
+      opacity: 0.35;
+    }
+    th.sortable-th.sort-asc::after { content: "↑"; opacity: 0.9; color: var(--signal); }
+    th.sortable-th.sort-desc::after { content: "↓"; opacity: 0.9; color: var(--signal); }
+
+    .watchout-legend {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.55rem 1rem;
+      margin-top: 0.85rem;
+      font-size: 0.78rem;
+      color: var(--fog);
+    }
+    .watchout-legend span {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
 
     .sleeve-grid {
       display: grid;
@@ -325,13 +594,18 @@
       flex-wrap: wrap;
       gap: 0.4rem;
     }
-    .names span {
+    .names span,
+    .names a.sym {
       font-size: 0.8rem;
       font-weight: 500;
       letter-spacing: 0.02em;
       color: var(--mist);
       border-bottom: 1px solid var(--line);
       padding-bottom: 0.1rem;
+    }
+    .names a.sym:hover {
+      color: var(--signal);
+      border-bottom-color: rgba(200, 241, 109, 0.55);
     }
 
     .band-list {
@@ -352,43 +626,6 @@
     }
     .band-zone { font-weight: 600; }
     .band-delta { color: var(--signal); font-variant-numeric: tabular-nums; }
-
-    .projects {
-      display: grid;
-      gap: 0;
-    }
-    .project {
-      display: grid;
-      grid-template-columns: 5.5rem 1fr;
-      gap: 1rem;
-      padding: 1.15rem 0;
-      border-bottom: 1px solid var(--line);
-      animation: riseIn 0.55s ease-out both;
-    }
-    @media (max-width: 560px) {
-      .project { grid-template-columns: 1fr; gap: 0.35rem; }
-    }
-    .status {
-      font-size: 0.72rem;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      font-weight: 600;
-      padding-top: 0.35rem;
-    }
-    .status.now { color: var(--signal); }
-    .status.next { color: var(--copper); }
-    .status.later { color: var(--fog); }
-    .status.done { color: #5f7568; }
-    .project h3 {
-      margin: 0 0 0.3rem;
-      font-size: 1.15rem;
-      font-weight: 600;
-    }
-    .project p {
-      margin: 0;
-      color: var(--fog);
-      font-size: 0.95rem;
-    }
 
     .wl {
       display: grid;
@@ -437,10 +674,166 @@
     .swatch.debit { background: var(--danger); }
     .swatch.income { background: var(--signal); }
     .swatch.apprec { background: var(--copper); }
+    .swatch.equity { background: var(--signal); }
+    .swatch.cash { background: var(--copper); }
+    .swatch.csp { background: #6b8a9e; }
+    .swatch.written { background: var(--signal); }
+    .swatch.idle { background: rgba(215,228,220,0.35); }
+    .swatch.conviction { background: var(--signal); }
+    .swatch.income-s { background: var(--copper); }
+    .swatch.accumulation { background: #9ec5ff; }
+    .swatch.index { background: var(--fog); }
+
+    .chart-grid {
+      display: grid;
+      gap: 1.75rem;
+      margin: 1.5rem 0 0;
+      align-items: start;
+    }
+    @media (min-width: 820px) {
+      .chart-grid {
+        grid-template-columns: 1fr 1fr;
+        grid-template-rows: auto auto;
+        column-gap: 2.75rem;
+        row-gap: 0.9rem;
+      }
+      .chart-grid > .pie-panel {
+        display: grid;
+        grid-template-rows: subgrid;
+        grid-row: span 2;
+        row-gap: 0.9rem;
+      }
+    }
+    .pie-panel {
+      min-width: 0;
+    }
+    .pie-panel .section-head {
+      margin-bottom: 0.75rem;
+      max-width: none !important;
+    }
+    @media (min-width: 820px) {
+      .pie-panel .section-head {
+        margin-bottom: 0;
+      }
+    }
+    .pie-panel .section-head p {
+      font-size: 0.92rem;
+      line-height: 1.4;
+    }
+    .pie-panel .book-panel-title {
+      font-size: clamp(1.15rem, 2vw, 1.4rem);
+    }
+    .pie-layout {
+      display: grid;
+      grid-template-columns: 200px minmax(0, 1fr);
+      gap: 0.85rem 1.15rem;
+      align-items: start;
+      overflow: visible;
+    }
+    .chart-wrap.pie-wrap {
+      flex: none;
+      width: 200px;
+      min-height: 200px;
+      opacity: 0;
+      transform: none;
+      overflow: visible;
+      position: relative;
+      margin-bottom: 0;
+    }
+    .chart-wrap.pie-wrap.is-visible {
+      opacity: 1;
+      transform: none;
+    }
+    .chart-wrap.pie-wrap canvas {
+      display: block;
+      width: 200px !important;
+      height: 200px !important;
+      max-width: 200px;
+      cursor: pointer;
+    }
+    .pie-legend {
+      display: flex;
+      flex-direction: column;
+      gap: 0.4rem;
+      min-width: 0;
+      padding-top: 0.35rem;
+      font-size: 0.84rem;
+      color: var(--mist);
+    }
+    .pie-legend-row {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      align-items: baseline;
+      gap: 0.65rem;
+      cursor: pointer;
+      border-radius: 6px;
+      padding: 0.2rem 0.35rem;
+      transition: background 0.15s ease, color 0.15s ease, opacity 0.15s ease;
+    }
+    .pie-legend-row:hover,
+    .pie-legend-row.is-hot {
+      background: rgba(200, 241, 109, 0.1);
+      color: var(--mist);
+    }
+    .pie-legend.is-filtering .pie-legend-row:not(.is-hot) {
+      opacity: 0.4;
+    }
+    .pie-legend-row .label {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      min-width: 0;
+      color: var(--fog);
+    }
+    .pie-legend-row.is-hot .label {
+      color: var(--mist);
+    }
+    .pie-legend-row .value {
+      font-variant-numeric: tabular-nums;
+      white-space: nowrap;
+      justify-self: end;
+    }
+    @media (max-width: 520px) {
+      .pie-layout {
+        grid-template-columns: 1fr;
+        justify-items: start;
+      }
+      .chart-wrap.pie-wrap,
+      .chart-wrap.pie-wrap canvas {
+        width: min(200px, 100%) !important;
+        height: auto !important;
+        min-height: 0;
+      }
+    }
+    table.sortable tbody tr {
+      transition: opacity 0.15s ease, background 0.15s ease, box-shadow 0.15s ease;
+    }
+    /* Row hover + pie-linked hot share the same active language */
+    table.sortable tbody tr:hover,
+    table.sortable tbody tr.is-row-hot,
+    table.sortable tbody tr.is-pie-hot {
+      background: rgba(200, 241, 109, 0.12);
+      box-shadow: inset 3px 0 0 var(--signal);
+    }
+    table.sortable tbody tr:hover,
+    table.sortable tbody tr.is-row-hot {
+      opacity: 1;
+    }
+    table.sortable tbody tr.is-pie-dim {
+      opacity: 0.38;
+    }
+    table.sortable tbody tr.is-pie-dim:hover,
+    table.sortable tbody tr.is-pie-dim.is-row-hot {
+      opacity: 1;
+    }
     .chart-wrap {
       width: 100%;
       overflow-x: auto;
       margin-bottom: 2rem;
+      opacity: 0.25;
+      transform: translateY(18px);
+      transition: opacity 0.2s ease;
+      position: relative;
     }
     .chart-wrap svg {
       display: block;
@@ -457,6 +850,76 @@
       font-size: 10px;
       letter-spacing: 0.04em;
       text-transform: uppercase;
+    }
+    .chart-wrap .month-hit {
+      cursor: pointer;
+      fill: transparent;
+    }
+    .chart-wrap .month-hit:hover {
+      fill: rgba(215, 228, 220, 0.06);
+    }
+    .chart-wrap.is-filtering .anim-bar:not(.is-month-hot),
+    .chart-wrap.is-filtering .anim-bar-down:not(.is-month-hot) {
+      opacity: 0.28 !important;
+    }
+    .chart-wrap .anim-bar.is-month-hot,
+    .chart-wrap .anim-bar-down.is-month-hot {
+      opacity: 1 !important;
+      filter: brightness(1.08);
+    }
+    .month-chart-tip {
+      position: absolute;
+      z-index: 5;
+      min-width: 10.5rem;
+      max-width: 16rem;
+      padding: 0.65rem 0.8rem;
+      border-radius: 8px;
+      border: 1px solid rgba(215, 228, 220, 0.18);
+      background: rgba(11, 18, 16, 0.94);
+      color: var(--mist);
+      font-size: 0.82rem;
+      line-height: 1.35;
+      pointer-events: none;
+      box-shadow: 0 10px 28px rgba(0, 0, 0, 0.35);
+      transform: translate(-50%, calc(-100% - 10px));
+    }
+    .month-chart-tip[hidden] { display: none; }
+    .month-chart-tip .tip-month {
+      margin: 0 0 0.4rem;
+      font-size: 0.68rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--copper);
+      font-weight: 600;
+    }
+    .month-chart-tip .tip-row {
+      display: flex;
+      justify-content: space-between;
+      gap: 1rem;
+      margin: 0.15rem 0;
+      color: var(--fog);
+    }
+    .month-chart-tip .tip-row strong {
+      color: var(--mist);
+      font-weight: 600;
+      font-variant-numeric: tabular-nums;
+    }
+    .month-chart-tip .tip-row.total {
+      margin-top: 0.35rem;
+      padding-top: 0.35rem;
+      border-top: 1px solid rgba(215, 228, 220, 0.14);
+      color: var(--mist);
+    }
+    .month-chart-tip .tip-row.total strong {
+      color: var(--signal);
+    }
+    .month-chart-tip .swatch {
+      width: 0.55rem;
+      height: 0.55rem;
+      border-radius: 2px;
+      display: inline-block;
+      margin-right: 0.35rem;
+      vertical-align: middle;
     }
     td.up { color: var(--signal); }
     td.down { color: var(--danger); }
@@ -512,6 +975,112 @@
       line-height: 1.35;
       color: var(--mist);
     }
+    .suze-pulse {
+      display: grid;
+      grid-template-columns: 7.5rem minmax(0, 1fr);
+      grid-template-areas:
+        "photo head"
+        "photo copy";
+      column-gap: 1.35rem;
+      row-gap: 0.55rem;
+      align-items: start;
+      margin: 0 0 2.25rem;
+      padding: 1.15rem 1.15rem 1.25rem;
+      border: 1px solid var(--line);
+      border-radius: 1rem;
+      background:
+        linear-gradient(145deg, rgba(212, 165, 116, 0.07), transparent 42%),
+        linear-gradient(180deg, rgba(18, 28, 24, 0.92), rgba(11, 18, 16, 0.55));
+      box-shadow: 0 18px 48px rgba(0, 0, 0, 0.22);
+    }
+    .suze-pulse-head {
+      grid-area: head;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.75rem;
+      margin: 0;
+      padding-top: 0.1rem;
+    }
+    .suze-pulse-label {
+      margin: 0;
+      font-size: 0.72rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--copper);
+      font-weight: 600;
+    }
+    .suze-listen {
+      appearance: none;
+      border: 1px solid rgba(212, 165, 116, 0.45);
+      background: transparent;
+      color: var(--copper);
+      font-family: var(--sans);
+      font-size: 0.68rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      font-weight: 600;
+      padding: 0.35rem 0.65rem;
+      border-radius: 999px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      flex-shrink: 0;
+    }
+    .suze-listen:hover {
+      border-color: var(--copper);
+      background: rgba(212, 165, 116, 0.1);
+    }
+    .suze-listen.is-playing {
+      border-color: var(--signal);
+      color: var(--signal);
+      background: rgba(200, 241, 109, 0.08);
+    }
+    .suze-listen:disabled {
+      opacity: 0.45;
+      cursor: not-allowed;
+    }
+    .suze-listen svg {
+      width: 0.85rem;
+      height: 0.85rem;
+      display: block;
+    }
+    .suze-pulse-photo {
+      grid-area: photo;
+      width: 7.5rem;
+      height: auto;
+      display: block;
+      margin: 0;
+      border-radius: 0.85rem;
+      box-shadow:
+        0 10px 28px rgba(0, 0, 0, 0.35),
+        0 0 0 1px rgba(212, 165, 116, 0.22);
+    }
+    .suze-pulse-body {
+      grid-area: copy;
+      margin: 0;
+      font-family: var(--display);
+      font-size: clamp(1.15rem, 2.4vw, 1.5rem);
+      line-height: 1.45;
+      color: var(--mist);
+      font-weight: 500;
+    }
+    @media (max-width: 520px) {
+      .suze-pulse {
+        grid-template-columns: 5.5rem minmax(0, 1fr);
+        grid-template-areas:
+          "photo head"
+          "copy copy";
+        padding: 1rem;
+      }
+      .suze-pulse-photo {
+        width: 5.5rem;
+      }
+      .suze-pulse-body {
+        font-size: clamp(1.05rem, 4.5vw, 1.25rem);
+      }
+    }
     .count-strip {
       display: flex;
       flex-wrap: wrap;
@@ -553,15 +1122,289 @@
     .prio.hold { color: var(--signal); }
     .heat-cell {
       display: inline-block;
-      width: 0.55rem;
-      height: 0.55rem;
-      border-radius: 2px;
-      margin-right: 0.15rem;
+      width: 0.85rem;
+      height: 0.85rem;
+      border-radius: 3px;
+      margin-right: 0.22rem;
       vertical-align: middle;
+      transform-origin: center;
     }
-    .heat-cell.on { background: var(--signal); }
+    .heat-cell.on { background: var(--signal); box-shadow: 0 0 10px rgba(200, 241, 109, 0.35); }
     .heat-cell.off { background: rgba(215,228,220,0.18); }
     .heat-cell.warn { background: var(--copper); }
+    .heat-cell.csp {
+      border-radius: 999px;
+      background: var(--copper);
+      box-shadow:
+        inset 0 0 0 1.5px rgba(11, 18, 16, 0.45),
+        0 0 12px rgba(212, 165, 116, 0.45);
+    }
+    .jump-links {
+      display: inline-flex;
+      flex-wrap: wrap;
+      gap: 0.35rem;
+    }
+    .jump-links a {
+      font-size: 0.68rem;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      padding: 0.2rem 0.45rem;
+      border-radius: 999px;
+      border: 1px solid var(--line);
+      color: var(--fog);
+      text-decoration: none;
+      transition: color 0.15s ease, border-color 0.15s ease, background 0.15s ease;
+    }
+    .jump-links a:hover {
+      color: var(--ink);
+      background: var(--signal);
+      border-color: transparent;
+      text-decoration: none;
+    }
+    .jump-links a.opt:hover {
+      background: var(--copper);
+      color: var(--ink);
+    }
+    .shares-sub {
+      display: block;
+      font-size: 0.72rem;
+      color: var(--fog);
+      font-weight: 400;
+      margin-top: 0.15rem;
+    }
+    .heat-legend {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem 1.35rem;
+      margin: 0.85rem 0 0;
+      font-size: 0.8rem;
+      color: var(--fog);
+    }
+    .heat-legend span {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+    .coverage-full .heat-cell {
+      width: 1rem;
+      height: 1rem;
+      margin-right: 0.28rem;
+    }
+    .coverage-full .cover-dots .heat-cell {
+      margin-right: 0;
+    }
+    .coverage-full.is-visible .heat-cell {
+      animation: heatPop 0.45s cubic-bezier(0.34, 1.4, 0.64, 1) both;
+      animation-delay: calc(var(--i, 0) * 18ms);
+    }
+    .coverage-full table th:nth-child(3),
+    .coverage-full table td:nth-child(3) { min-width: 10rem; }
+    .book-panel-title {
+      font-family: var(--display);
+      font-size: clamp(1.35rem, 2.5vw, 1.75rem);
+      margin: 0 0 0.35rem;
+      color: var(--mist);
+      font-weight: 500;
+    }
+    .cover-book {
+      display: inline-flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 0.45rem 0.65rem;
+      min-width: 0;
+      max-width: 100%;
+    }
+    .cover-book .cover-ratio {
+      font-variant-numeric: tabular-nums;
+      font-size: 0.88rem;
+      color: var(--mist);
+      flex: 0 0 auto;
+      white-space: nowrap;
+    }
+    .cover-book .cover-dots {
+      display: inline-flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 0.3rem 0.26rem;
+      line-height: 1;
+      max-width: 100%;
+    }
+    .cover-book .cover-dots .heat-cell {
+      margin-right: 0;
+      margin-bottom: 0;
+    }
+    .watchout-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0.28rem;
+      max-width: 18rem;
+    }
+    .watchout-list .pill {
+      align-self: flex-start;
+      white-space: normal;
+      line-height: 1.35;
+      max-width: 100%;
+    }
+
+    /* Tooltips */
+    .tip {
+      position: relative;
+      cursor: help;
+      border-bottom: 1px dotted rgba(155, 176, 164, 0.55);
+    }
+    .tip-bubble {
+      position: absolute;
+      left: 0;
+      bottom: calc(100% + 0.55rem);
+      z-index: 40;
+      width: max(14rem, min(22rem, 70vw));
+      padding: 0.7rem 0.85rem;
+      border-radius: 10px;
+      background: #15221c;
+      border: 1px solid rgba(200, 241, 109, 0.28);
+      color: var(--mist);
+      font-family: var(--sans);
+      font-size: 0.78rem;
+      font-weight: 400;
+      letter-spacing: 0;
+      text-transform: none;
+      line-height: 1.45;
+      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.45);
+      opacity: 0;
+      pointer-events: none;
+      transform: translateY(6px);
+      transition: opacity 0.18s ease, transform 0.18s ease;
+    }
+    .tip-bubble::after {
+      content: "";
+      position: absolute;
+      left: 1rem;
+      top: 100%;
+      border: 6px solid transparent;
+      border-top-color: #15221c;
+    }
+    .tip:hover .tip-bubble,
+    .tip:focus .tip-bubble,
+    .tip:focus-within .tip-bubble {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .stat-label .tip { border-bottom-color: rgba(155, 176, 164, 0.4); }
+
+    /* Account value — 3-line YTD stack */
+    .return-lines {
+      display: grid;
+      gap: 0;
+      margin: 0 0 1.5rem;
+      max-width: 36rem;
+    }
+    .return-line {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 1rem;
+      padding: 0.95rem 0;
+      border-bottom: 1px solid var(--line);
+      animation: riseIn 0.55s ease-out both;
+    }
+    .return-line:nth-child(1) { animation-delay: 0.05s; }
+    .return-line:nth-child(2) { animation-delay: 0.12s; }
+    .return-line:nth-child(3) {
+      animation-delay: 0.2s;
+      border-bottom: none;
+      padding-top: 1.15rem;
+      margin-top: 0.15rem;
+      border-top: 1px solid rgba(200, 241, 109, 0.28);
+    }
+    .return-line-label {
+      font-size: 0.82rem;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--fog);
+    }
+    .return-line-value {
+      font-family: var(--display);
+      font-size: clamp(1.45rem, 3vw, 2rem);
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      font-variant-numeric: tabular-nums;
+    }
+    .return-line.total .return-line-value { font-size: clamp(1.75rem, 3.5vw, 2.35rem); }
+    .return-line-value.up { color: var(--signal); }
+    .return-line-value.down { color: var(--danger); }
+    .return-line-value.muted { color: var(--copper); }
+
+    /* BP & collateral — stacked rows, not cramped 4-up */
+    .runway-board {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 0;
+    }
+    @media (min-width: 720px) {
+      .runway-board { grid-template-columns: 1fr 1fr; column-gap: 2.5rem; }
+    }
+    .runway-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 1rem;
+      padding: 1.05rem 0;
+      border-bottom: 1px solid var(--line);
+    }
+    .runway-row .stat-label { margin-bottom: 0; }
+    .runway-row .stat-value {
+      font-size: clamp(1.35rem, 2.5vw, 1.75rem);
+      text-align: right;
+    }
+    .runway-note {
+      margin-top: 1rem;
+      color: var(--fog);
+      font-size: 0.85rem;
+      max-width: 40rem;
+    }
+
+    /* Chart scroll animations */
+    .chart-wrap.is-visible {
+      opacity: 1;
+      transform: none;
+      animation: chartReveal 0.85s cubic-bezier(0.16, 1, 0.3, 1) both;
+    }
+    .chart-wrap.is-visible .anim-bar {
+      transform-box: fill-box;
+      transform-origin: 50% 100%;
+      animation: barRise 0.8s cubic-bezier(0.22, 1.2, 0.36, 1) both;
+      animation-delay: calc(var(--i, 0) * 45ms + 120ms);
+    }
+    .chart-wrap.is-visible .anim-bar-down {
+      transform-origin: 50% 0%;
+    }
+    .chart-wrap.is-visible .anim-path {
+      stroke-dasharray: 1400;
+      stroke-dashoffset: 1400;
+      animation: pathDraw 1.35s cubic-bezier(0.4, 0, 0.2, 1) 0.15s forwards;
+      filter: drop-shadow(0 0 12px rgba(200, 241, 109, 0.35));
+    }
+    .chart-wrap.is-visible .anim-dot {
+      transform-box: fill-box;
+      transform-origin: center;
+      animation: dotPop 0.45s cubic-bezier(0.34, 1.4, 0.64, 1) both;
+      animation-delay: calc(var(--i, 0) * 90ms + 0.85s);
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .chart-wrap,
+      .chart-wrap.is-visible,
+      .chart-wrap.is-visible .anim-bar,
+      .chart-wrap.is-visible .anim-path,
+      .chart-wrap.is-visible .anim-dot,
+      .coverage-full.is-visible .heat-cell {
+        animation: none !important;
+        opacity: 1 !important;
+        transform: none !important;
+        filter: none !important;
+        stroke-dashoffset: 0 !important;
+      }
+    }
     .bar-track {
       height: 0.45rem;
       background: rgba(215,228,220,0.12);
@@ -581,6 +1424,57 @@
       font-family: var(--display);
       font-size: 1.2rem;
     }
+
+    /* Multi-page shell */
+    .page-nav {
+      position: sticky;
+      top: 0;
+      z-index: 30;
+      backdrop-filter: blur(12px);
+      background: rgba(11, 18, 16, 0.82);
+      border-bottom: 1px solid var(--line);
+    }
+    .page-nav .wrap {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.35rem 0.75rem;
+      padding-top: 0.85rem;
+      padding-bottom: 0.85rem;
+      align-items: center;
+    }
+    .page-nav a {
+      font-size: 0.82rem;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      color: var(--fog);
+      text-decoration: none;
+      padding: 0.45rem 0.85rem;
+      border-radius: 999px;
+      border: 1px solid transparent;
+    }
+    .page-nav a:hover {
+      color: var(--mist);
+      text-decoration: none;
+    }
+    .page-nav a.is-active {
+      color: var(--ink);
+      background: var(--signal);
+      border-color: var(--signal);
+      font-weight: 600;
+    }
+    .page { display: none; }
+    .page.is-active {
+      display: block;
+      animation: riseIn 0.45s ease both;
+    }
+    .score-block + .score-block { margin-top: 2.5rem; }
+    .score-block-label {
+      font-size: 0.72rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--fog);
+      margin: 0 0 0.85rem;
+    }
   </style>
 </head>
 <body>
@@ -595,22 +1489,24 @@
     </div>
     <div class="wrap hero-copy">
       <h1 class="brand">Agentic<span>Overlay</span></h1>
-      <p class="lede">Delta-band covered calls and cash-secured puts — live ops, performance, premium ledger, and forward income.</p>
-      <div class="cta-row">
-        <a class="cta cta-primary" href="#ops">Ops &amp; callouts</a>
-        <a class="cta cta-ghost" href="#stats">Scoreboard</a>
-        <a class="cta cta-ghost" href="#returns">Returns</a>
-        <a class="cta cta-ghost" href="#outlook">Forward income</a>
-      </div>
+      <p class="lede">Scorecard for the book, then equities and the options program — totals first, details on their own pages.</p>
     </div>
   </header>
 
+  <nav class="page-nav" aria-label="Canvas pages">
+    <div class="wrap">
+      <a href="#scorecard" data-page="scorecard">Scorecard</a>
+      <a href="#equities" data-page="equities">Equities</a>
+      <a href="#options" data-page="options">Options</a>
+    </div>
+  </nav>
+
   <main>
-    <section id="stats">
+    <section class="page is-active" id="scorecard" data-page="scorecard">
       <div class="wrap">
         <div class="section-head">
-          <h2>Program scoreboard</h2>
-          <p>Snapshot of the Agentic options book — account value, premium realized, open credit, idle coverage, and YTD premium flow.</p>
+          <h2>Scorecard</h2>
+          <p>Account, equity book, and options program at a glance — no individual names.</p>
           <p class="meta" id="asOf">Loading…</p>
           <div class="refresh-bar">
             <button type="button" class="primary" id="btnReloadSnapshot">Reload snapshot</button>
@@ -619,185 +1515,203 @@
           </div>
         </div>
 
-        <div class="scoreboard" id="scoreboard"></div>
-
-        <div class="split split-2" style="margin-top: 3rem;">
-          <div>
-            <div class="section-head" style="margin-bottom: 1rem;">
-              <h2 style="font-size: clamp(1.5rem, 3vw, 2rem);">Open book</h2>
-              <p>Short options currently on — zone from |Δ| bands.</p>
-            </div>
-            <div id="openBook"></div>
+        <aside class="suze-pulse">
+          <div class="suze-pulse-head">
+            <p class="suze-pulse-label">Suze Orman pulse</p>
+            <button type="button" class="suze-listen" data-suze-target="suzePulseScorecard" aria-label="Listen to Suze Orman pulse">
+              <svg viewBox="0 0 16 16" aria-hidden="true"><path fill="currentColor" d="M3.5 4.8v6.4h2.4L10 15V1L5.9 4.8H3.5Zm8.2 1.1a3.2 3.2 0 0 1 0 4.2l.9.9a4.5 4.5 0 0 0 0-6l-.9.9Zm-1.5 1.5a1.2 1.2 0 0 1 0 1.2l1 .7a2.5 2.5 0 0 0 0-2.6l-1 .7Z"/></svg>
+              <span>Listen</span>
+            </button>
           </div>
-          <div>
-            <div class="section-head" style="margin-bottom: 1rem;">
-              <h2 style="font-size: clamp(1.5rem, 3vw, 2rem);">Accumulation</h2>
-              <p>CSP wheel toward Conviction CC coverage.</p>
+          <img class="suze-pulse-photo" src="./assets/suze-orman.jpg?v=3" alt="Suze Orman" width="120" height="120" />
+          <p class="suze-pulse-body" id="suzePulseScorecard"></p>
+        </aside>
+        <div class="count-strip" id="zoneCounts" style="margin-top: -1rem; margin-bottom: 2rem;"></div>
+
+        <div class="score-block">
+          <p class="score-block-label">Account</p>
+          <div class="scoreboard scoreboard-hero" id="scoreboardAccount"></div>
+        </div>
+
+        <div class="score-block">
+          <p class="score-block-label">Equities</p>
+          <div class="scoreboard scoreboard-hero" id="scoreboardEquities"></div>
+        </div>
+
+        <div class="score-block">
+          <p class="score-block-label">Options program</p>
+          <div class="scoreboard scoreboard-hero" id="scoreboardOptions"></div>
+        </div>
+
+        <div class="score-block" style="margin-top: 3rem;">
+          <p class="score-block-label">YTD return</p>
+          <div class="return-lines" id="accountReturnLines"></div>
+        </div>
+
+        <div class="score-block" style="margin-top: 3rem;">
+          <p class="score-block-label">Mix</p>
+          <div class="chart-grid">
+            <div class="pie-panel">
+              <div class="section-head">
+                <h3 class="book-panel-title">Capital mix</h3>
+                <p>Equities, free cash, and cash reserved for CSPs.</p>
+              </div>
+              <div id="pieCapital"></div>
             </div>
-            <div id="accum"></div>
+            <div class="pie-panel">
+              <div class="section-head">
+                <h3 class="book-panel-title">YTD return mix</h3>
+                <p>Appreciation vs realized option income (absolute share of YTD move).</p>
+              </div>
+              <div id="pieReturn"></div>
+            </div>
           </div>
         </div>
 
-        <div class="wl" style="margin-top: 3rem;" id="winnersLosers"></div>
+        <div style="margin-top: 2.5rem;">
+          <div class="section-head" style="margin-bottom: 1rem; max-width: 40rem;">
+            <h3 class="book-panel-title">Month by month</h3>
+            <p>Appreciation vs option income — program totals only.</p>
+          </div>
+          <div class="legend-row">
+            <span><i class="swatch apprec" aria-hidden="true"></i> Appreciation</span>
+            <span><i class="swatch income" aria-hidden="true"></i> Option income</span>
+          </div>
+          <div class="chart-wrap" id="returnChart"></div>
+        </div>
+
+        <details class="more-details" style="margin-top: 2rem;">
+          <summary>Monthly ledger</summary>
+          <div id="ledgerTable" style="margin-top: 1rem;"></div>
+          <p class="ledger-note" id="ledgerNote"></p>
+        </details>
+
+        <p class="meta" style="margin-top: 2.5rem;">
+          Full rules in <a href="../docs/strategy.md">docs/strategy.md</a> · Autonomy: Tier C auto-place within gates.
+        </p>
       </div>
     </section>
 
-    <section id="ops">
+    <section class="page" id="equities" data-page="equities">
       <div class="wrap">
         <div class="section-head">
-          <h2>Ops &amp; callouts</h2>
-          <p>What needs attention — zone counts, coverage gaps, earnings blackouts, and BP runway.</p>
+          <h2>Equities</h2>
+          <p>Share book only — marks, weight, and unrealized P&amp;L vs average cost.</p>
         </div>
-
-        <p class="loudest" id="loudest"></p>
-        <div class="count-strip" id="zoneCounts"></div>
-        <ul class="action-list" id="actionList"></ul>
-
-        <div class="split split-2" style="margin-top: 3rem;">
-          <div>
-            <div class="section-head" style="margin-bottom: 1rem;">
-              <h2 style="font-size: clamp(1.5rem, 3vw, 2rem);">Coverage heatmap</h2>
-              <p>Idle vs covered CC capacity; earnings blackout flagged.</p>
-            </div>
-            <div id="coverageTable"></div>
+        <aside class="suze-pulse">
+          <div class="suze-pulse-head">
+            <p class="suze-pulse-label">Suze Orman pulse</p>
+            <button type="button" class="suze-listen" data-suze-target="suzePulseEquities" aria-label="Listen to Suze Orman pulse">
+              <svg viewBox="0 0 16 16" aria-hidden="true"><path fill="currentColor" d="M3.5 4.8v6.4h2.4L10 15V1L5.9 4.8H3.5Zm8.2 1.1a3.2 3.2 0 0 1 0 4.2l.9.9a4.5 4.5 0 0 0 0-6l-.9.9Zm-1.5 1.5a1.2 1.2 0 0 1 0 1.2l1 .7a2.5 2.5 0 0 0 0-2.6l-1 .7Z"/></svg>
+              <span>Listen</span>
+            </button>
           </div>
-          <div>
-            <div class="section-head" style="margin-bottom: 1rem;">
-              <h2 style="font-size: clamp(1.5rem, 3vw, 2rem);">BP &amp; collateral</h2>
-              <p>Cash, CSP notional, buffer headroom for the next put.</p>
+          <img class="suze-pulse-photo" src="./assets/suze-orman.jpg?v=3" alt="Suze Orman" width="120" height="120" />
+          <p class="suze-pulse-body" id="suzePulseEquities"></p>
+        </aside>
+        <div class="scoreboard scoreboard-hero" id="pageSummaryEquities" style="margin-bottom: 2.25rem;"></div>
+        <div class="chart-grid" style="margin-bottom: 2.5rem;">
+          <div class="pie-panel">
+            <div class="section-head">
+              <h3 class="book-panel-title">By sleeve</h3>
+              <p>Equity market value across conviction, income, and accumulation.</p>
             </div>
-            <div class="scoreboard" id="runwayBoard"></div>
-            <div id="assignmentRisks" style="margin-top: 1.5rem;"></div>
-            <div id="earningsPanel" style="margin-top: 1.5rem;"></div>
+            <div id="pieEquitySleeve"></div>
           </div>
+          <div class="pie-panel">
+            <div class="section-head">
+              <h3 class="book-panel-title">Top holdings</h3>
+              <p>Largest names by equity value — rest rolled into Other.</p>
+            </div>
+            <div id="pieEquityTop"></div>
+          </div>
+        </div>
+        <div class="coverage-full" id="equityBlock">
+          <div id="equityTable"></div>
         </div>
       </div>
     </section>
 
-    <section id="returns">
+    <section class="page" id="options" data-page="options">
       <div class="wrap">
         <div class="section-head">
-          <h2>Premium &amp; returns</h2>
-          <p>Month-to-month option credits vs debits, account value, and total return as appreciation plus realized option income.</p>
+          <h2>Options</h2>
+          <p>Covered-call capacity and cash-secured puts — the overlay book.</p>
+        </div>
+        <aside class="suze-pulse">
+          <div class="suze-pulse-head">
+            <p class="suze-pulse-label">Suze Orman pulse</p>
+            <button type="button" class="suze-listen" data-suze-target="suzePulseOptions" aria-label="Listen to Suze Orman pulse">
+              <svg viewBox="0 0 16 16" aria-hidden="true"><path fill="currentColor" d="M3.5 4.8v6.4h2.4L10 15V1L5.9 4.8H3.5Zm8.2 1.1a3.2 3.2 0 0 1 0 4.2l.9.9a4.5 4.5 0 0 0 0-6l-.9.9Zm-1.5 1.5a1.2 1.2 0 0 1 0 1.2l1 .7a2.5 2.5 0 0 0 0-2.6l-1 .7Z"/></svg>
+              <span>Listen</span>
+            </button>
+          </div>
+          <img class="suze-pulse-photo" src="./assets/suze-orman.jpg?v=3" alt="Suze Orman" width="120" height="120" />
+          <p class="suze-pulse-body" id="suzePulseOptions"></p>
+        </aside>
+        <div class="scoreboard scoreboard-hero" id="pageSummaryOptions" style="margin-bottom: 2.25rem;"></div>
+        <div class="chart-grid" style="margin-bottom: 2.5rem;">
+          <div class="pie-panel">
+            <div class="section-head">
+              <h3 class="book-panel-title">CC capacity</h3>
+              <p>Written covered calls vs idle slots still available.</p>
+            </div>
+            <div id="pieCcCapacity"></div>
+          </div>
+          <div class="pie-panel">
+            <div class="section-head">
+              <h3 class="book-panel-title">CSP collateral</h3>
+              <p>Cash reserved by open put — which underlyings tie up BP.</p>
+            </div>
+            <div id="pieCspCollateral"></div>
+          </div>
         </div>
 
-        <div class="scoreboard" id="ledgerScoreboard"></div>
-
-        <div style="margin-top: 3rem;">
-          <div class="section-head" style="margin-bottom: 0.75rem;">
-            <h2 style="font-size: clamp(1.5rem, 3vw, 2rem);">Credits vs debits</h2>
-            <p>Filled option premium by month — sells in, buys out.</p>
+        <div style="margin-bottom: 2.75rem;">
+          <div class="section-head" style="margin-bottom: 1rem; max-width: 44rem;">
+            <h3 class="book-panel-title">Month by month</h3>
+            <p>Option credits collected vs debits paid to close — how the overlay is performing each month.</p>
           </div>
           <div class="legend-row">
             <span><i class="swatch credit" aria-hidden="true"></i> Credits</span>
             <span><i class="swatch debit" aria-hidden="true"></i> Debits</span>
           </div>
           <div class="chart-wrap" id="premiumChart"></div>
+          <div id="optionsMonthTable" style="margin-top: 1.25rem;"></div>
+          <p class="meta" id="optionsMonthNote" style="margin-top: 0.75rem;"></p>
         </div>
 
-        <div style="margin-top: 2.5rem;">
-          <div class="section-head" style="margin-bottom: 0.75rem;">
-            <h2 style="font-size: clamp(1.5rem, 3vw, 2rem);">Total return stack</h2>
-            <p>Appreciation (Δ account value) stacked with realized option income.</p>
-          </div>
-          <div class="legend-row">
-            <span><i class="swatch apprec" aria-hidden="true"></i> Appreciation</span>
-            <span><i class="swatch income" aria-hidden="true"></i> Option income (realized)</span>
-          </div>
-          <div class="chart-wrap" id="returnChart"></div>
-        </div>
-
-        <div style="margin-top: 2.5rem;" id="ledgerTable"></div>
-        <p class="ledger-note" id="ledgerNote"></p>
-
-        <div style="margin-top: 3rem;">
-          <div class="section-head" style="margin-bottom: 0.75rem;">
-            <h2 style="font-size: clamp(1.5rem, 3vw, 2rem);">Performance pulse</h2>
-            <p>Run-rate income, sleeve split, unrealized equity, and roll quality.</p>
-          </div>
-          <div class="scoreboard" id="perfBoard"></div>
-          <div class="split split-2" style="margin-top: 2rem;">
-            <div>
-              <div class="section-head" style="margin-bottom: 0.75rem;">
-                <h2 style="font-size: clamp(1.25rem, 2.5vw, 1.6rem);">Sleeve income YTD</h2>
-              </div>
-              <div id="sleeveIncome"></div>
+        <div class="coverage-full" id="coverageBlock">
+          <div class="book-panel">
+            <div class="section-head" style="margin-bottom: 0.85rem; max-width: 44rem;">
+              <h3 class="book-panel-title">Covered calls</h3>
+              <p>Capacity vs written — filled dots are live CCs, empty dots are unused income slots.</p>
             </div>
-            <div>
-              <div class="section-head" style="margin-bottom: 0.75rem;">
-                <h2 style="font-size: clamp(1.25rem, 2.5vw, 1.6rem);">Capital mix</h2>
-              </div>
-              <div id="capitalMix"></div>
-            </div>
+            <div id="ccTable"></div>
           </div>
-          <div style="margin-top: 2rem;">
-            <div class="section-head" style="margin-bottom: 0.75rem;">
-              <h2 style="font-size: clamp(1.25rem, 2.5vw, 1.6rem);">Account value</h2>
-              <p>Points recorded on each canvas refresh.</p>
+
+          <div class="book-panel" style="margin-top: 2.75rem;">
+            <div class="section-head" style="margin-bottom: 0.85rem; max-width: 40rem;">
+              <h3 class="book-panel-title">Cash-secured puts</h3>
+              <p>Open puts and cash collateral — accumulation and income CSPs.</p>
             </div>
-            <div class="chart-wrap" id="equityCurveChart"></div>
-          </div>
-          <p class="ledger-note" id="perfNote"></p>
-        </div>
-
-      </div>
-    </section>
-
-    <section id="outlook">
-      <div class="wrap">
-        <div class="section-head">
-          <h2>Forward income</h2>
-          <p>Open extrinsic still in the book, idle-fill estimate, expiry calendar, and index sleeve path.</p>
-        </div>
-
-        <div class="scoreboard" id="forwardBoard"></div>
-        <p class="ledger-note" id="forwardNote"></p>
-
-        <div class="split split-2" style="margin-top: 2.5rem;">
-          <div>
-            <div class="section-head" style="margin-bottom: 1rem;">
-              <h2 style="font-size: clamp(1.5rem, 3vw, 2rem);">Expiry calendar</h2>
-              <p>Next shorts rolling off — what frees and what to rewrite.</p>
-            </div>
-            <div id="expiryCalendar"></div>
-          </div>
-          <div>
-            <div class="section-head" style="margin-bottom: 1rem;">
-              <h2 style="font-size: clamp(1.5rem, 3vw, 2rem);">Index sleeve</h2>
-              <p>SPY / RSP / ITOT shares and CSP progress.</p>
-            </div>
-            <div id="indexSleeve"></div>
+            <div id="cspTable"></div>
           </div>
         </div>
-      </div>
-    </section>
 
-    <section id="strategy">
-      <div class="wrap">
-        <div class="section-head">
-          <h2>Three sleeves</h2>
-          <p>Same harvest / hold / defend bands everywhere — only the entry delta changes by sleeve.</p>
+        <div style="margin-top: 3.25rem;">
+          <div class="section-head" style="margin-bottom: 1rem; max-width: 40rem;">
+            <h3 class="book-panel-title">BP &amp; collateral</h3>
+            <p>Cash reserved for puts and room for the next accumulation CSP.</p>
+          </div>
+          <div class="runway-board" id="runwayBoard"></div>
+          <p class="runway-note" id="runwayNote"></p>
+          <p class="meta" id="indexNote" style="margin-top: 0.75rem;"></p>
+          <div class="split split-2" style="margin-top: 1.5rem;">
+            <div id="assignmentRisks"></div>
+            <div id="earningsPanel"></div>
+          </div>
         </div>
-        <div class="sleeve-grid" id="sleeves"></div>
-
-        <div class="section-head" style="margin-top: 3.5rem;">
-          <h2>Delta bands</h2>
-          <p>Act after a full session outside band, or if Δ moved ≥0.10 from entry since last review.</p>
-        </div>
-        <div class="band-list" id="bands"></div>
-        <p class="meta" style="margin-top: 1.25rem;">
-          Full rules in <a href="../docs/strategy.md">docs/strategy.md</a> · Autonomy: Tier C auto-place within gates.
-        </p>
-      </div>
-    </section>
-
-    <section id="projects">
-      <div class="wrap">
-        <div class="section-head">
-          <h2>Future projects</h2>
-          <p>Roadmap for the overlay — edit <code>docs/projects.md</code> and <code>canvas/data/projects.json</code>.</p>
-        </div>
-        <div class="projects" id="projectsList"></div>
       </div>
     </section>
   </main>
@@ -809,6 +1723,7 @@
     </div>
   </footer>
 
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
   <script type="application/json" id="snapshot-fallback">
 {
   "asOf": "2026-07-24T20:15:00-04:00",
@@ -1714,95 +2629,6 @@
 }
   </script>
 
-  <script type="application/json" id="projects-fallback">
-[
-  {
-    "id": "strategy-canvas",
-    "status": "now",
-    "title": "Strategy canvas",
-    "blurb": "One reference surface for sleeves, bands, open book, and program stats.",
-    "links": ["canvas/index.html", "docs/strategy.md"]
-  },
-  {
-    "id": "idle-cc",
-    "status": "now",
-    "title": "Fill idle CC capacity",
-    "blurb": "Fill covered calls to full idle on liquid names when gates pass — skip thin tape.",
-    "links": ["docs/strategy.md#covered-call-book"]
-  },
-  {
-    "id": "amd-accum",
-    "status": "now",
-    "title": "AMD accumulation",
-    "blurb": "CSP open toward 100 shares; graduate to Conviction CC on assignment.",
-    "links": ["docs/strategy.md#accumulation-sleeve-csp-to-cc-wheel"]
-  },
-  {
-    "id": "meta-accum",
-    "status": "next",
-    "title": "META accumulation CSP",
-    "blurb": "Open when AMD slot frees and the ~$2k BP buffer still clears.",
-    "links": ["docs/strategy.md#accumulation-sleeve-csp-to-cc-wheel"]
-  },
-  {
-    "id": "index-sleeve",
-    "status": "next",
-    "title": "Index sleeve growth",
-    "blurb": "Prefer RSP then ITOT CSPs; buy SPY/RSP/ITOT with free cash and CC credits.",
-    "links": ["docs/strategy.md#index-sleeve-rebalance--accumulate"]
-  },
-  {
-    "id": "harvest-polish",
-    "status": "next",
-    "title": "Harvest automation polish",
-    "blurb": "Keep Slack action boards crisp for harvest-close-only vs full rewrite.",
-    "links": ["docs/slack-automations.md"]
-  },
-  {
-    "id": "live-refresh",
-    "status": "later",
-    "title": "Live canvas refresh",
-    "blurb": "Rewrite snapshot.json from Robinhood MCP after each daily check.",
-    "links": ["canvas/data/snapshot.json"]
-  },
-  {
-    "id": "coverage-heatmap",
-    "status": "done",
-    "title": "Coverage heatmap",
-    "blurb": "Per-symbol idle vs covered vs earnings blackout on the ops dashboard.",
-    "links": ["canvas/index.html#ops"]
-  },
-  {
-    "id": "ops-dashboard",
-    "status": "done",
-    "title": "Ops dashboard",
-    "blurb": "Callouts, BP runway, forward income, performance pulse, capital mix, equity curve.",
-    "links": ["canvas/index.html#ops", "canvas/index.html#outlook", "canvas/index.html#returns"]
-  },
-  {
-    "id": "premium-ledger",
-    "status": "done",
-    "title": "Premium ledger",
-    "blurb": "Month-to-month credits/debits, net income, account value, and appreciation + option income as total return.",
-    "links": ["canvas/index.html#returns", "canvas/data/snapshot.json"]
-  },
-  {
-    "id": "tier-c-slack",
-    "status": "done",
-    "title": "Tier C + Slack automations",
-    "blurb": "Daily report, continue/stop gate, and portfolio chat are live.",
-    "links": ["docs/slack-automations.md"]
-  },
-  {
-    "id": "three-sleeve",
-    "status": "done",
-    "title": "Three-sleeve model",
-    "blurb": "Conviction / Income / Accumulation + index CSP rules documented.",
-    "links": ["docs/strategy.md"]
-  }
-]
-  </script>
-
   <script>
     const money = (n, opts = {}) => {
       const abs = Math.abs(n);
@@ -1818,6 +2644,150 @@
     };
 
     const pct = (n) => `${n > 0 ? "+" : ""}${n.toFixed(1)}%`;
+
+    const GLOSSARY = {
+      "Unrealized %": "Unrealized P&L as a percent of equity cost basis.",
+      "Gainers / losers": "Equity names with positive vs negative unrealized P&L.",
+      "CC-eligible": "Holdings with ≥100 shares — enough for at least one covered call.",
+      "Under 100 sh": "Odd-lot / accumulation names that cannot write a covered call yet.",
+      "Mark P&L (open)": "Open shorts’ mark vs credit collected — paper P&L if closed now.",
+      "BP headroom": "Buying power above the program buffer target.",
+      "Equity value": "Market value of long stock only — excludes option marks and cash.",
+      "Unrealized P&L": "Open gain/loss on the equity book vs average cost — not yet sold.",
+      "Names": "Count of equity positions with shares.",
+      "Equity % account": "Equity market value as a percent of total account value.",
+      "CC written": "Covered-call contracts written vs total share capacity, with fill percent.",
+      "Open CSPs": "Number of short put contracts currently open.",
+      "CSP collateral": "Approximate cash reserved against open cash-secured puts.",
+      "Cash secured": "Cash reserved for this CSP — strike × 100 × contracts.",
+      "YTD total return": "YTD appreciation plus realized option income.",
+      "Account value": "Total brokerage account market value — equities, options marks, and cash.",
+      "Equities": "Market value of long stock and ETF shares (not option contracts).",
+      "Cash": "Settled and unsettled cash available in the Agentic account.",
+      "Buying power": "Cash left after CSP collateral is reserved. On this cash account, BP ≈ cash − put collateral.",
+      "Options realized MTD": "Realized profit/loss from closed option trades this calendar month.",
+      "Unrealized equity": "Open gain/loss on long stock vs average cost — not yet sold.",
+      "Open credit": "Premium originally collected when current short options were sold.",
+      "Open contracts": "Number of short option contracts currently open.",
+      "Idle CC capacity": "Unused covered-call contracts: floor(shares/100) minus short calls already on.",
+      "YTD option credits": "Premium received from filled option sells year-to-date.",
+      "YTD option debits": "Premium paid to buy back or open long options year-to-date.",
+      "YTD net premium": "Credits minus debits — cash flow from option fills, before stock P&L.",
+      "YTD realized options": "Closed-trade option P&L year-to-date (what you kept after buybacks).",
+      "YTD credits": "Premium received from filled option sells year-to-date.",
+      "YTD debits": "Premium paid on option fills year-to-date.",
+      "YTD net income": "Credits − debits for the year.",
+      "YTD option income": "Realized P&L on closed option trades year-to-date.",
+      "YTD appreciation": "Change in account value vs the prior tracked period (stock + cash move), separate from option closes.",
+      "YTD total return": "Appreciation + realized option income — the full YTD return stack.",
+      "CSP collateral": "Cash locked to secure short puts (≈ strike × 100 × contracts).",
+      "BP headroom": "Buying power above the ~$2k buffer kept free for safety.",
+      "Next accum (META)": "Estimated cash needed to open the next accumulation CSP (META) including the buffer.",
+      "Accum fits?": "Whether current BP can fund the next accumulation CSP without breaching the buffer.",
+      "Realized 30d": "Option P&L realized in the last ~30 days.",
+      "Realized 90d": "Option P&L realized in the last ~90 days.",
+      "Run-rate ann.": "Last ~30d realized option income annualized — illustrative, not a forecast.",
+      "Run-rate % acct": "Annualized run-rate as a percent of current account value.",
+      "Avg credit kept": "Average dollars kept per closed short after buy-to-close.",
+      "Keep rate": "Average percent of original credit retained on closes.",
+      "Open extrinsic": "Time value still left in open short options (mark − intrinsic).",
+      "Mark P&L (open)": "Open shorts’ mark vs credit collected — paper P&L if closed now.",
+      "Idle contracts": "Covered-call contracts you could sell but haven’t yet.",
+      "Last": "Latest equity mark used for market value.",
+      "Shares": "Long share quantity in the Agentic account.",
+      "Weight": "This holding as a percent of total equity market value.",
+      "Equity $": "Market value of the long stock position (shares × last).",
+      "Avg cost": "Average cost basis per share.",
+      "P&L": "Unrealized gain or loss vs average cost (not tax advice).",
+      "Idle": "Unused covered-call contracts (capacity − covered). Fully filled when every slot is written.",
+      "Cover": "Covered/capacity and fill % — plus the heat-dot book of written vs idle slots.",
+      "Watchouts": "Strategy exceptions — blackout, earnings watch, assignment, thin tape, or other.",
+      "Credits": "Premium collected from opening short options that month.",
+      "Debits": "Premium paid to buy back / close short options that month.",
+      "Net income": "Credits minus debits for the month (cash premium flow).",
+      "Option income": "Realized P&L on closed option trades that month.",
+      "Premium": "Original credit collected on open short options for this symbol.",
+      "DTE": "Days to expiration on the open short(s). A range means multiple expirations.",
+      "|Δ|": "Short option delta magnitude — higher means closer to assignment / more directional.",
+      "Idle-fill estimate": "Rough one-cycle premium if idle CC capacity were filled — not a quote.",
+      "If idle filled (illust.)": "Illustrative: recent realized + idle-fill estimate if capacity were written.",
+      "Option premium": "YTD realized option income — what closed trades actually kept.",
+      "Appreciation": "YTD change in account value from the underlying book (vs prior snapshot baseline).",
+      "Total": "Appreciation + option premium — combined YTD return.",
+      "Delta": "Approximate probability the option finishes in-the-money; also rate of option price change vs $1 stock move.",
+      "Conviction": "Lower entry delta sleeve — preserve upside on names you want to keep.",
+      "Income": "Higher entry delta sleeve — maximize premium; assignment is acceptable.",
+      "Accumulation": "CSP sleeve to buy Conviction candidates below 100 shares.",
+      "Index": "Index CSP / ETF sleeve — diversified ballast (SPY, RSP, ITOT).",
+      "Harvest": "Short |Δ| below 0.12 — buy to close dead premium and rewrite.",
+      "Hold": "Short |Δ| between 0.12 and 0.45 — no trade.",
+      "Defend": "Short |Δ| above 0.45 — buy back / roll to protect shares.",
+      "CC": "Covered call — short call against ≥100 long shares.",
+      "CSP": "Cash-secured put — short put collateralized by cash, often to acquire shares.",
+    };
+
+    function withTip(label) {
+      const text = GLOSSARY[label];
+      if (!text) return label;
+      return `<span class="tip" tabindex="0">${label}<span class="tip-bubble" role="tooltip">${text}</span></span>`;
+    }
+
+    function rhStockUrl(symbol) {
+      return `https://robinhood.com/us/en/stocks/${encodeURIComponent(symbol)}/`;
+    }
+
+    function rhOptionsUrl(symbol) {
+      return `https://robinhood.com/us/en/options/chains/${encodeURIComponent(symbol)}/`;
+    }
+
+    function symLink(symbol) {
+      if (!symbol) return "";
+      return `<a class="sym" href="${rhStockUrl(symbol)}" target="_blank" rel="noopener noreferrer" title="Open ${symbol} equity on Robinhood">${symbol}</a>`;
+    }
+
+    function jumpLinks(symbol) {
+      if (!symbol) return "";
+      return `<span class="jump-links">
+        <a href="${rhStockUrl(symbol)}" target="_blank" rel="noopener noreferrer">Equity</a>
+        <a class="opt" href="${rhOptionsUrl(symbol)}" target="_blank" rel="noopener noreferrer">Options</a>
+      </span>`;
+    }
+
+    function sleeveLabel(sleeve) {
+      if (!sleeve) return "—";
+      const key = String(sleeve).toLowerCase();
+      const title = key.charAt(0).toUpperCase() + key.slice(1);
+      const icons = {
+        conviction: `<svg class="sleeve-ico" viewBox="0 0 16 16" aria-hidden="true"><path fill="currentColor" d="M8 1.2 13.2 3.4v4.1c0 3.2-2.1 5.9-5.2 6.9C4.9 13.4 2.8 10.7 2.8 7.5V3.4L8 1.2Zm0 1.7L4.2 4.3v3.2c0 2.3 1.4 4.3 3.8 5.1 2.4-.8 3.8-2.8 3.8-5.1V4.3L8 2.9Z"/></svg>`,
+        income: `<svg class="sleeve-ico" viewBox="0 0 16 16" aria-hidden="true"><path fill="currentColor" d="M8 1.2A6.8 6.8 0 1 0 8 14.8 6.8 6.8 0 0 0 8 1.2Zm0 1.5a5.3 5.3 0 1 1 0 10.6A5.3 5.3 0 0 1 8 2.7Zm-.1 1.6h.2c1.5 0 2.5.7 2.5 1.9 0 .9-.5 1.4-1.4 1.7l-.4.1c.9.2 1.5.7 1.5 1.7 0 1.3-1.1 2-2.6 2v.9H7.1v-.9c-1.5-.1-2.5-.8-2.6-2h1.4c.1.6.6 1 1.4 1h.2c.8 0 1.3-.3 1.3-.9s-.5-.9-1.5-1.1l-.5-.1c-1-.2-1.7-.7-1.7-1.8 0-1.2 1-1.9 2.5-2V4.3h1.3v.9Zm.1 1.2c-.8 0-1.3.3-1.3.8s.5.8 1.4.9l.3.1c.8-.2 1.2-.5 1.2-.9s-.5-.9-1.6-.9Z"/></svg>`,
+        accumulation: `<svg class="sleeve-ico" viewBox="0 0 16 16" aria-hidden="true"><path fill="currentColor" d="M8 1.4 14 5.2v1.3L8 2.9 2 6.5V5.2L8 1.4Zm0 3.3 6 3.8v1.3L8 6.2 2 9.8V8.5L8 4.7Zm0 3.3 6 3.8V13L8 9.5 2 13v-1.2L8 8Z"/></svg>`,
+        index: `<svg class="sleeve-ico" viewBox="0 0 16 16" aria-hidden="true"><path fill="currentColor" d="M2.2 12.8V7.4h2.2v5.4H2.2Zm4.7 0V3.2h2.2v9.6H6.9Zm4.7 0V5.6h2.2v7.2h-2.2Z"/></svg>`,
+      };
+      const icon = icons[key] || "";
+      return `<span class="sleeve-badge sleeve-${key}">${icon}${withTip(title)}</span>`;
+    }
+
+    function observeRevealables() {
+      const nodes = document.querySelectorAll(".chart-wrap, .coverage-full");
+      if (!nodes.length) return;
+      if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+        nodes.forEach((n) => n.classList.add("is-visible"));
+        return;
+      }
+      if (!observeRevealables._io) {
+        observeRevealables._io = new IntersectionObserver((entries) => {
+          entries.forEach((e) => {
+            if (!e.isIntersecting) return;
+            e.target.classList.add("is-visible");
+            observeRevealables._io.unobserve(e.target);
+          });
+        }, { threshold: 0.28, rootMargin: "0px 0px -8% 0px" });
+      }
+      nodes.forEach((n) => {
+        if (n.classList.contains("is-visible")) return;
+        observeRevealables._io.observe(n);
+      });
+    }
 
     async function loadJson(url, fallbackId) {
       try {
@@ -1835,37 +2805,131 @@
       return `<span class="pill ${cls}">${zone}</span>`;
     }
 
-    function renderScoreboard(s) {
-      const p = s.portfolio;
-      const g = s.program;
-      const pnl = s.pnl;
-      const ytd = s.ledger?.ytd;
-      const items = [
-        { label: "Account value", value: money(p.totalValue) },
-        { label: "Equities", value: money(p.equityValue) },
-        { label: "Cash", value: money(p.cash) },
-        { label: "Buying power", value: money(p.buyingPower), tone: "muted" },
-        { label: "Options realized MTD", value: money(pnl.realizedMtdOptions), tone: "up" },
-        { label: "Unrealized equity", value: money(pnl.unrealizedEquity ?? pnl.unrealizedEquitySample ?? 0), tone: toneClass(pnl.unrealizedEquity ?? pnl.unrealizedEquitySample ?? 0) },
-        { label: "Open credit", value: money(g.openCredit), tone: "up" },
-        { label: "Open contracts", value: String(g.openContracts) },
-        { label: "Idle CC capacity", value: String(g.idleCcContracts), tone: "muted" },
-      ];
-      if (ytd) {
-        items.push(
-          { label: "YTD option credits", value: money(ytd.credits), tone: "up" },
-          { label: "YTD option debits", value: money(ytd.debits), tone: ytd.debits ? "down" : "" },
-          { label: "YTD net premium", value: money(ytd.netIncome), tone: ytd.netIncome >= 0 ? "up" : "down" },
-          { label: "YTD realized options", value: money(ytd.realizedOptions), tone: "up" },
-        );
-      }
-      document.getElementById("scoreboard").innerHTML = items.map((it) => `
+    function fillScoreboard(el, items) {
+      if (!el) return;
+      el.innerHTML = items.map((it) => `
         <div class="stat">
-          <span class="stat-label">${it.label}</span>
-          <div class="stat-value ${it.tone || ""}">${it.value}</div>
+          <span class="stat-label">${withTip(it.label)}</span>
+          <div class="stat-value ${it.tone || ""} ${it.compact ? "compact" : ""}">${it.value}</div>
+          ${it.sub ? `<span class="shares-sub">${it.sub}</span>` : ""}
         </div>
       `).join("");
-      document.getElementById("asOf").textContent = s.asOfLabel;
+    }
+
+    function formatCcWrittenStat(covered, capacity, fillPct) {
+      if (!capacity && !covered) return "0/0";
+      if (!capacity) return `${covered}/0`;
+      return `<span class="cc-written"><span class="cc-ratio">${covered}/${capacity}</span><span class="cc-sep">·</span><span class="cc-pct">${fillPct}%</span></span>`;
+    }
+
+    function renderScoreboard(s) {
+      const p = s.portfolio || {};
+      const g = s.program || {};
+      const ytd = s.ledger?.ytd || {};
+      const f = s.forward || {};
+      const perf = s.performance || {};
+      const rwy = s.runway || {};
+      const eqList = (s.equities && s.equities.length) ? s.equities : [];
+      const held = eqList.filter((e) => (e.shares || 0) > 0.001);
+      const equityValue = p.equityValue ?? held.reduce((sum, e) => sum + (e.marketValue || 0), 0);
+      const unrealized = perf.unrealizedEquity ?? held.reduce((sum, e) => sum + (e.unrealized || 0), 0);
+      const names = held.length;
+      const covered = (s.coverage || []).reduce((sum, c) => sum + (c.covered || 0), 0);
+      const capacity = (s.coverage || []).reduce((sum, c) => sum + (c.capacity || 0), 0);
+      const idle = g.idleCcContracts ?? Math.max(0, capacity - covered);
+      const openPuts = (s.openBook || []).filter((o) => o.optionType === "put" || o.role === "CSP")
+        .reduce((sum, o) => sum + (o.qty || 1), 0);
+      const fillPct = capacity ? Math.round((covered / capacity) * 100) : 0;
+      const costBasis = held.reduce((sum, e) => {
+        if (e.avgCost != null && e.shares) return sum + e.avgCost * e.shares;
+        if (e.unrealized != null && e.marketValue != null) return sum + (e.marketValue - e.unrealized);
+        return sum;
+      }, 0);
+      const unrealizedPct = costBasis ? (unrealized / costBasis) * 100 : null;
+      const gainers = held.filter((e) => (e.unrealized || 0) > 0).length;
+      const losers = held.filter((e) => (e.unrealized || 0) < 0).length;
+      const ccEligible = held.filter((e) => (e.shares || 0) >= 100).length;
+      const oddLots = held.filter((e) => (e.shares || 0) > 0.001 && (e.shares || 0) < 100).length;
+
+      const equityItems = [
+        { label: "Equity value", value: money(equityValue) },
+        { label: "Unrealized P&L", value: money(unrealized), tone: toneClass(unrealized) },
+        {
+          label: "Unrealized %",
+          value: unrealizedPct == null ? "—" : `${unrealizedPct >= 0 ? "+" : ""}${unrealizedPct.toFixed(1)}%`,
+          tone: toneClass(unrealizedPct),
+        },
+        { label: "Names", value: String(names) },
+        { label: "Equity % account", value: p.totalValue ? `${((equityValue / p.totalValue) * 100).toFixed(0)}%` : "—", tone: "muted" },
+      ];
+
+      const equityPageItems = [
+        ...equityItems,
+        { label: "Gainers / losers", value: `${gainers} / ${losers}`, tone: "muted" },
+        { label: "CC-eligible", value: String(ccEligible), tone: "muted" },
+        { label: "Under 100 sh", value: String(oddLots), tone: oddLots ? "muted" : "" },
+      ];
+
+      const idleItem = {
+        label: "Idle CC capacity",
+        value: idle === 0 && capacity > 0 ? "Fully filled" : String(idle),
+        tone: idle === 0 && capacity > 0 ? "up" : "muted",
+      };
+      if (f.idleFillEstimate && idle > 0) idleItem.sub = `est. fill ${money(f.idleFillEstimate)}`;
+
+      const optionsItems = [
+        { label: "Open credit", value: money(g.openCredit), tone: "up" },
+        {
+          label: "CC written",
+          value: formatCcWrittenStat(covered, capacity, fillPct),
+          tone: fillPct >= 100 ? "up" : "muted",
+          compact: true,
+        },
+        idleItem,
+        { label: "Open CSPs", value: String(openPuts) },
+        { label: "CSP collateral", value: money(g.cspCollateralApprox || rwy.cspCollateral || 0), tone: "muted" },
+        { label: "YTD net premium", value: money(ytd.netIncome ?? 0), tone: (ytd.netIncome ?? 0) >= 0 ? "up" : "down" },
+      ];
+
+      const optionsPageItems = [
+        { label: "Open credit", value: money(g.openCredit), tone: "up" },
+        {
+          label: "Mark P&L (open)",
+          value: moneyOrDash(f.markPnL),
+          tone: toneClass(f.markPnL),
+        },
+        {
+          label: "CC written",
+          value: formatCcWrittenStat(covered, capacity, fillPct),
+          tone: fillPct >= 100 ? "up" : "muted",
+          compact: true,
+        },
+        idleItem,
+        { label: "Open CSPs", value: String(openPuts) },
+        { label: "CSP collateral", value: money(g.cspCollateralApprox || rwy.cspCollateral || 0), tone: "muted" },
+        {
+          label: "BP headroom",
+          value: moneyOrDash(rwy.bpHeadroom),
+          tone: rwy.bpHeadroom != null && rwy.bpBufferTarget != null
+            ? (rwy.bpHeadroom > rwy.bpBufferTarget ? "up" : "down")
+            : "muted",
+        },
+        { label: "YTD net premium", value: money(ytd.netIncome ?? 0), tone: (ytd.netIncome ?? 0) >= 0 ? "up" : "down" },
+      ];
+
+      fillScoreboard(document.getElementById("scoreboardAccount"), [
+        { label: "Account value", value: money(p.totalValue) },
+        { label: "Cash", value: money(p.cash) },
+        { label: "Buying power", value: money(p.buyingPower), tone: "muted" },
+        { label: "YTD total return", value: moneyOrDash(ytd.totalReturn ?? perf.totalReturnYtd), tone: toneClass(ytd.totalReturn ?? perf.totalReturnYtd) },
+      ]);
+      fillScoreboard(document.getElementById("scoreboardEquities"), equityItems);
+      fillScoreboard(document.getElementById("scoreboardOptions"), optionsItems);
+      fillScoreboard(document.getElementById("pageSummaryEquities"), equityPageItems);
+      fillScoreboard(document.getElementById("pageSummaryOptions"), optionsPageItems);
+
+      const asOf = document.getElementById("asOf");
+      if (asOf) asOf.textContent = s.asOfLabel;
     }
 
     function moneyOrDash(n) {
@@ -1877,7 +2941,447 @@
       return n > 0 ? "up" : "down";
     }
 
+    const pieRegistry = [];
+
+    const pieCenterTextPlugin = {
+      id: "pieCenterText",
+      afterDraw(chart) {
+        const opts = chart.options.plugins?.pieCenterText;
+        if (!opts?.label) return;
+        const { ctx, chartArea } = chart;
+        if (!chartArea) return;
+        const cx = (chartArea.left + chartArea.right) / 2;
+        const cy = (chartArea.top + chartArea.bottom) / 2;
+        ctx.save();
+        ctx.textAlign = "center";
+        ctx.textBaseline = "middle";
+        ctx.fillStyle = "#d7e4dc";
+        ctx.font = "600 15px Sora, sans-serif";
+        ctx.fillText(opts.label, cx, opts.sub ? cy - 8 : cy);
+        if (opts.sub) {
+          ctx.fillStyle = "#9bb0a4";
+          ctx.font = "500 11px Sora, sans-serif";
+          ctx.fillText(opts.sub, cx, cy + 12);
+        }
+        ctx.restore();
+      },
+    };
+
+    function destroyPieCharts() {
+      const tables = new Set(
+        pieRegistry.map((e) => e.tableSelector).filter(Boolean)
+      );
+      while (pieRegistry.length) {
+        const entry = pieRegistry.pop();
+        try { entry.chart?.destroy(); } catch (_) { /* already gone */ }
+      }
+      tables.forEach((sel) => clearLinkedTable(sel));
+    }
+
+    function rowMatchesHighlight(tr, highlight) {
+      if (!tr || !highlight) return false;
+      const type = highlight.type;
+      if (type === "symbol") return tr.dataset.symbol === highlight.value;
+      if (type === "sleeve") return (tr.dataset.sleeve || "").toLowerCase() === String(highlight.value).toLowerCase();
+      if (type === "symbols") return (highlight.values || []).includes(tr.dataset.symbol);
+      if (type === "symbols-exclude") {
+        const sym = tr.dataset.symbol;
+        return !!sym && !(highlight.values || []).includes(sym);
+      }
+      return false;
+    }
+
+    function clearLinkedTable(tableSelector) {
+      if (!tableSelector) return;
+      document.querySelectorAll(`${tableSelector} tbody tr`).forEach((tr) => {
+        tr.classList.remove("is-pie-hot", "is-pie-dim");
+      });
+    }
+
+    function highlightLinkedTable(tableSelector, highlight) {
+      if (!tableSelector) return;
+      const rows = [...document.querySelectorAll(`${tableSelector} tbody tr`)];
+      if (!rows.length) return;
+      if (highlight == null) {
+        clearLinkedTable(tableSelector);
+        return;
+      }
+      let any = false;
+      rows.forEach((tr) => {
+        const match = rowMatchesHighlight(tr, highlight);
+        tr.classList.toggle("is-pie-hot", match);
+        tr.classList.toggle("is-pie-dim", !match);
+        if (match) any = true;
+      });
+      if (!any) clearLinkedTable(tableSelector);
+    }
+
+    function withAlpha(color, alpha) {
+      if (!color || typeof color !== "string") return color;
+      if (color.startsWith("rgba(")) {
+        return color.replace(
+          /rgba\(\s*([\d.]+)\s*,\s*([\d.]+)\s*,\s*([\d.]+)\s*,\s*[\d.]+\s*\)/,
+          `rgba($1, $2, $3, ${alpha})`
+        );
+      }
+      if (color.startsWith("rgb(")) {
+        return color.replace(
+          /rgb\(\s*([\d.]+)\s*,\s*([\d.]+)\s*,\s*([\d.]+)\s*\)/,
+          `rgba($1, $2, $3, ${alpha})`
+        );
+      }
+      if (color[0] === "#") {
+        let hex = color.slice(1);
+        if (hex.length === 3) hex = hex.split("").map((c) => c + c).join("");
+        if (hex.length !== 6) return color;
+        const r = parseInt(hex.slice(0, 2), 16);
+        const g = parseInt(hex.slice(2, 4), 16);
+        const b = parseInt(hex.slice(4, 6), 16);
+        return `rgba(${r}, ${g}, ${b}, ${alpha})`;
+      }
+      return color;
+    }
+
+    function applyPieSliceEmphasis(entry, hotIndex) {
+      const ds = entry.chart?.data?.datasets?.[0];
+      if (!ds) return;
+      const base = entry.baseColors || entry.cleaned.map((s) => s.color);
+      if (hotIndex == null) {
+        ds.backgroundColor = base.slice();
+        ds.hoverBackgroundColor = base.slice();
+      } else {
+        ds.backgroundColor = base.map((c, i) => (i === hotIndex ? c : withAlpha(c, 0.38)));
+        ds.hoverBackgroundColor = ds.backgroundColor.slice();
+      }
+    }
+
+    function setPieActive(entry, index) {
+      const next = index == null || index < 0 ? null : index;
+      if (entry.hotIndex === next) return;
+      entry.hotIndex = next;
+
+      const { chart, host, cleaned, tableSelector } = entry;
+      const legend = host.querySelector(".pie-legend");
+      host.querySelectorAll(".pie-legend-row").forEach((row) => {
+        const i = Number(row.dataset.slice);
+        row.classList.toggle("is-hot", next != null && i === next);
+      });
+      if (legend) legend.classList.toggle("is-filtering", next != null);
+
+      applyPieSliceEmphasis(entry, next);
+
+      if (next == null) {
+        chart.setActiveElements([]);
+        chart.tooltip?.setActiveElements([], { x: 0, y: 0 });
+        chart.update("none");
+        // Only clear the table if no other pie sharing it is still hot.
+        const stillHot = pieRegistry.some(
+          (e) => e !== entry && e.tableSelector === tableSelector && e.hotIndex != null
+        );
+        if (!stillHot) highlightLinkedTable(tableSelector, null);
+        return;
+      }
+
+      const meta = chart.getDatasetMeta(0);
+      const el = meta.data[next];
+      if (!el) return;
+      chart.setActiveElements([{ datasetIndex: 0, index: next }]);
+      chart.tooltip?.setActiveElements([{ datasetIndex: 0, index: next }], {
+        x: el.x,
+        y: el.y,
+      });
+      chart.update("none");
+      highlightLinkedTable(tableSelector, cleaned[next]?.highlight || null);
+    }
+
+    function renderPieChart(host, slices, opts = {}) {
+      if (!host) return;
+      if (typeof Chart === "undefined") {
+        host.innerHTML = `<p class="empty">Chart library failed to load.</p>`;
+        return;
+      }
+      const cleaned = (slices || [])
+        .map((s) => ({ ...s, value: Math.max(0, Number(s.value) || 0) }))
+        .filter((s) => s.value > 0);
+      if (!cleaned.length) {
+        host.innerHTML = `<p class="empty">${opts.empty || "No data for chart."}</p>`;
+        return;
+      }
+      const total = cleaned.reduce((sum, s) => sum + s.value, 0);
+      if (!total) {
+        host.innerHTML = `<p class="empty">${opts.empty || "No data for chart."}</p>`;
+        return;
+      }
+
+      const formatValue = opts.formatValue || ((v) => money(v));
+      const legend = cleaned.map((s, i) => {
+        const pct = ((s.value / total) * 100).toFixed(0);
+        return `<div class="pie-legend-row" data-slice="${i}" tabindex="0" role="button" aria-label="${s.label}">
+          <span class="label"><i class="swatch" style="background:${s.color}" aria-hidden="true"></i>${s.label}</span>
+          <span class="value">${formatValue(s.value)} · ${pct}%</span>
+        </div>`;
+      }).join("");
+
+      host.innerHTML = `
+        <div class="pie-layout">
+          <div class="chart-wrap pie-wrap">
+            <canvas aria-label="${opts.aria || "Pie chart"}" role="img"></canvas>
+          </div>
+          <div class="pie-legend">${legend}</div>
+        </div>`;
+
+      const canvas = host.querySelector("canvas");
+      const baseColors = cleaned.map((s) => s.color);
+      const entry = {
+        chart: null,
+        host,
+        cleaned,
+        baseColors,
+        tableSelector: opts.tableSelector || null,
+        hotIndex: null,
+      };
+      const chart = new Chart(canvas, {
+        type: "doughnut",
+        data: {
+          labels: cleaned.map((s) => s.label),
+          datasets: [{
+            data: cleaned.map((s) => s.value),
+            backgroundColor: baseColors.slice(),
+            hoverBackgroundColor: baseColors.slice(),
+            borderColor: "#0b1210",
+            borderWidth: 2,
+            hoverOffset: 4,
+            hoverBorderColor: "rgba(200, 241, 109, 0.85)",
+            hoverBorderWidth: 2,
+          }],
+        },
+        plugins: [pieCenterTextPlugin],
+        options: {
+          responsive: true,
+          maintainAspectRatio: true,
+          aspectRatio: 1,
+          cutout: "58%",
+          layout: {
+            // Room for modest hoverOffset inside the fixed 200px canvas
+            padding: 8,
+          },
+          animation: {
+            duration: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? 0 : 450,
+          },
+          plugins: {
+            legend: { display: false },
+            tooltip: {
+              backgroundColor: "rgba(11, 18, 16, 0.94)",
+              titleColor: "#d7e4dc",
+              bodyColor: "#9bb0a4",
+              borderColor: "rgba(215, 228, 220, 0.18)",
+              borderWidth: 1,
+              padding: 10,
+              displayColors: true,
+              callbacks: {
+                label(ctx) {
+                  const value = ctx.raw || 0;
+                  const pct = total ? ((value / total) * 100).toFixed(0) : "0";
+                  return ` ${formatValue(value)} · ${pct}%`;
+                },
+              },
+            },
+            pieCenterText: {
+              label: opts.centerLabel || "",
+              sub: opts.centerSub || "",
+            },
+          },
+          onHover(evt, elements) {
+            const idx = elements[0]?.index;
+            setPieActive(entry, idx == null ? null : idx);
+            if (evt?.native?.target) {
+              evt.native.target.style.cursor = elements.length ? "pointer" : "default";
+            }
+          },
+        },
+      });
+      entry.chart = chart;
+      pieRegistry.push(entry);
+
+      const clear = () => setPieActive(entry, null);
+      canvas.addEventListener("mouseleave", clear);
+
+      host.querySelectorAll(".pie-legend-row").forEach((row) => {
+        const idx = Number(row.dataset.slice);
+        row.addEventListener("mouseenter", () => setPieActive(entry, idx));
+        row.addEventListener("mouseleave", clear);
+        row.addEventListener("focus", () => setPieActive(entry, idx));
+        row.addEventListener("blur", clear);
+      });
+
+      if (opts.tableSelector) {
+        wireTableToPies(opts.tableSelector);
+      }
+    }
+
+    function wireTableToPies(tableSelector) {
+      const root = document.querySelector(tableSelector);
+      if (!root || root.dataset.pieBridge === "1") return;
+      root.dataset.pieBridge = "1";
+      root.addEventListener("mouseover", (e) => {
+        const tr = e.target.closest("tbody tr");
+        if (!tr || !root.contains(tr)) return;
+        if (root._pieBridgeTr === tr) return;
+        root._pieBridgeTr = tr;
+        pieRegistry
+          .filter((entry) => entry.tableSelector === tableSelector)
+          .forEach((entry) => {
+            const idx = entry.cleaned.findIndex((s) => rowMatchesHighlight(tr, s.highlight));
+            setPieActive(entry, idx >= 0 ? idx : null);
+          });
+      });
+      root.addEventListener("mouseleave", () => {
+        root._pieBridgeTr = null;
+        pieRegistry
+          .filter((entry) => entry.tableSelector === tableSelector)
+          .forEach((entry) => setPieActive(entry, null));
+      });
+    }
+
+    const PIE_COLORS = {
+      equity: "#c8f16d",
+      cash: "#d4a574",
+      csp: "#6b8a9e",
+      apprec: "#d4a574",
+      income: "#c8f16d",
+      conviction: "#c8f16d",
+      incomeSleeve: "#d4a574",
+      accumulation: "#9ec5ff",
+      index: "#9bb0a4",
+      written: "#c8f16d",
+      idle: "rgba(215,228,220,0.35)",
+      top: ["#c8f16d", "#d4a574", "#9ec5ff", "#6b8a9e", "#e0c08a", "#8fbfa0", "#c4893a"],
+      other: "rgba(215,228,220,0.28)",
+    };
+
+    function renderVisualCharts(s) {
+      destroyPieCharts();
+      const p = s.portfolio || {};
+      const g = s.program || {};
+      const ytd = s.ledger?.ytd || {};
+      const perf = s.performance || {};
+      const cap = s.capital || {};
+      const eqList = (s.equities && s.equities.length) ? s.equities : [];
+      const held = eqList.filter((e) => (e.shares || 0) > 0.001 && (e.marketValue || 0) > 0);
+      const covered = (s.coverage || []).reduce((sum, c) => sum + (c.covered || 0), 0);
+      const capacity = (s.coverage || []).reduce((sum, c) => sum + (c.capacity || 0), 0);
+      const idle = g.idleCcContracts ?? Math.max(0, capacity - covered);
+
+      const equityValue = cap.equityValue ?? p.equityValue ?? held.reduce((sum, e) => sum + (e.marketValue || 0), 0);
+      const cash = cap.cash ?? p.cash ?? 0;
+      const cspCollateral = cap.cspCollateral ?? g.cspCollateralApprox ?? s.runway?.cspCollateral ?? 0;
+      const freeCash = Math.max(0, cash - cspCollateral);
+
+      renderPieChart(document.getElementById("pieCapital"), [
+        { label: "Equities", value: equityValue, color: PIE_COLORS.equity },
+        { label: "Free cash", value: freeCash, color: PIE_COLORS.cash },
+        { label: "CSP collateral", value: cspCollateral, color: PIE_COLORS.csp },
+      ], {
+        aria: "Capital mix pie chart",
+        centerLabel: money(p.totalValue),
+        centerSub: "account",
+      });
+
+      const premium = Math.abs(ytd.realizedOptions ?? perf.realizedYtdOptions ?? 0);
+      const apprec = Math.abs(ytd.appreciation ?? perf.appreciationYtd ?? 0);
+      renderPieChart(document.getElementById("pieReturn"), [
+        { label: "Appreciation", value: apprec, color: PIE_COLORS.apprec },
+        { label: "Option income", value: premium, color: PIE_COLORS.income },
+      ], {
+        aria: "YTD return mix pie chart",
+        centerLabel: moneyOrDash(ytd.totalReturn ?? perf.totalReturnYtd),
+        centerSub: "YTD total",
+        empty: "No YTD appreciation or option income yet.",
+      });
+
+      const sleeveVals = { conviction: 0, income: 0, accumulation: 0, index: 0 };
+      for (const e of held) {
+        const key = (e.sleeve || "income").toLowerCase();
+        if (sleeveVals[key] == null) sleeveVals.income += e.marketValue || 0;
+        else sleeveVals[key] += e.marketValue || 0;
+      }
+      renderPieChart(document.getElementById("pieEquitySleeve"), [
+        { label: "Conviction", value: sleeveVals.conviction, color: PIE_COLORS.conviction, highlight: { type: "sleeve", value: "conviction" } },
+        { label: "Income", value: sleeveVals.income, color: PIE_COLORS.incomeSleeve, highlight: { type: "sleeve", value: "income" } },
+        { label: "Accumulation", value: sleeveVals.accumulation, color: PIE_COLORS.accumulation, highlight: { type: "sleeve", value: "accumulation" } },
+        { label: "Index", value: sleeveVals.index, color: PIE_COLORS.index, highlight: { type: "sleeve", value: "index" } },
+      ], {
+        aria: "Equity value by sleeve",
+        centerLabel: money(held.reduce((sum, e) => sum + (e.marketValue || 0), 0)),
+        centerSub: "equities",
+        tableSelector: "#equityTable",
+      });
+
+      const ranked = [...held].sort((a, b) => (b.marketValue || 0) - (a.marketValue || 0));
+      const topN = ranked.slice(0, 5);
+      const topSymbols = topN.map((e) => e.symbol);
+      const rest = ranked.slice(5).reduce((sum, e) => sum + (e.marketValue || 0), 0);
+      const topSlices = topN.map((e, i) => ({
+        label: e.symbol,
+        value: e.marketValue || 0,
+        color: PIE_COLORS.top[i % PIE_COLORS.top.length],
+        highlight: { type: "symbol", value: e.symbol },
+      }));
+      if (rest > 0) {
+        topSlices.push({
+          label: "Other",
+          value: rest,
+          color: PIE_COLORS.other,
+          highlight: { type: "symbols-exclude", values: topSymbols },
+        });
+      }
+      renderPieChart(document.getElementById("pieEquityTop"), topSlices, {
+        aria: "Top equity holdings",
+        centerLabel: `${held.length}`,
+        centerSub: "names",
+        tableSelector: "#equityTable",
+      });
+
+      renderPieChart(document.getElementById("pieCcCapacity"), [
+        { label: "Written", value: covered, color: PIE_COLORS.written },
+        { label: "Idle", value: idle, color: PIE_COLORS.idle },
+      ], {
+        aria: "Covered call capacity utilization",
+        centerLabel: capacity ? `${Math.round((covered / capacity) * 100)}%` : "—",
+        centerSub: "filled",
+        formatValue: (v) => `${v}`,
+        empty: "No covered-call capacity.",
+      });
+
+      const byOpt = openBookIndex(s.openBook);
+      const cspSlices = Object.entries(byOpt)
+        .filter(([, row]) => (row.putCollateral || 0) > 0)
+        .map(([symbol, row], i) => ({
+          label: symbol,
+          value: row.putCollateral,
+          color: PIE_COLORS.top[i % PIE_COLORS.top.length],
+          highlight: { type: "symbol", value: symbol },
+        }))
+        .sort((a, b) => b.value - a.value);
+      renderPieChart(document.getElementById("pieCspCollateral"), cspSlices, {
+        aria: "CSP collateral by symbol",
+        centerLabel: money(cspSlices.reduce((sum, x) => sum + x.value, 0)),
+        centerSub: "secured",
+        empty: "No open cash-secured puts.",
+        tableSelector: "#cspTable",
+      });
+
+      renderPremiumChart(s.ledger?.months || []);
+      renderOptionsMonthTable(s);
+    }
+
     function renderPremiumChart(months) {
+      const host = document.getElementById("premiumChart");
+      if (!host) return;
+      if (!months?.length) {
+        host.innerHTML = "";
+        return;
+      }
       const W = 720, H = 220;
       const pad = { t: 16, r: 16, b: 36, l: 52 };
       const plotW = W - pad.l - pad.r;
@@ -1899,21 +3403,141 @@
         const cx = pad.l + groupW * i + groupW / 2;
         const cH = ((m.credits || 0) / maxV) * plotH;
         const dH = ((m.debits || 0) / maxV) * plotH;
+        const i1 = i * 2;
+        const i2 = i * 2 + 1;
+        const net = (m.credits || 0) - (m.debits || 0);
+        const tip = monthTipHtml(m.label, [
+          { label: "Credits", value: money(m.credits), swatch: "#c8f16d" },
+          { label: "Debits", value: money(m.debits), swatch: "#e07060" },
+          { label: "Net", value: money(net), total: true },
+        ]);
         return `
-          <rect x="${cx - barW - 2}" y="${pad.t + plotH - cH}" width="${barW}" height="${cH}" fill="#c8f16d" opacity="0.92" />
-          <rect x="${cx + 2}" y="${pad.t + plotH - dH}" width="${barW}" height="${Math.max(dH, 0)}" fill="#e07060" opacity="0.9" />
-          <text x="${cx}" y="${H - 12}" text-anchor="middle">${m.label}</text>`;
+          <g class="month-group" data-month-i="${i}">
+            <rect class="anim-bar" data-month-i="${i}" style="--i:${i1}" x="${cx - barW - 2}" y="${pad.t + plotH - cH}" width="${barW}" height="${cH}" fill="#c8f16d" opacity="0.92" />
+            <rect class="anim-bar" data-month-i="${i}" style="--i:${i2}" x="${cx + 2}" y="${pad.t + plotH - dH}" width="${barW}" height="${Math.max(dH, 0)}" fill="#e07060" opacity="0.9" />
+            <rect class="month-hit" data-month-i="${i}" x="${pad.l + groupW * i}" y="${pad.t}" width="${groupW}" height="${plotH}" data-tip="${escapeAttr(tip)}" />
+            <text x="${cx}" y="${H - 12}" text-anchor="middle">${m.label}</text>
+          </g>`;
       }).join("");
 
-      document.getElementById("premiumChart").innerHTML = `
+      host.innerHTML = `
         <svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Monthly option credits versus debits">
           ${grid}
           ${bars}
           <text class="axis-label" x="${pad.l}" y="12">Premium ($)</text>
-        </svg>`;
+        </svg>
+        <div class="month-chart-tip" hidden></div>`;
+      wireMonthChartHover(host);
+    }
+
+    function escapeAttr(html) {
+      return html
+        .replace(/&/g, "&amp;")
+        .replace(/"/g, "&quot;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;");
+    }
+
+    function monthTipHtml(monthLabel, rows) {
+      const body = rows.map((r) => {
+        const sw = r.swatch
+          ? `<i class="swatch" style="background:${r.swatch}" aria-hidden="true"></i>`
+          : "";
+        return `<div class="tip-row${r.total ? " total" : ""}"><span>${sw}${r.label}</span><strong>${r.value}</strong></div>`;
+      }).join("");
+      return `<p class="tip-month">${monthLabel}</p>${body}`;
+    }
+
+    function wireMonthChartHover(host) {
+      const tip = host.querySelector(".month-chart-tip");
+      const svg = host.querySelector("svg");
+      if (!tip || !svg) return;
+
+      const clear = () => {
+        tip.hidden = true;
+        host.classList.remove("is-filtering");
+        host.querySelectorAll(".is-month-hot").forEach((n) => n.classList.remove("is-month-hot"));
+      };
+
+      const show = (hit, clientX, clientY) => {
+        const idx = hit.getAttribute("data-month-i");
+        tip.innerHTML = hit.getAttribute("data-tip")
+          .replace(/&quot;/g, '"')
+          .replace(/&lt;/g, "<")
+          .replace(/&gt;/g, ">")
+          .replace(/&amp;/g, "&");
+        tip.hidden = false;
+        host.classList.add("is-filtering");
+        host.querySelectorAll(".is-month-hot").forEach((n) => n.classList.remove("is-month-hot"));
+        host.querySelectorAll(`[data-month-i="${idx}"].anim-bar, [data-month-i="${idx}"].anim-bar-down`)
+          .forEach((n) => n.classList.add("is-month-hot"));
+
+        const hostBox = host.getBoundingClientRect();
+        let left = clientX - hostBox.left + host.scrollLeft;
+        const tipW = tip.offsetWidth || 160;
+        left = Math.max(tipW / 2 + 8, Math.min(left, host.scrollWidth - tipW / 2 - 8));
+        tip.style.left = `${left}px`;
+        tip.style.top = `${Math.max(12, clientY - hostBox.top - 8)}px`;
+      };
+
+      host.querySelectorAll(".month-hit").forEach((hit) => {
+        hit.addEventListener("mouseenter", (e) => show(hit, e.clientX, e.clientY));
+        hit.addEventListener("mousemove", (e) => show(hit, e.clientX, e.clientY));
+        hit.addEventListener("mouseleave", clear);
+      });
+    }
+
+    function renderOptionsMonthTable(s) {
+      const host = document.getElementById("optionsMonthTable");
+      const noteEl = document.getElementById("optionsMonthNote");
+      const months = s.ledger?.months;
+      if (!host) return;
+      if (!months?.length) {
+        host.innerHTML = emptyTable("No monthly option ledger yet.");
+        if (noteEl) noteEl.textContent = "";
+        return;
+      }
+      const ytd = s.ledger?.ytd || {};
+      const rows = months.map((m) => {
+        const hasActivity = m.credits || m.debits || m.netIncome;
+        const rowStyle = hasActivity ? "" : ' style="opacity:0.45"';
+        return `<tr${rowStyle}>
+          <td class="sym" data-sort="${m.month || m.label}">${m.label}</td>
+          <td class="num up" data-sort="${m.credits || 0}">${money(m.credits)}</td>
+          <td class="num ${m.debits ? "down" : ""}" data-sort="${m.debits || 0}">${money(m.debits)}</td>
+          <td class="num ${toneClass(m.netIncome)}" data-sort="${m.netIncome || 0}">${money(m.netIncome)}</td>
+          <td class="num ${toneClass(m.realizedOptions)}" data-sort="${m.realizedOptions || 0}">${money(m.realizedOptions)}</td>
+        </tr>`;
+      }).join("");
+      host.innerHTML = `
+        <table class="sortable">
+          <thead><tr>
+            <th>Month</th>
+            <th class="num">${withTip("Credits")}</th>
+            <th class="num">${withTip("Debits")}</th>
+            <th class="num">${withTip("Net income")}</th>
+            <th class="num">${withTip("Option income")}</th>
+          </tr></thead>
+          <tbody>${rows}</tbody>
+          <tfoot>
+            <tr class="book-totals">
+              <td>YTD</td>
+              <td class="num up">${money(ytd.credits)}</td>
+              <td class="num ${ytd.debits ? "down" : ""}">${money(ytd.debits)}</td>
+              <td class="num ${toneClass(ytd.netIncome)}">${money(ytd.netIncome)}</td>
+              <td class="num ${toneClass(ytd.realizedOptions)}">${money(ytd.realizedOptions)}</td>
+            </tr>
+          </tfoot>
+        </table>`;
+      if (noteEl) {
+        noteEl.textContent = s.ledger?.note
+          || "Credits/debits from filled option premiums. Net income = credits − debits. Option income is realized P&L on closed trades.";
+      }
     }
 
     function renderReturnChart(months) {
+      const host = document.getElementById("returnChart");
+      if (!host || !months?.length) return;
       const W = 720, H = 220;
       const pad = { t: 16, r: 16, b: 36, l: 52 };
       const plotW = W - pad.l - pad.r;
@@ -1944,6 +3568,7 @@
         const x = cx - barW / 2;
         let parts = "";
         let yUp = zeroY;
+        let bi = i * 4;
         for (const part of [
           { val: Math.max(0, v.ap), color: "#d4a574" },
           { val: Math.max(0, v.inc), color: "#c8f16d" },
@@ -1951,7 +3576,7 @@
           if (!part.val) continue;
           const h = part.val * scale;
           yUp -= h;
-          parts += `<rect x="${x}" y="${yUp}" width="${barW}" height="${h}" fill="${part.color}" opacity="0.92" />`;
+          parts += `<rect class="anim-bar" data-month-i="${i}" style="--i:${bi++}" x="${x}" y="${yUp}" width="${barW}" height="${h}" fill="${part.color}" opacity="0.92" />`;
         }
         let yDown = zeroY;
         for (const part of [
@@ -1960,45 +3585,41 @@
         ]) {
           if (!part.val) continue;
           const h = Math.abs(part.val) * scale;
-          parts += `<rect x="${x}" y="${yDown}" width="${barW}" height="${h}" fill="${part.color}" opacity="0.92" />`;
+          parts += `<rect class="anim-bar anim-bar-down" data-month-i="${i}" style="--i:${bi++}" x="${x}" y="${yDown}" width="${barW}" height="${h}" fill="${part.color}" opacity="0.92" />`;
           yDown += h;
         }
-        return `${parts}<text x="${cx}" y="${H - 12}" text-anchor="middle">${m.label}</text>`;
+        const tip = monthTipHtml(m.label, [
+          { label: "Appreciation", value: money(v.ap), swatch: "#d4a574" },
+          { label: "Option income", value: money(v.inc), swatch: "#c8f16d" },
+          { label: "Total", value: money(v.total), total: true },
+        ]);
+        return `
+          <g class="month-group" data-month-i="${i}">
+            ${parts}
+            <rect class="month-hit" data-month-i="${i}" x="${pad.l + groupW * i}" y="${pad.t}" width="${groupW}" height="${plotH}" data-tip="${escapeAttr(tip)}" />
+            <text x="${cx}" y="${H - 12}" text-anchor="middle">${m.label}</text>
+          </g>`;
       }).join("");
 
-      document.getElementById("returnChart").innerHTML = `
+      host.innerHTML = `
         <svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Monthly total return as appreciation plus option income">
           ${grid}
           <line x1="${pad.l}" x2="${W - pad.r}" y1="${zeroY}" y2="${zeroY}" stroke="rgba(215,228,220,0.35)" />
           ${bars}
           <text class="axis-label" x="${pad.l}" y="12">Return ($)</text>
-        </svg>`;
+        </svg>
+        <div class="month-chart-tip" hidden></div>`;
+      wireMonthChartHover(host);
     }
 
     function renderLedger(s) {
       const ledger = s.ledger;
       if (!ledger) return;
-      const ytd = ledger.ytd;
-      const items = [
-        { label: "YTD credits", value: money(ytd.credits), tone: "up" },
-        { label: "YTD debits", value: money(ytd.debits), tone: ytd.debits ? "down" : "" },
-        { label: "YTD net income", value: money(ytd.netIncome), tone: toneClass(ytd.netIncome) },
-        { label: "YTD option income", value: money(ytd.realizedOptions), tone: "up" },
-        { label: "Account value", value: money(ytd.endingValue) },
-        { label: "YTD appreciation", value: moneyOrDash(ytd.appreciation), tone: toneClass(ytd.appreciation) },
-        { label: "YTD total return", value: moneyOrDash(ytd.totalReturn), tone: toneClass(ytd.totalReturn) },
-        { label: "Open credit", value: money(ytd.openCredit), tone: "muted" },
-      ];
-      document.getElementById("ledgerScoreboard").innerHTML = items.map((it) => `
-        <div class="stat">
-          <span class="stat-label">${it.label}</span>
-          <div class="stat-value ${it.tone || ""}">${it.value}</div>
-        </div>
-      `).join("");
+      renderAccountReturnLines(s);
+      if (ledger.months) renderReturnChart(ledger.months);
 
-      renderPremiumChart(ledger.months);
-      renderReturnChart(ledger.months);
-
+      const tableHost = document.getElementById("ledgerTable");
+      if (!tableHost) return;
       const rows = ledger.months.map((m) => {
         const hasActivity = m.credits || m.debits || m.realizedOptions || m.totalValue != null;
         const rowStyle = hasActivity ? "" : ' style="opacity:0.45"';
@@ -2014,7 +3635,7 @@
         </tr>`;
       }).join("");
 
-      document.getElementById("ledgerTable").innerHTML = `
+      tableHost.innerHTML = `
         <table>
           <thead>
             <tr>
@@ -2030,111 +3651,335 @@
           </thead>
           <tbody>${rows}</tbody>
         </table>`;
-      document.getElementById("ledgerNote").textContent = ledger.note || "";
-    }
-
-    function renderOpenBook(s) {
-      if (!s.openBook?.length) {
-        document.getElementById("openBook").innerHTML = `<p class="empty">No open shorts.</p>`;
-        return;
-      }
-      const rows = s.openBook.map((o) => {
-        const extrinsic = o.extrinsic != null ? o.extrinsic : o.mark * 100 * o.qty;
-        const markPnL = o.credit - extrinsic;
-        const type = o.optionType === "put" ? "p" : "c";
-        return `<tr>
-          <td class="sym">${o.symbol}</td>
-          <td>${o.expiration.slice(5)} ${o.strike}${type} ×${o.qty}</td>
-          <td class="num">${o.dte}d</td>
-          <td class="num">${o.delta.toFixed(2)}</td>
-          <td class="num">${money(o.credit)}</td>
-          <td class="num">${money(extrinsic)}</td>
-          <td class="num ${markPnL >= 0 ? "up" : "down"}" style="color: ${markPnL >= 0 ? "var(--signal)" : "var(--danger)"}">${money(markPnL)}</td>
-          <td>${zonePill(o.zone)}</td>
-          <td>${o.sleeve}</td>
-        </tr>`;
-      }).join("");
-      document.getElementById("openBook").innerHTML = `
-        <table>
-          <thead>
-            <tr>
-              <th>Symbol</th><th>Contract</th><th class="num">DTE</th><th class="num">|Δ|</th>
-              <th class="num">Credit</th><th class="num">Extrinsic</th><th class="num">Mark P&amp;L</th><th>Zone</th><th>Sleeve</th>
-            </tr>
-          </thead>
-          <tbody>${rows}</tbody>
-        </table>`;
+      const note = document.getElementById("ledgerNote");
+      if (note) note.textContent = ledger.note || "";
     }
 
     function renderAccum(s) {
-      const rows = (s.program.accumulation || []).map((a) => `
-        <tr>
-          <td class="sym">${a.symbol}</td>
-          <td class="num">${a.shares} / ${a.need}</td>
-          <td><span class="pill accum">${a.csp}</span></td>
-          <td>${a.note || ""}</td>
-        </tr>
-      `).join("");
-      document.getElementById("accum").innerHTML = `
-        <table>
-          <thead><tr><th>Symbol</th><th class="num">Shares</th><th>CSP</th><th>Note</th></tr></thead>
-          <tbody>${rows}</tbody>
-        </table>
-        <p class="meta">CSP collateral ≈ ${money(s.program.cspCollateralApprox)} · BP buffer target ${money(s.program.bpBufferTarget)}</p>`;
+      /* folded into Portfolio in the slim canvas */
     }
 
     function renderWL(s) {
-      const side = (title, list, good) => `
-        <div>
-          <h3>${title}</h3>
-          <table>
-            <thead><tr><th>Symbol</th><th class="num">Unrealized</th><th class="num">%</th></tr></thead>
-            <tbody>
-              ${list.map((x) => `
-                <tr>
-                  <td class="sym">${x.symbol}</td>
-                  <td class="num" style="color: ${good ? "var(--signal)" : "var(--danger)"}">${money(x.unrealized)}</td>
-                  <td class="num">${pct(x.pct)}</td>
-                </tr>`).join("")}
-            </tbody>
-          </table>
-        </div>`;
-      document.getElementById("winnersLosers").innerHTML =
-        side("Top unrealized", s.winners, true) + side("Bottom unrealized", s.losers, false);
+      /* dropped from slim canvas */
     }
 
-    function renderSleeves(s) {
-      const order = [
-        ["conviction", "Conviction", "Preserve upside on long-term names; defend embedded gains."],
-        ["income", "Income", "Maximize premium; assignment is acceptable."],
-        ["accumulation", "Accumulation", "CSP into Conviction candidates below 100 shares."],
+    function renderSleeves(s) { /* see docs/strategy.md */ }
+    function renderBands(s) { /* see docs/strategy.md */ }
+
+
+    function moneyShort(n) {
+      if (n == null || Number.isNaN(n)) return "—";
+      const sign = n < 0 ? "-" : "";
+      const abs = Math.abs(n);
+      if (abs >= 1e6) return `${sign}$${(abs / 1e6).toFixed(2)}M`;
+      if (abs >= 1000) return `${sign}$${Math.round(abs / 1000)}k`;
+      return `${sign}$${Math.round(abs)}`;
+    }
+
+    function setSuzePulse(id, text) {
+      const el = document.getElementById(id);
+      if (el) el.textContent = text;
+    }
+
+    const SUZE_LISTEN_ICON = `<svg viewBox="0 0 16 16" aria-hidden="true"><path fill="currentColor" d="M3.5 4.8v6.4h2.4L10 15V1L5.9 4.8H3.5Zm8.2 1.1a3.2 3.2 0 0 1 0 4.2l.9.9a4.5 4.5 0 0 0 0-6l-.9.9Zm-1.5 1.5a1.2 1.2 0 0 1 0 1.2l1 .7a2.5 2.5 0 0 0 0-2.6l-1 .7Z"/></svg>`;
+    const SUZE_STOP_ICON = `<svg viewBox="0 0 16 16" aria-hidden="true"><path fill="currentColor" d="M4.2 4.2h7.6v7.6H4.2z"/></svg>`;
+    const SUZE_VOICE_DEFAULTS = {
+      provider: "elevenlabs",
+      // Domi — assertive American female (Suze-style energy, not a likeness clone)
+      voiceId: "AZnzlk1XvdvUeBnXmlld",
+      modelId: "eleven_multilingual_v2",
+      apiKey: "",
+    };
+    let suzeActiveBtn = null;
+    let suzeAudio = null;
+    let suzeAudioUrl = null;
+    let suzeAbort = null;
+    let suzeVoiceCfg = null;
+
+    function pickSuzeBrowserVoice() {
+      if (!window.speechSynthesis) return null;
+      const voices = speechSynthesis.getVoices() || [];
+      if (!voices.length) return null;
+      const prefer = [
+        /samantha/i,
+        /karen/i,
+        /moira/i,
+        /google us english/i,
+        /google uk english female/i,
+        /microsoft zira/i,
+        /microsoft jenny/i,
+        /aria/i,
       ];
-      document.getElementById("sleeves").innerHTML = order.map(([key, title, blurb]) => {
-        const sleeve = s.sleeves[key];
-        return `<article class="sleeve">
-          <h3>${title}</h3>
-          <div class="delta">Entry Δ ${sleeve.entryDelta}</div>
-          <p>${blurb}</p>
-          <div class="names">${sleeve.names.map((n) => `<span>${n}</span>`).join("")}</div>
-        </article>`;
-      }).join("");
+      for (const re of prefer) {
+        const hit = voices.find((v) => re.test(v.name));
+        if (hit) return hit;
+      }
+      return voices.find((v) => /^en(-|_)?us/i.test(v.lang))
+        || voices.find((v) => /^en/i.test(v.lang))
+        || voices[0];
     }
 
-    function renderBands(s) {
-      document.getElementById("bands").innerHTML = s.bands.map((b) => `
-        <div class="band-row">
-          <div class="band-zone">${b.zone}</div>
-          <div class="band-delta">${b.delta}</div>
-          <div>${b.action}</div>
-        </div>
-      `).join("");
+    function resetSuzeListenButtons() {
+      document.querySelectorAll(".suze-listen").forEach((btn) => {
+        btn.classList.remove("is-playing");
+        btn.disabled = false;
+        btn.innerHTML = `${SUZE_LISTEN_ICON}<span>Listen</span>`;
+      });
+      suzeActiveBtn = null;
     }
 
+    function stopSuzeSpeech() {
+      if (suzeAbort) {
+        try { suzeAbort.abort(); } catch (_) { /* ignore */ }
+        suzeAbort = null;
+      }
+      if (window.speechSynthesis) speechSynthesis.cancel();
+      if (suzeAudio) {
+        suzeAudio.onended = null;
+        suzeAudio.onerror = null;
+        try { suzeAudio.pause(); } catch (_) { /* ignore */ }
+        suzeAudio.src = "";
+        suzeAudio = null;
+      }
+      if (suzeAudioUrl) {
+        URL.revokeObjectURL(suzeAudioUrl);
+        suzeAudioUrl = null;
+      }
+      resetSuzeListenButtons();
+    }
+
+    async function loadSuzeVoiceConfig() {
+      const cfg = { ...SUZE_VOICE_DEFAULTS };
+      try {
+        const res = await fetch("./data/voice-config.json", { cache: "no-store" });
+        if (res.ok) Object.assign(cfg, await res.json());
+      } catch (_) { /* optional file */ }
+      const stored = localStorage.getItem("suzeElevenLabsKey");
+      if (stored) cfg.apiKey = stored;
+      suzeVoiceCfg = cfg;
+      return cfg;
+    }
+
+    async function ensureElevenLabsKey(cfg) {
+      if (cfg.apiKey) return cfg.apiKey;
+      const entered = window.prompt(
+        "For a human Suze-style voice, paste your ElevenLabs API key.\n(Stored only in this browser — not committed.)\n\nCancel to use the robotic browser voice."
+      );
+      if (!entered || !entered.trim()) return "";
+      const key = entered.trim();
+      localStorage.setItem("suzeElevenLabsKey", key);
+      cfg.apiKey = key;
+      return key;
+    }
+
+    function speakWithBrowser(text, btn) {
+      if (!window.speechSynthesis || !window.SpeechSynthesisUtterance) {
+        resetSuzeListenButtons();
+        return;
+      }
+      const utter = new SpeechSynthesisUtterance(text);
+      const voice = pickSuzeBrowserVoice();
+      if (voice) utter.voice = voice;
+      utter.lang = voice?.lang || "en-US";
+      utter.rate = 0.92;
+      utter.pitch = 0.88;
+      utter.onend = () => resetSuzeListenButtons();
+      utter.onerror = () => resetSuzeListenButtons();
+      btn.classList.add("is-playing");
+      btn.innerHTML = `${SUZE_STOP_ICON}<span>Stop</span>`;
+      suzeActiveBtn = btn;
+      speechSynthesis.speak(utter);
+    }
+
+    async function speakWithElevenLabs(text, btn, cfg) {
+      const key = await ensureElevenLabsKey(cfg);
+      if (!key) {
+        speakWithBrowser(text, btn);
+        return;
+      }
+
+      suzeAbort = new AbortController();
+      btn.classList.add("is-playing");
+      btn.innerHTML = `${SUZE_STOP_ICON}<span>Loading…</span>`;
+      suzeActiveBtn = btn;
+
+      let res;
+      try {
+        res = await fetch(`https://api.elevenlabs.io/v1/text-to-speech/${cfg.voiceId}`, {
+          method: "POST",
+          signal: suzeAbort.signal,
+          headers: {
+            "xi-api-key": key,
+            "Content-Type": "application/json",
+            Accept: "audio/mpeg",
+          },
+          body: JSON.stringify({
+            text,
+            model_id: cfg.modelId || "eleven_multilingual_v2",
+            voice_settings: {
+              stability: 0.38,
+              similarity_boost: 0.82,
+              style: 0.6,
+              use_speaker_boost: true,
+            },
+          }),
+        });
+      } catch (err) {
+        if (err?.name === "AbortError") return;
+        console.error(err);
+        alert("Could not reach ElevenLabs — using browser voice.");
+        speakWithBrowser(text, btn);
+        return;
+      }
+
+      if (!res.ok) {
+        const detail = await res.text().catch(() => "");
+        console.error("ElevenLabs error", res.status, detail);
+        if (res.status === 401) localStorage.removeItem("suzeElevenLabsKey");
+        alert("Neural voice failed (check API key / quota). Falling back to browser voice.");
+        speakWithBrowser(text, btn);
+        return;
+      }
+
+      const blob = await res.blob();
+      suzeAudioUrl = URL.createObjectURL(blob);
+      suzeAudio = new Audio(suzeAudioUrl);
+      suzeAudio.onended = () => stopSuzeSpeech();
+      suzeAudio.onerror = () => stopSuzeSpeech();
+      btn.innerHTML = `${SUZE_STOP_ICON}<span>Stop</span>`;
+      try {
+        await suzeAudio.play();
+      } catch (err) {
+        console.error(err);
+        stopSuzeSpeech();
+      }
+    }
+
+    async function speakSuzePulse(btn) {
+      const targetId = btn.getAttribute("data-suze-target");
+      const body = document.getElementById(targetId);
+      const text = (body?.textContent || "").trim();
+      if (!text) return;
+
+      const playing = suzeActiveBtn === btn && (
+        (suzeAudio && !suzeAudio.paused) ||
+        (window.speechSynthesis && speechSynthesis.speaking)
+      );
+      if (playing || (suzeActiveBtn === btn && btn.classList.contains("is-playing"))) {
+        stopSuzeSpeech();
+        return;
+      }
+
+      stopSuzeSpeech();
+      const cfg = suzeVoiceCfg || await loadSuzeVoiceConfig();
+      if (cfg.provider === "elevenlabs") {
+        await speakWithElevenLabs(text, btn, cfg);
+      } else {
+        speakWithBrowser(text, btn);
+      }
+    }
+
+    function wireSuzeListen() {
+      loadSuzeVoiceConfig();
+      if (window.speechSynthesis) {
+        speechSynthesis.getVoices();
+        speechSynthesis.addEventListener("voiceschanged", () => { speechSynthesis.getVoices(); });
+      }
+      document.querySelectorAll(".suze-listen").forEach((btn) => {
+        if (btn.dataset.wired) return;
+        btn.dataset.wired = "1";
+        btn.title = "Neural Suze-style voice (ElevenLabs) — falls back to browser TTS";
+        btn.addEventListener("click", () => { speakSuzePulse(btn); });
+      });
+    }
+
+    function renderSuzePulses(s) {
+      const p = s.portfolio || {};
+      const g = s.program || {};
+      const ytd = s.ledger?.ytd || {};
+      const f = s.forward || {};
+      const perf = s.performance || {};
+      const eqList = (s.equities && s.equities.length) ? s.equities : [];
+      const held = eqList.filter((e) => (e.shares || 0) > 0.001);
+      const equityValue = p.equityValue ?? held.reduce((sum, e) => sum + (e.marketValue || 0), 0);
+      const unrealized = perf.unrealizedEquity ?? held.reduce((sum, e) => sum + (e.unrealized || 0), 0);
+      const covered = (s.coverage || []).reduce((sum, c) => sum + (c.covered || 0), 0);
+      const capacity = (s.coverage || []).reduce((sum, c) => sum + (c.capacity || 0), 0);
+      const idle = g.idleCcContracts ?? Math.max(0, capacity - covered);
+      const fillPct = capacity ? Math.round((covered / capacity) * 100) : 0;
+      const totalReturn = ytd.totalReturn ?? perf.totalReturnYtd;
+      const netPremium = ytd.netIncome ?? 0;
+      const gainers = held.filter((e) => (e.unrealized || 0) > 0).length;
+      const losers = held.filter((e) => (e.unrealized || 0) < 0).length;
+      const oddLots = held.filter((e) => (e.shares || 0) > 0.001 && (e.shares || 0) < 100).length;
+      const top = [...held].sort((a, b) => (b.marketValue || 0) - (a.marketValue || 0))[0];
+      const topShare = top && equityValue
+        ? Math.round(((top.marketValue || 0) / equityValue) * 100)
+        : null;
+      const openPuts = (s.openBook || []).filter((o) => o.optionType === "put" || o.role === "CSP")
+        .reduce((sum, o) => sum + (o.qty || 1), 0);
+      const cspCollateral = g.cspCollateralApprox || s.runway?.cspCollateral || 0;
+      const blackout = (s.earnings?.blackout || []).length;
+
+      let scorecard = `Here's the truth: you've got about ${moneyShort(p.totalValue)} in this account. `;
+      if (totalReturn != null) {
+        scorecard += totalReturn >= 0
+          ? `Year to date you're ahead roughly ${moneyShort(totalReturn)} — keep it, don't celebrate it into a bad decision. `
+          : `Year to date you're down about ${moneyShort(Math.abs(totalReturn))}. That's not a personality — it's a number. Protect the downside and stay disciplined. `;
+      }
+      scorecard += netPremium > 0
+        ? `Your options program has already netted about ${moneyShort(netPremium)} in premium this year. `
+        : `Option premium isn't carrying you yet this year. `;
+      if (idle > 0) {
+        scorecard += `But ${idle} covered-call slots are still sitting quiet — money that could be working isn't. Fill what the gates allow, respect earnings blackouts, and never confuse open credit with cash you can spend.`;
+      } else if (capacity > 0) {
+        scorecard += `Covered-call capacity is fully at work. Good — now manage delta like a grown-up and don't get greedy on the next roll.`;
+      } else {
+        scorecard += `Stay patient, stay solvent, and only take risk you can afford to keep.`;
+      }
+
+      let equities = unrealized >= 0
+        ? `Your stock book is up about ${moneyShort(unrealized)} on paper. That is not spending money — it's still in the market, still at risk. `
+        : `Your stock book is underwater by about ${moneyShort(Math.abs(unrealized))} on paper. Red ink is information, not an emergency by itself. `;
+      equities += `You've got ${held.length} names: ${gainers} winners, ${losers} losers. `;
+      if (topShare != null && top) {
+        equities += `${top.symbol} alone is roughly ${topShare}% of the equity book — know that concentration. `;
+      }
+      if (oddLots > 0) {
+        equities += `${oddLots} positions are under 100 shares, so they can't throw off covered-call income yet. Build with intention, or leave scraps alone. `;
+      }
+      equities += `Own what you meant to own. Don't let a green name make you careless, and don't let a red name bully you into a bad sale.`;
+
+      let options = fillPct >= 80
+        ? `You're putting most of your covered-call capacity to work — about ${fillPct}% filled. That's how shares earn their keep. `
+        : `Only ${fillPct}% of your covered-call capacity is working (${covered} of ${capacity}). The rest is unpaid rent on stock you already own. `;
+      if (idle > 0) {
+        options += `${idle} idle slots are not a strategy — write where the tape is clean and the gates say yes. `;
+      }
+      options += `You've got ${moneyShort(g.openCredit)} in open credit on the books`;
+      if (f.markPnL != null) {
+        options += f.markPnL >= 0
+          ? `, and those shorts are ahead about ${moneyShort(f.markPnL)} on mark. Paper gains aren't closed gains. `
+          : `, and those shorts are underwater about ${moneyShort(Math.abs(f.markPnL))} on mark — manage delta, don't freeze. `;
+      } else {
+        options += `. `;
+      }
+      if (openPuts > 0) {
+        options += `${openPuts} cash-secured put${openPuts === 1 ? "" : "s"} are tying up about ${moneyShort(cspCollateral)} — that's fine when it's intentional. `;
+      }
+      if (blackout > 0) {
+        options += `${blackout} name${blackout === 1 ? " is" : "s are"} in earnings blackout: no new shorts there. `;
+      }
+      options += `Treat every contract like a promise you can keep.`;
+
+      setSuzePulse("suzePulseScorecard", scorecard);
+      setSuzePulse("suzePulseEquities", equities);
+      setSuzePulse("suzePulseOptions", options);
+    }
 
     function renderCallouts(s) {
       const c = s.callouts;
       if (!c) return;
-      document.getElementById("loudest").textContent = c.loudest || "";
       const counts = c.counts || {};
       const items = [
         ["hold", counts.hold, "ok"],
@@ -2146,47 +3991,552 @@
         ["accum CSP", counts.accumCspOpen, "ok"],
         ["index CSP", counts.indexCspOpen, "ok"],
       ];
-      document.getElementById("zoneCounts").innerHTML = items.map(([label, n, cls]) =>
-        `<span class="${cls}">${label} <strong>${n ?? 0}</strong></span>`
-      ).join("");
-      document.getElementById("actionList").innerHTML = (c.actions || []).map((a) => `
-        <li>
-          <div class="prio ${a.priority}">${a.priority}</div>
-          <div><strong style="color:var(--mist)">${a.kind}</strong> — ${a.detail}</div>
-        </li>`).join("");
+      const zone = document.getElementById("zoneCounts");
+      if (zone) {
+        zone.innerHTML = items.map(([label, n, cls]) =>
+          `<span class="${cls}">${label} <strong>${n ?? 0}</strong></span>`
+        ).join("");
+      }
     }
 
-    function heatDots(covered, capacity) {
-      const n = Math.min(capacity, 16);
+    function heatDots(covered, capacity, puts = 0) {
+      const n = Math.min(capacity || 0, 24);
       let html = "";
-      for (let i = 0; i < n; i++) {
-        html += `<i class="heat-cell ${i < covered ? "on" : "off"}" aria-hidden="true"></i>`;
+      let i = 0;
+      for (; i < n; i++) {
+        html += `<i class="heat-cell ${i < covered ? "on" : "off"}" style="--i:${i}" title="${i < covered ? "Covered call · stock collateral" : "Idle CC capacity"}" aria-hidden="true"></i>`;
       }
-      if (capacity > 16) html += `<span style="color:var(--fog);font-size:0.75rem">+${capacity - 16}</span>`;
+      if ((capacity || 0) > 24) html += `<span style="color:var(--fog);font-size:0.75rem">+${capacity - 24}</span>`;
+      const putN = Math.min(puts || 0, 8);
+      for (let p = 0; p < putN; p++) {
+        html += `<i class="heat-cell csp" style="--i:${i + p}" title="CSP · cash collateral" aria-hidden="true"></i>`;
+      }
+      if ((puts || 0) > 8) html += `<span style="color:var(--fog);font-size:0.75rem">+${puts - 8} CSP</span>`;
       return html || "—";
     }
 
-    function renderCoverage(s) {
-      const rows = (s.coverage || []).map((r) => {
-        const earn = r.earningsBlackout
-          ? `<span class="pill defend">${r.earningsDate?.slice(5)} · ${r.earningsTradingDays}d</span>`
-          : (r.earningsDate ? `<span style="color:var(--fog);font-size:0.8rem">${r.earningsDate.slice(5)} · ${r.earningsTradingDays}d</span>` : "—");
-        return `<tr>
-          <td class="sym">${r.symbol}</td>
-          <td>${r.sleeve}</td>
-          <td class="num">${r.covered}/${r.capacity}</td>
-          <td>${heatDots(r.covered, r.capacity)}</td>
-          <td class="num ${r.idle ? "up" : ""}" style="${r.idle ? "color:var(--copper)" : ""}">${r.idle}</td>
-          <td>${earn}</td>
+    function heatDotsCc(covered, capacity) {
+      return heatDots(covered, capacity, 0);
+    }
+
+    function heatDotsCsp(puts) {
+      const putN = Math.min(puts || 0, 16);
+      if (!putN && !(puts > 0)) return "—";
+      let html = "";
+      for (let p = 0; p < putN; p++) {
+        html += `<i class="heat-cell csp" style="--i:${p}" title="CSP · cash collateral" aria-hidden="true"></i>`;
+      }
+      if ((puts || 0) > 16) html += `<span style="color:var(--fog);font-size:0.75rem">+${puts - 16}</span>`;
+      return html;
+    }
+
+    function openBookIndex(openBook) {
+      const map = {};
+      for (const o of openBook || []) {
+        const absD = Math.abs(o.delta ?? 0);
+        const qty = o.qty || 1;
+        const dte = o.dte != null ? o.dte : null;
+        const isPut = o.optionType === "put" || o.role === "CSP";
+        if (!map[o.symbol]) {
+          map[o.symbol] = {
+            credit: 0, callCredit: 0, putCredit: 0,
+            deltaW: 0, callDeltaW: 0, putDeltaW: 0,
+            qty: 0, callQty: 0, puts: 0,
+            putCollateral: 0,
+            minD: absD, maxD: absD,
+            callMinD: null, callMaxD: null,
+            putMinD: null, putMaxD: null,
+            callMinDte: null, callMaxDte: null,
+            putMinDte: null, putMaxDte: null,
+          };
+        }
+        const row = map[o.symbol];
+        row.credit += o.credit || 0;
+        row.deltaW += absD * qty;
+        row.qty += qty;
+        row.minD = Math.min(row.minD, absD);
+        row.maxD = Math.max(row.maxD, absD);
+        if (isPut) {
+          row.puts += qty;
+          row.putCredit += o.credit || 0;
+          row.putDeltaW += absD * qty;
+          row.putMinD = row.putMinD == null ? absD : Math.min(row.putMinD, absD);
+          row.putMaxD = row.putMaxD == null ? absD : Math.max(row.putMaxD, absD);
+          const collat = o.collateral != null
+            ? o.collateral
+            : ((o.strike != null) ? o.strike * 100 * qty : 0);
+          row.putCollateral += collat;
+          if (dte != null) {
+            row.putMinDte = row.putMinDte == null ? dte : Math.min(row.putMinDte, dte);
+            row.putMaxDte = row.putMaxDte == null ? dte : Math.max(row.putMaxDte, dte);
+          }
+        } else {
+          row.callQty += qty;
+          row.callCredit += o.credit || 0;
+          row.callDeltaW += absD * qty;
+          row.callMinD = row.callMinD == null ? absD : Math.min(row.callMinD, absD);
+          row.callMaxD = row.callMaxD == null ? absD : Math.max(row.callMaxD, absD);
+          if (dte != null) {
+            row.callMinDte = row.callMinDte == null ? dte : Math.min(row.callMinDte, dte);
+            row.callMaxDte = row.callMaxDte == null ? dte : Math.max(row.callMaxDte, dte);
+          }
+        }
+      }
+      return map;
+    }
+
+    function formatOpenDelta(row) {
+      if (!row || !row.qty) return "—";
+      if (row.maxD - row.minD >= 0.05) return `${row.minD.toFixed(2)}–${row.maxD.toFixed(2)}`;
+      return (row.deltaW / row.qty).toFixed(2);
+    }
+
+    function formatCallDelta(row) {
+      if (!row || !row.callQty) return "—";
+      if (row.callMaxD - row.callMinD >= 0.05) return `${row.callMinD.toFixed(2)}–${row.callMaxD.toFixed(2)}`;
+      return (row.callDeltaW / row.callQty).toFixed(2);
+    }
+
+    function formatPutDelta(row) {
+      if (!row || !row.puts) return "—";
+      if (row.putMaxD - row.putMinD >= 0.05) return `${row.putMinD.toFixed(2)}–${row.putMaxD.toFixed(2)}`;
+      return (row.putDeltaW / row.puts).toFixed(2);
+    }
+
+    function formatDteRange(minDte, maxDte) {
+      if (minDte == null) return { html: "—", sort: "" };
+      if (maxDte != null && maxDte !== minDte) {
+        return { html: `${minDte}–${maxDte}d`, sort: minDte };
+      }
+      return { html: `${minDte}d`, sort: minDte };
+    }
+
+    function formatCallDte(row) {
+      return formatDteRange(row?.callMinDte, row?.callMaxDte);
+    }
+
+    function formatPutDte(row) {
+      return formatDteRange(row?.putMinDte, row?.putMaxDte);
+    }
+
+    function formatCovCap(r, puts) {
+      const cap = r?.capacity ?? 0;
+      const covered = r?.covered ?? 0;
+      if (!cap && !puts) return "—";
+      const base = `${covered}/${cap}`;
+      if (!puts) return base;
+      return `${base} · ${puts} CSP`;
+    }
+
+    function formatCoverBook(r) {
+      const covered = r.covered ?? 0;
+      const cap = r.capacity ?? 0;
+      if (!(cap > 0) && !(covered > 0)) return "—";
+      const pct = cap ? Math.round((covered / cap) * 100) : 0;
+      const ratio = `${covered}/${cap} · ${pct}%`;
+      const dots = heatDotsCc(covered, cap);
+      return `<div class="cover-book"><span class="cover-ratio">${ratio}</span><span class="cover-dots">${dots}</span></div>`;
+    }
+
+    function formatIdle(r) {
+      const cap = r.capacity || 0;
+      const idle = r.idle || 0;
+      if (cap > 0 && idle === 0) {
+        return `<span class="pill fill-full">Fully filled</span>`;
+      }
+      if (idle > 0) return String(idle);
+      return "—";
+    }
+
+    function watchPill(kind, text) {
+      return `<span class="pill watch-${kind}">${text}</span>`;
+    }
+
+    /** Strategy exceptions that aren't just earnings dates (thin tape, meme, etc.). */
+    const KNOWN_WATCHOUTS = {
+      DJT: { kind: "tape", text: "Thin / wide tape — skip idle CC unless spread PASS" },
+    };
+
+    function formatWatchouts(r) {
+      const items = [];
+      const kinds = [];
+      const push = (kind, text) => {
+        const html = watchPill(kind, text);
+        if (!items.includes(html)) {
+          items.push(html);
+          kinds.push(kind);
+        }
+      };
+
+      const custom = Array.isArray(r.watchouts) ? r.watchouts : (r.watchout ? [r.watchout] : []);
+      for (const w of custom) {
+        if (typeof w === "object" && w?.text) push(w.kind || "other", w.text);
+        else push("other", String(w));
+      }
+
+      if (r.earningsBlackout) {
+        push("blackout", `Earnings blackout · ${r.earningsDate?.slice(5) || "?"} · ${r.earningsTradingDays ?? "?"}d`);
+      } else if (r.earningsDate && r.earningsTradingDays != null && r.earningsTradingDays <= 15) {
+        push("earnings", `Earnings ${r.earningsDate.slice(5)} · ${r.earningsTradingDays}d`);
+      }
+
+      if (r.assignmentRisk) {
+        push("assignment", r.assignmentNote || "Assignment risk");
+      }
+
+      const known = KNOWN_WATCHOUTS[r.symbol];
+      if (known) push(known.kind, known.text);
+
+      if (!items.length) return { html: "—", sort: "" };
+      return { html: `<div class="watchout-list">${items.join("")}</div>`, sort: kinds.join(",") };
+    }
+
+    function shareLabel(r) {
+      if (r.optionsOnly) return `<span class="shares-sub">options only</span>`;
+      const n = r.shares < 1
+        ? r.shares.toFixed(3)
+        : r.shares.toLocaleString(undefined, { maximumFractionDigits: 1 });
+      return `<span class="shares-sub">${n} sh</span>`;
+    }
+
+    function zoneForSymbol(openBook, symbol, wantPut) {
+      const legs = (openBook || []).filter((o) => {
+        if (o.symbol !== symbol) return false;
+        const isPut = o.optionType === "put" || o.role === "CSP";
+        return wantPut ? isPut : !isPut;
+      });
+      if (!legs.length) return "hold";
+      const rank = (z) => {
+        const s = (z || "").toLowerCase();
+        if (s.includes("defend")) return 2;
+        if (s.includes("harvest")) return 1;
+        return 0;
+      };
+      return legs.reduce((best, o) => (rank(o.zone) >= rank(best) ? o.zone : best), legs[0].zone);
+    }
+
+    function emptyTable(msg) {
+      return `<p class="empty">${msg}</p>`;
+    }
+
+    function defaultSleeve(symbol) {
+      if (["AMD", "META"].includes(symbol)) return "accumulation";
+      if (["NVDA", "AMZN", "ONEQ", "SPY", "MU"].includes(symbol)) return symbol === "SPY" ? "index" : "conviction";
+      return "income";
+    }
+
+    /** Full Agentic equity book (Jul 24 close) — used when snapshot.equities is absent. */
+    const DEFAULT_EQUITIES = [
+      { symbol: "MU", shares: 100.1633, last: 920.16, marketValue: 92165.74, sleeve: "conviction" },
+      { symbol: "ONEQ", shares: 1181.3749, last: 98.363, marketValue: 116202.55, sleeve: "conviction" },
+      { symbol: "NVDA", shares: 141.9124, last: 206.96, marketValue: 29370.19, sleeve: "conviction" },
+      { symbol: "AMZN", shares: 140.7426, last: 232.075, marketValue: 32662.79, sleeve: "conviction" },
+      { symbol: "DAL", shares: 569.1708, last: 85.05, marketValue: 48407.98, sleeve: "income" },
+      { symbol: "INTC", shares: 295.7027, last: 92.315, marketValue: 27297.8, sleeve: "income" },
+      { symbol: "HOOD", shares: 250, last: 94.9, marketValue: 23725, sleeve: "income" },
+      { symbol: "AAL", shares: 1465.1166, last: 14.47, marketValue: 21200.24, sleeve: "income" },
+      { symbol: "PFE", shares: 765.1356, last: 24.55, marketValue: 18784.08, sleeve: "income" },
+      { symbol: "TSLA", shares: 108.9, last: 313, marketValue: 34085.7, sleeve: "income" },
+      { symbol: "AMD", shares: 45, last: 522.03, marketValue: 23491.35, sleeve: "accumulation" },
+      { symbol: "SNAP", shares: 600, last: 4.335, marketValue: 2601, sleeve: "income" },
+      { symbol: "META", shares: 20, last: 595.2, marketValue: 11904, sleeve: "accumulation" },
+      { symbol: "ABNB", shares: 75, last: 141.06, marketValue: 10579.5, sleeve: "income" },
+      { symbol: "UNH", shares: 24.9224, last: 420.65, marketValue: 10483.6, sleeve: "income" },
+      { symbol: "TXN", shares: 39.0089, last: 279.64, marketValue: 10908.46, sleeve: "income" },
+      { symbol: "XOM", shares: 52.9631, last: 156.93, marketValue: 8311.49, sleeve: "income" },
+      { symbol: "VALE", shares: 331.0441, last: 14.795, marketValue: 4897.8, sleeve: "income" },
+      { symbol: "GLD", shares: 15, last: 371.92, marketValue: 5578.8, sleeve: "income" },
+      { symbol: "MRNA", shares: 108, last: 54.05, marketValue: 5837.4, sleeve: "income" },
+      { symbol: "DJT", shares: 420, last: 8.565, marketValue: 3597.3, sleeve: "income" },
+      { symbol: "REGN", shares: 8.4186, last: 655.96, marketValue: 5522.28, sleeve: "income" },
+      { symbol: "ZM", shares: 17, last: 87.98, marketValue: 1495.66, sleeve: "income" },
+      { symbol: "AAPL", shares: 0.6829, last: 333.07, marketValue: 227.46, sleeve: "income" },
+      { symbol: "MSFT", shares: 0.5018, last: 381.74, marketValue: 191.57, sleeve: "income" },
+      { symbol: "VIP", shares: 1, last: 2.45, marketValue: 2.45, sleeve: "income" },
+      { symbol: "AMC", shares: 0.2133, last: 2.2698, marketValue: 0.48, sleeve: "income" },
+      { symbol: "SPY", shares: 0, last: 738.85, marketValue: 0, sleeve: "index", optionsOnly: true },
+    ];
+
+    function buildPortfolioBook(s) {
+      const byOpt = openBookIndex(s.openBook);
+      const covBy = Object.fromEntries((s.coverage || []).map((c) => [c.symbol, c]));
+      const eqList = (s.equities && s.equities.length) ? s.equities : DEFAULT_EQUITIES;
+      const eqBy = Object.fromEntries(eqList.map((e) => [e.symbol, e]));
+      const symbols = new Set([...Object.keys(eqBy), ...Object.keys(byOpt), ...Object.keys(covBy)]);
+      const rows = [...symbols].map((symbol) => {
+        const eq = eqBy[symbol] || {};
+        const cov = covBy[symbol] || {};
+        const ob = byOpt[symbol];
+        const shares = eq.shares ?? cov.shares ?? 0;
+        const capacity = cov.capacity ?? Math.floor(shares / 100);
+        const covered = cov.covered ?? 0;
+        const idle = cov.idle ?? Math.max(0, capacity - covered);
+        const puts = Math.max(cov.puts || 0, ob?.puts || 0);
+        const sleeve = cov.sleeve || eq.sleeve || defaultSleeve(symbol);
+        const marketValue = eq.marketValue != null ? eq.marketValue : null;
+        const avgCost = eq.avgCost != null ? eq.avgCost : null;
+        let unrealized = eq.unrealized;
+        if (unrealized == null && avgCost != null && marketValue != null && shares > 0) {
+          unrealized = marketValue - avgCost * shares;
+        }
+        let unrealizedPct = eq.unrealizedPct;
+        if (unrealizedPct == null && unrealized != null && avgCost != null && shares > 0) {
+          const cost = avgCost * shares;
+          unrealizedPct = cost ? (unrealized / cost) * 100 : null;
+        }
+        return {
+          symbol,
+          shares,
+          marketValue,
+          last: eq.last,
+          avgCost,
+          unrealized,
+          unrealizedPct,
+          optionsOnly: !!eq.optionsOnly || (shares < 0.01 && puts > 0),
+          sleeve,
+          capacity,
+          covered,
+          idle,
+          puts,
+          earningsDate: cov.earningsDate ?? null,
+          earningsTradingDays: cov.earningsTradingDays ?? null,
+          earningsBlackout: !!cov.earningsBlackout,
+          assignmentRisk: !!cov.assignmentRisk,
+          assignmentNote: cov.assignmentNote ?? null,
+          watchout: cov.watchout ?? eq.watchout ?? null,
+          watchouts: cov.watchouts ?? eq.watchouts ?? null,
+          ob,
+        };
+      });
+      rows.sort((a, b) => {
+        const av = (a.marketValue || 0);
+        const bv = (b.marketValue || 0);
+        return bv - av;
+      });
+      return rows;
+    }
+
+    function renderEquityBook(book) {
+      const host = document.getElementById("equityTable");
+      if (!host) return;
+      const equities = book
+        .filter((r) => (r.shares || 0) > 0.001)
+        .sort((a, b) => {
+          const ta = (a.shares || 0) >= 100 ? 0 : 1;
+          const tb = (b.shares || 0) >= 100 ? 0 : 1;
+          if (ta !== tb) return ta - tb;
+          return (b.marketValue || 0) - (a.marketValue || 0);
+        });
+      if (!equities.length) {
+        host.innerHTML = emptyTable("No equity positions.");
+        return;
+      }
+      const totValue = equities.reduce((sum, r) => sum + (r.marketValue || 0), 0);
+      const totPnL = equities.reduce((sum, r) => sum + (r.unrealized || 0), 0);
+      const rows = equities.map((r) => {
+        const weightPct = totValue > 0 && r.marketValue != null
+          ? (r.marketValue / totValue) * 100
+          : null;
+        const weight = weightPct != null ? `${weightPct.toFixed(1)}%` : "—";
+        const shares = r.shares < 1
+          ? r.shares.toFixed(3)
+          : r.shares.toLocaleString(undefined, { maximumFractionDigits: 2 });
+        const last = r.last != null
+          ? r.last.toLocaleString(undefined, { style: "currency", currency: "USD", maximumFractionDigits: r.last >= 100 ? 2 : 3 })
+          : "—";
+        const avg = r.avgCost != null
+          ? r.avgCost.toLocaleString(undefined, { style: "currency", currency: "USD", maximumFractionDigits: 2 })
+          : "—";
+        const pnl = r.unrealized != null ? money(r.unrealized) : "—";
+        const pnlPct = r.unrealizedPct != null
+          ? `${r.unrealizedPct >= 0 ? "+" : ""}${r.unrealizedPct.toFixed(1)}%`
+          : "—";
+        const pnlTone = toneClass(r.unrealized);
+        return `<tr data-symbol="${r.symbol}" data-sleeve="${(r.sleeve || "").toLowerCase()}">
+          <td class="sym" data-sort="${r.symbol}"><span class="sym">${r.symbol}</span></td>
+          <td class="num" data-sort="${r.shares}">${shares}</td>
+          <td class="num" data-sort="${r.avgCost ?? ""}">${avg}</td>
+          <td class="num" data-sort="${r.last ?? ""}">${last}</td>
+          <td class="num" data-sort="${r.marketValue ?? ""}">${r.marketValue != null ? money(r.marketValue) : "—"}</td>
+          <td class="num ${pnlTone}" data-sort="${r.unrealized ?? ""}">${pnl}</td>
+          <td class="num ${pnlTone}" data-sort="${r.unrealizedPct ?? ""}">${pnlPct}</td>
+          <td class="num" data-sort="${weightPct ?? ""}">${weight}</td>
+          <td data-sort="${r.sleeve || ""}">${sleeveLabel(r.sleeve)}</td>
         </tr>`;
       }).join("");
-      document.getElementById("coverageTable").innerHTML = `
-        <table>
+      host.innerHTML = `
+        <table class="sortable">
           <thead><tr>
-            <th>Symbol</th><th>Sleeve</th><th class="num">Cov/Cap</th><th>Book</th><th class="num">Idle</th><th>Earnings</th>
+            <th>Symbol</th>
+            <th class="num">${withTip("Shares")}</th>
+            <th class="num">${withTip("Avg cost")}</th>
+            <th class="num">${withTip("Last")}</th>
+            <th class="num">${withTip("Equity $")}</th>
+            <th class="num">${withTip("P&L")}</th>
+            <th class="num">P&amp;L %</th>
+            <th class="num">${withTip("Weight")}</th>
+            <th>Sleeve</th>
           </tr></thead>
           <tbody>${rows}</tbody>
+          <tfoot>
+            <tr class="book-totals">
+              <td>Total · ${equities.length}</td>
+              <td></td><td></td><td></td>
+              <td class="num">${money(totValue)}</td>
+              <td class="num ${toneClass(totPnL)}">${money(totPnL)}</td>
+              <td></td>
+              <td class="num">100%</td>
+              <td></td>
+            </tr>
+          </tfoot>
         </table>`;
+    }
+
+    function renderCcBook(book, openBook) {
+      const host = document.getElementById("ccTable");
+      if (!host) return;
+      const ccs = book
+        .filter((r) => (r.capacity || 0) > 0 || (r.covered || 0) > 0)
+        .sort((a, b) => {
+          const ia = a.idle || 0;
+          const ib = b.idle || 0;
+          if (ia !== ib) return ib - ia;
+          return (b.capacity || 0) - (a.capacity || 0);
+        });
+      if (!ccs.length) {
+        host.innerHTML = emptyTable("No covered-call capacity.");
+        return;
+      }
+      let totCovered = 0, totCap = 0, totIdle = 0, totPremium = 0;
+      const rows = ccs.map((r) => {
+        const callCredit = r.ob?.callCredit || 0;
+        totCovered += r.covered || 0;
+        totCap += r.capacity || 0;
+        totIdle += r.idle || 0;
+        totPremium += callCredit;
+        const fillPct = r.capacity ? Math.round((r.covered / r.capacity) * 100) : 0;
+        const delta = r.ob?.callQty
+          ? `<div class="delta-zone"><span class="d">${formatCallDelta(r.ob)}</span>${zonePill(zoneForSymbol(openBook, r.symbol, false))}</div>`
+          : "—";
+        const deltaSort = r.ob?.callQty ? (r.ob.callDeltaW / r.ob.callQty) : "";
+        const dte = formatCallDte(r.ob);
+        const watch = formatWatchouts(r);
+        const idleHtml = formatIdle(r);
+        return `<tr data-symbol="${r.symbol}" data-sleeve="${(r.sleeve || "").toLowerCase()}" data-covered="${r.covered || 0}" data-idle="${r.idle || 0}">
+          <td class="sym" data-sort="${r.symbol}"><span class="sym">${r.symbol}</span>${shareLabel(r)}</td>
+          <td data-sort="${r.sleeve || ""}">${sleeveLabel(r.sleeve)}</td>
+          <td data-sort="${fillPct}">${formatCoverBook(r)}</td>
+          <td class="num ${r.idle ? "up" : ""}" style="${r.idle ? "color:var(--copper)" : ""}" data-sort="${r.idle || 0}">${idleHtml}</td>
+          <td class="num ${callCredit ? "up" : ""}" data-sort="${callCredit}">${callCredit ? money(callCredit) : "—"}</td>
+          <td class="num" data-sort="${dte.sort}">${dte.html}</td>
+          <td data-sort="${deltaSort}">${delta}</td>
+          <td data-sort="${watch.sort}">${watch.html}</td>
+        </tr>`;
+      }).join("");
+      const totPct = totCap ? Math.round((totCovered / totCap) * 100) : 0;
+      const totIdleHtml = totCap > 0 && totIdle === 0
+        ? `<span class="pill fill-full">Fully filled</span>`
+        : (totIdle || "—");
+      host.innerHTML = `
+        <table class="sortable">
+          <thead><tr>
+            <th>Symbol</th><th>Sleeve</th>
+            <th>${withTip("Cover")}</th><th class="num">${withTip("Idle")}</th>
+            <th class="num">${withTip("Premium")}</th><th class="num">${withTip("DTE")}</th>
+            <th class="num">|Δ| / zone</th><th>${withTip("Watchouts")}</th>
+          </tr></thead>
+          <tbody>${rows}</tbody>
+          <tfoot>
+            <tr class="book-totals">
+              <td colspan="2">Total · ${totCovered}/${totCap} written</td>
+              <td><div class="cover-book"><span class="cover-ratio">${totCovered}/${totCap} · ${totPct}%</span></div></td>
+              <td class="num" style="${totIdle ? "color:var(--copper)" : ""}">${totIdleHtml}</td>
+              <td class="num up">${money(totPremium)}</td>
+              <td></td><td></td><td></td>
+            </tr>
+          </tfoot>
+        </table>
+        <div class="heat-legend" aria-hidden="true">
+          <span><i class="heat-cell on"></i> Written CC</span>
+          <span><i class="heat-cell off"></i> Idle capacity</span>
+        </div>
+        <div class="watchout-legend" aria-hidden="true">
+          <span><span class="pill watch-blackout">Blackout</span> ≤5d earnings</span>
+          <span><span class="pill watch-earnings">Earnings</span> ≤15d</span>
+          <span><span class="pill watch-assignment">Assignment</span></span>
+          <span><span class="pill watch-tape">Tape</span> thin / wide</span>
+          <span><span class="pill watch-other">Other</span></span>
+        </div>`;
+    }
+
+    function renderCspBook(book, openBook) {
+      const host = document.getElementById("cspTable");
+      if (!host) return;
+      const csps = book
+        .filter((r) => (r.puts || 0) > 0)
+        .sort((a, b) => (b.ob?.putCredit || 0) - (a.ob?.putCredit || 0));
+      if (!csps.length) {
+        host.innerHTML = emptyTable("No open cash-secured puts.");
+        return;
+      }
+      let totPuts = 0, totPremium = 0, totCollateral = 0;
+      const rows = csps.map((r) => {
+        const putCredit = r.ob?.putCredit || 0;
+        const collateral = r.ob?.putCollateral || 0;
+        totPuts += r.puts || 0;
+        totPremium += putCredit;
+        totCollateral += collateral;
+        const delta = r.ob?.puts
+          ? `<div class="delta-zone"><span class="d">${formatPutDelta(r.ob)}</span>${zonePill(zoneForSymbol(openBook, r.symbol, true))}</div>`
+          : "—";
+        const deltaSort = r.ob?.puts ? (r.ob.putDeltaW / r.ob.puts) : "";
+        const dte = formatPutDte(r.ob);
+        const watch = formatWatchouts(r);
+        return `<tr data-symbol="${r.symbol}" data-sleeve="${(r.sleeve || "").toLowerCase()}">
+          <td class="sym" data-sort="${r.symbol}"><span class="sym">${r.symbol}</span>${shareLabel(r)}</td>
+          <td data-sort="${r.sleeve || ""}">${sleeveLabel(r.sleeve)}</td>
+          <td data-sort="${r.puts}">
+            <div class="cover-book">
+              <span class="cover-ratio">${r.puts} CSP</span>
+              <span class="cover-dots">${heatDotsCsp(r.puts)}</span>
+            </div>
+          </td>
+          <td class="num" data-sort="${collateral}">${collateral ? money(collateral) : "—"}</td>
+          <td class="num ${putCredit ? "up" : ""}" data-sort="${putCredit}">${putCredit ? money(putCredit) : "—"}</td>
+          <td class="num" data-sort="${dte.sort}">${dte.html}</td>
+          <td data-sort="${deltaSort}">${delta}</td>
+          <td data-sort="${watch.sort}">${watch.html}</td>
+        </tr>`;
+      }).join("");
+      host.innerHTML = `
+        <table class="sortable">
+          <thead><tr>
+            <th>Symbol</th><th>Sleeve</th><th>CSPs</th>
+            <th class="num">${withTip("Cash secured")}</th>
+            <th class="num">${withTip("Premium")}</th><th class="num">${withTip("DTE")}</th>
+            <th class="num">|Δ| / zone</th><th>${withTip("Watchouts")}</th>
+          </tr></thead>
+          <tbody>${rows}</tbody>
+          <tfoot>
+            <tr class="book-totals">
+              <td colspan="2">Total · ${totPuts} put${totPuts === 1 ? "" : "s"}</td>
+              <td><span class="cover-ratio">${totPuts} CSP</span></td>
+              <td class="num">${money(totCollateral)}</td>
+              <td class="num up">${money(totPremium)}</td>
+              <td></td><td></td><td></td>
+            </tr>
+          </tfoot>
+        </table>
+        <div class="heat-legend" aria-hidden="true">
+          <span><i class="heat-cell csp"></i> CSP (cash collateral)</span>
+        </div>`;
+    }
+
+    function renderCoverage(s) {
+      const book = buildPortfolioBook(s);
+      renderEquityBook(book);
+      renderCcBook(book, s.openBook);
+      renderCspBook(book, s.openBook);
     }
 
     function renderRunway(s) {
@@ -2201,16 +4551,18 @@
         { label: "Accum fits?", value: r.nextAccumFits ? "Yes" : "No", tone: r.nextAccumFits ? "up" : "down" },
       ];
       document.getElementById("runwayBoard").innerHTML = items.map((it) => `
-        <div class="stat">
-          <span class="stat-label">${it.label}</span>
+        <div class="runway-row">
+          <span class="stat-label">${withTip(it.label)}</span>
           <div class="stat-value ${it.tone || ""}">${it.value}</div>
         </div>`).join("");
+      const noteEl = document.getElementById("runwayNote");
+      if (noteEl) noteEl.textContent = r.note || "";
 
       const risks = s.assignmentRisks || [];
       document.getElementById("assignmentRisks").innerHTML = risks.length ? `
         <h3 style="font-family:var(--display);font-size:1.2rem;margin:0 0 0.5rem">Assignment watch</h3>
         <table><thead><tr><th>Symbol</th><th class="num">|Δ|</th><th>Note</th></tr></thead>
-        <tbody>${risks.map((x) => `<tr><td class="sym">${x.symbol}</td><td class="num">${x.delta.toFixed(2)}</td><td>${x.note}</td></tr>`).join("")}</tbody></table>` : "";
+        <tbody>${risks.map((x) => `<tr><td class="sym">${symLink(x.symbol)}</td><td class="num">${x.delta.toFixed(2)}</td><td>${x.note}</td></tr>`).join("")}</tbody></table>` : "";
 
       const e = s.earnings || {};
       const black = e.blackout || [];
@@ -2219,174 +4571,160 @@
       if (black.length) {
         earnHtml += `<p class="meta" style="margin-bottom:0.5rem">Blackout (≤5 sessions)</p>
           <table><thead><tr><th>Symbol</th><th>Date</th><th class="num">Sessions</th></tr></thead>
-          <tbody>${black.map((b) => `<tr><td class="sym">${b.symbol}</td><td>${b.date}</td><td class="num" style="color:var(--danger)">${b.tradingDays}</td></tr>`).join("")}</tbody></table>`;
+          <tbody>${black.map((b) => `<tr><td class="sym">${symLink(b.symbol)}</td><td>${b.date}</td><td class="num" style="color:var(--danger)">${b.tradingDays}</td></tr>`).join("")}</tbody></table>`;
       }
       if (watch.length) {
         earnHtml += `<p class="meta" style="margin:1rem 0 0.5rem">Watch (≤15 sessions)</p>
           <table><thead><tr><th>Symbol</th><th>Date</th><th class="num">Sessions</th></tr></thead>
-          <tbody>${watch.map((b) => `<tr><td class="sym">${b.symbol}</td><td>${b.date}</td><td class="num">${b.tradingDays}</td></tr>`).join("")}</tbody></table>`;
+          <tbody>${watch.map((b) => `<tr><td class="sym">${symLink(b.symbol)}</td><td>${b.date}</td><td class="num">${b.tradingDays}</td></tr>`).join("")}</tbody></table>`;
       }
       document.getElementById("earningsPanel").innerHTML = earnHtml;
-    }
-
-    function renderPerformance(s) {
-      const p = s.performance;
-      const rs = s.rollStats;
-      if (!p) return;
-      const items = [
-        { label: "Realized 30d", value: money(p.realized30d), tone: "up" },
-        { label: "Realized 90d", value: money(p.realized90d), tone: "up" },
-        { label: "Run-rate ann.", value: money(p.runRateAnnualized), tone: "muted" },
-        { label: "Run-rate % acct", value: `${p.runRatePctOfAccount}%`, tone: "muted" },
-        { label: "Unrealized equity", value: money(p.unrealizedEquity), tone: toneClass(p.unrealizedEquity) },
-        { label: "YTD total return", value: moneyOrDash(p.totalReturnYtd), tone: "up" },
-        { label: "Avg credit kept", value: money(rs?.avgCreditKept || 0), tone: "up" },
-        { label: "Keep rate", value: `${rs?.avgKeepPct || 0}%`, tone: "up" },
-      ];
-      document.getElementById("perfBoard").innerHTML = items.map((it) => `
-        <div class="stat">
-          <span class="stat-label">${it.label}</span>
-          <div class="stat-value ${it.tone || ""}">${it.value}</div>
-        </div>`).join("");
-
-      const sleeves = p.sleeveIncomeYtd || {};
-      const maxS = Math.max(1, ...Object.values(sleeves));
-      document.getElementById("sleeveIncome").innerHTML = Object.entries(sleeves).map(([k, v]) => `
-        <div style="padding:0.65rem 0;border-bottom:1px solid var(--line)">
-          <div style="display:flex;justify-content:space-between;font-size:0.92rem">
-            <span class="sym">${k}</span>
-            <span class="num" style="color:var(--signal)">${money(v)}</span>
-          </div>
-          <div class="bar-track"><div class="bar-fill" style="width:${(v/maxS)*100}%"></div></div>
-        </div>`).join("");
-
-      const cap = s.capital || {};
-      const mix = [
-        ["Equities", cap.equityPct, ""],
-        ["Cash", cap.cashPct, "copper"],
-        ["CSP collateral", cap.cspCollateralPct, "fog"],
-      ];
-      document.getElementById("capitalMix").innerHTML = mix.map(([label, pct, cls]) => `
-        <div style="padding:0.65rem 0;border-bottom:1px solid var(--line)">
-          <div style="display:flex;justify-content:space-between;font-size:0.92rem">
-            <span>${label}</span><span class="num">${pct}%</span>
-          </div>
-          <div class="bar-track"><div class="bar-fill ${cls}" style="width:${pct}%"></div></div>
-        </div>`).join("") + (rs ? `<p class="meta" style="margin-top:1rem">${rs.note || ""} · harvest ${rs.harvestPct}% / defend ${rs.defendPct}% of closes</p>` : "");
-
-      renderEquityCurve(s.equityCurve || []);
-      document.getElementById("perfNote").textContent = p.note || "";
-    }
-
-    function renderEquityCurve(points) {
-      if (!points.length) {
-        document.getElementById("equityCurveChart").innerHTML = "";
-        return;
-      }
-      const W = 720, H = 180;
-      const pad = { t: 16, r: 16, b: 36, l: 64 };
-      const plotW = W - pad.l - pad.r;
-      const plotH = H - pad.t - pad.b;
-      const vals = points.map((p) => p.totalValue);
-      const minV = Math.min(...vals) * 0.999;
-      const maxV = Math.max(...vals) * 1.001;
-      const x = (i) => pad.l + (points.length === 1 ? plotW / 2 : (i / (points.length - 1)) * plotW);
-      const y = (v) => pad.t + plotH - ((v - minV) / (maxV - minV || 1)) * plotH;
-      const path = points.map((p, i) => `${i ? "L" : "M"}${x(i).toFixed(1)},${y(p.totalValue).toFixed(1)}`).join(" ");
-      const labels = points.map((p, i) => `<text x="${x(i)}" y="${H - 12}" text-anchor="middle">${p.date.slice(5)}</text>`).join("");
-      document.getElementById("equityCurveChart").innerHTML = `
-        <svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Account value over time">
-          <line x1="${pad.l}" x2="${W - pad.r}" y1="${y(minV)}" y2="${y(minV)}" stroke="rgba(215,228,220,0.12)" />
-          <line x1="${pad.l}" x2="${W - pad.r}" y1="${y(maxV)}" y2="${y(maxV)}" stroke="rgba(215,228,220,0.12)" />
-          <path d="${path}" fill="none" stroke="#c8f16d" stroke-width="2.2" stroke-linecap="round" />
-          ${points.map((p, i) => `<circle cx="${x(i)}" cy="${y(p.totalValue)}" r="3.5" fill="#c8f16d" />`).join("")}
-          <text x="${pad.l - 8}" y="${y(maxV) + 3}" text-anchor="end">${Math.round(maxV / 1000)}k</text>
-          <text x="${pad.l - 8}" y="${y(minV) + 3}" text-anchor="end">${Math.round(minV / 1000)}k</text>
-          ${labels}
-        </svg>`;
-    }
-
-    function renderForward(s) {
-      const f = s.forward;
-      if (!f) return;
-      const items = [
-        { label: "Open credit", value: money(f.openCredit), tone: "up" },
-        { label: "Open extrinsic", value: money(f.openExtrinsic), tone: "muted" },
-        { label: "Mark P&L (open)", value: money(f.markPnL), tone: toneClass(f.markPnL) },
-        { label: "Idle contracts", value: String(f.idleContracts) },
-        { label: "Idle-fill estimate", value: money(f.idleFillEstimate), tone: "up" },
-        { label: "If idle filled (illust.)", value: money((s.performance?.realized30d || 0) + f.idleFillEstimate), tone: "muted" },
-      ];
-      document.getElementById("forwardBoard").innerHTML = items.map((it) => `
-        <div class="stat">
-          <span class="stat-label">${it.label}</span>
-          <div class="stat-value ${it.tone || ""}">${it.value}</div>
-        </div>`).join("");
-      document.getElementById("forwardNote").textContent = f.idleFillNote || "";
-
-      document.getElementById("expiryCalendar").innerHTML = (f.expiryCalendar || []).map((ex) => `
-        <div class="expiry-block">
-          <h4>${ex.expiration} · ${ex.dte}d</h4>
-          <table>
-            <thead><tr><th>Symbol</th><th>Contract</th><th class="num">Credit</th><th class="num">Extrinsic</th><th>Action</th></tr></thead>
-            <tbody>${(ex.legs || []).map((leg) => `
-              <tr>
-                <td class="sym">${leg.symbol}</td>
-                <td>${leg.strike}${leg.type === "put" ? "p" : "c"} ×${leg.qty}</td>
-                <td class="num">${money(leg.credit)}</td>
-                <td class="num">${money(leg.extrinsic)}</td>
-                <td>${leg.action}</td>
-              </tr>`).join("")}</tbody>
-          </table>
-        </div>`).join("");
 
       const ix = s.indexSleeve;
-      if (!ix) { document.getElementById("indexSleeve").innerHTML = ""; return; }
-      document.getElementById("indexSleeve").innerHTML = `
-        <div class="scoreboard" style="margin-bottom:1rem">
-          <div class="stat"><span class="stat-label">SPY shares</span><div class="stat-value">${ix.spyShares}</div></div>
-          <div class="stat"><span class="stat-label">RSP shares</span><div class="stat-value">${ix.rspShares}</div></div>
-          <div class="stat"><span class="stat-label">ITOT shares</span><div class="stat-value">${ix.itotShares}</div></div>
-          <div class="stat"><span class="stat-label">CSP notional</span><div class="stat-value muted">${money(ix.cspNotional)}</div></div>
-        </div>
-        <table>
-          <thead><tr><th>Open CSP</th><th>Strike</th><th>Exp</th><th class="num">Credit</th><th class="num">Collateral</th></tr></thead>
-          <tbody>${(ix.openCsps || []).map((c) => `
-            <tr><td class="sym">${c.symbol}</td><td>${c.strike}</td><td>${c.expiration.slice(5)}</td>
-            <td class="num">${money(c.credit)}</td><td class="num">${money(c.collateral)}</td></tr>`).join("") || '<tr><td colspan="5" class="empty">None</td></tr>'}
-          </tbody>
-        </table>
-        <p class="meta" style="margin-top:0.75rem">${ix.note || ""}</p>`;
+      const indexNote = document.getElementById("indexNote");
+      if (indexNote) {
+        if (!ix) {
+          indexNote.textContent = "";
+        } else {
+          const parts = [
+            ix.spyShares != null ? `SPY ${ix.spyShares}` : null,
+            ix.rspShares != null ? `RSP ${ix.rspShares}` : null,
+            ix.itotShares != null ? `ITOT ${ix.itotShares}` : null,
+          ].filter(Boolean);
+          indexNote.textContent = ix.note || (parts.length ? `Index sleeve · ${parts.join(" · ")}` : "");
+        }
+      }
     }
 
-    function renderProjects(projects) {
-      const order = { now: 0, next: 1, later: 2, done: 3 };
-      const sorted = [...projects].sort((a, b) => (order[a.status] ?? 9) - (order[b.status] ?? 9));
-      document.getElementById("projectsList").innerHTML = sorted.map((p, i) => `
-        <article class="project" style="animation-delay: ${i * 0.04}s">
-          <div class="status ${p.status}">${p.status}</div>
-          <div>
-            <h3>${p.title}</h3>
-            <p>${p.blurb}</p>
-          </div>
-        </article>
-      `).join("");
+    function renderPerformance(s) { /* slim: YTD lines + chart via renderLedger */ }
+    function renderForward(s) { /* slim: idle-fill hint on scoreboard */ }
+
+    function renderAccountReturnLines(s) {
+      const el = document.getElementById("accountReturnLines");
+      if (!el) return;
+      const ytd = s.ledger?.ytd || {};
+      const p = s.performance || {};
+      const premium = ytd.realizedOptions ?? p.realizedYtdOptions ?? 0;
+      const apprec = ytd.appreciation ?? p.appreciationYtd;
+      const total = ytd.totalReturn ?? p.totalReturnYtd;
+      const lines = [
+        { label: "Option premium", value: money(premium), tone: toneClass(premium), total: false },
+        { label: "Appreciation", value: moneyOrDash(apprec), tone: toneClass(apprec), total: false },
+        { label: "Total", value: moneyOrDash(total), tone: toneClass(total), total: true },
+      ];
+      el.innerHTML = lines.map((ln) => `
+        <div class="return-line${ln.total ? " total" : ""}">
+          <span class="return-line-label">${withTip(ln.label)}</span>
+          <span class="return-line-value ${ln.tone || ""}">${ln.value}</span>
+        </div>`).join("");
     }
 
-    function applySnapshot(snapshot, projects) {
+    function enhanceTables(root = document) {
+      root.querySelectorAll("table").forEach((table) => {
+        table.classList.add("stack-mobile");
+        const headers = [...table.querySelectorAll("thead th")].map((th) =>
+          (th.textContent || "").replace(/\s+/g, " ").trim()
+        );
+        table.querySelectorAll("tbody tr").forEach((tr) => {
+          [...tr.children].forEach((td, i) => {
+            if (headers[i]) td.setAttribute("data-label", headers[i]);
+          });
+        });
+      });
+      enableSortableTables(root);
+    }
+
+    function sortTableByColumn(table, colIdx, th) {
+      const tbody = table.tBodies[0];
+      if (!tbody) return;
+      const rows = [...tbody.rows];
+      const dir = th.dataset.sortDir === "asc" ? "desc" : "asc";
+      table.querySelectorAll("thead th").forEach((h) => {
+        delete h.dataset.sortDir;
+        h.classList.remove("sort-asc", "sort-desc");
+      });
+      th.dataset.sortDir = dir;
+      th.classList.add(dir === "asc" ? "sort-asc" : "sort-desc");
+
+      const getVal = (tr) => {
+        const td = tr.children[colIdx];
+        if (!td) return "";
+        if (td.dataset.sort != null && td.dataset.sort !== "") {
+          const n = Number(td.dataset.sort);
+          return Number.isFinite(n) ? n : td.dataset.sort.toLowerCase();
+        }
+        return (td.textContent || "").trim().toLowerCase();
+      };
+
+      rows.sort((a, b) => {
+        const av = getVal(a);
+        const bv = getVal(b);
+        let cmp = 0;
+        if (typeof av === "number" && typeof bv === "number") cmp = av - bv;
+        else if (av === "" && bv !== "") cmp = 1;
+        else if (bv === "" && av !== "") cmp = -1;
+        else cmp = String(av).localeCompare(String(bv), undefined, { numeric: true });
+        return dir === "asc" ? cmp : -cmp;
+      });
+      rows.forEach((row) => tbody.appendChild(row));
+    }
+
+    function enableSortableTables(root = document) {
+      root.querySelectorAll("table.sortable").forEach((table) => {
+        table.querySelectorAll("thead th").forEach((th, colIdx) => {
+          if (th.classList.contains("no-sort")) return;
+          th.classList.add("sortable-th");
+          th.tabIndex = 0;
+          th.setAttribute("role", "button");
+          th.setAttribute("aria-label", `Sort by ${(th.textContent || "").trim()}`);
+          if (th.dataset.sortBound) return;
+          th.dataset.sortBound = "1";
+          const activate = () => sortTableByColumn(table, colIdx, th);
+          th.addEventListener("click", activate);
+          th.addEventListener("keydown", (e) => {
+            if (e.key === "Enter" || e.key === " ") {
+              e.preventDefault();
+              activate();
+            }
+          });
+        });
+      });
+    }
+
+    function showPage(pageId) {
+      const id = ["scorecard", "equities", "options"].includes(pageId) ? pageId : "scorecard";
+      document.querySelectorAll(".page").forEach((page) => {
+        page.classList.toggle("is-active", page.dataset.page === id);
+      });
+      document.querySelectorAll(".page-nav a").forEach((a) => {
+        a.classList.toggle("is-active", a.dataset.page === id);
+      });
+      if (location.hash.replace(/^#/, "") !== id) {
+        history.replaceState(null, "", `#${id}`);
+      }
+      requestAnimationFrame(() => observeRevealables());
+    }
+
+    function pageFromHash() {
+      return (location.hash || "#scorecard").replace(/^#/, "") || "scorecard";
+    }
+
+    function applySnapshot(snapshot) {
       renderScoreboard(snapshot);
-      renderOpenBook(snapshot);
+      renderSuzePulses(snapshot);
       renderAccum(snapshot);
       renderWL(snapshot);
       renderCallouts(snapshot);
       renderCoverage(snapshot);
       renderRunway(snapshot);
       renderLedger(snapshot);
+      renderVisualCharts(snapshot);
       renderPerformance(snapshot);
       renderForward(snapshot);
       renderSleeves(snapshot);
       renderBands(snapshot);
-      if (projects) renderProjects(projects);
+      enhanceTables();
+      requestAnimationFrame(() => observeRevealables());
     }
 
     const LIVE_REFRESH_PROMPT = "Refresh the strategy canvas snapshot";
@@ -2397,7 +4735,11 @@
       btn.disabled = true;
       try {
         const snapshot = await loadJson("./data/snapshot.json", "snapshot-fallback");
-        applySnapshot(snapshot, null);
+        try {
+          const eq = await fetch("./data/equities.json", { cache: "no-store" }).then((r) => r.ok ? r.json() : null);
+          if (eq?.length) snapshot.equities = eq;
+        } catch (_) { /* keep snapshot / DEFAULT_EQUITIES */ }
+        applySnapshot(snapshot);
         hint.innerHTML = `Reloaded <em>snapshot.json</em> · ${snapshot.asOfLabel || "ok"}. Live RH still needs Cursor.`;
       } catch (e) {
         hint.textContent = "Reload failed — check that the local server can read data/snapshot.json.";
@@ -2417,13 +4759,17 @@
     }
 
     (async () => {
-      const [snapshot, projects] = await Promise.all([
-        loadJson("./data/snapshot.json", "snapshot-fallback"),
-        loadJson("./data/projects.json", "projects-fallback"),
-      ]);
-      applySnapshot(snapshot, projects);
+      const snapshot = await loadJson("./data/snapshot.json", "snapshot-fallback");
+      try {
+        const eq = await fetch("./data/equities.json", { cache: "no-store" }).then((r) => r.ok ? r.json() : null);
+        if (eq?.length) snapshot.equities = eq;
+      } catch (_) { /* DEFAULT_EQUITIES in renderCoverage */ }
+      applySnapshot(snapshot);
+      wireSuzeListen();
       document.getElementById("btnReloadSnapshot").addEventListener("click", reloadSnapshotFromDisk);
       document.getElementById("btnCopyLivePrompt").addEventListener("click", copyLiveRefreshPrompt);
+      window.addEventListener("hashchange", () => showPage(pageFromHash()));
+      showPage(pageFromHash());
     })();
   </script>
 </body>
