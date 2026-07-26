@@ -75,16 +75,17 @@ MESSAGE 1 — Portfolio (scoreboard first)
 6. One line: “Overlay actions → see next message.”
 
 MESSAGE 2 — Overlay (actions second) — post as a follow-up in the same channel right after message 1 (thread reply under message 1 if the tool allows; otherwise a second channel message that clearly says “Overlay — continues morning check”)
-1. Quick take: counts hold / harvest / harvest-close-only / defend / earnings-flatten / waiting-refill / idle-CC-fill / index-CSP / accum-CSP; loudest red flag
-2. Action board (actionable only): Symbol | Class | Do now | Gate | Why
+1. Header line must repeat the canvas link: 📊 <https://storage.googleapis.com/agentic-trading-canvas/index.html|Agentic overlay canvas> (same data as message 1).
+2. Quick take: counts hold / harvest / harvest-close-only / defend / earnings-flatten / waiting-refill / idle-CC-fill / index-CSP / accum-CSP; loudest red flag
+3. Action board (actionable only): Symbol | Class | Do now | Gate | Why
    Do now examples: BTC only | BTC+rewrite | waiting refill | sell CC (idle) | sell accum CSP | sell index CSP | CSP blocked | graduated→sell CC | none
-3. Short book: Symbol | Strike | Type | Exp | DTE | Qty | |Δ| | Mark | Class | Sleeve
-4. Accumulation status: AMD X sh (need Y) — CSP: [open/waiting-earnings/blocked-collateral/graduated]; META same
-5. Idle CC / index sleeve one-liner (capacity + free cash / preferred CSP ticker)
-5. Proposals: Symbol | Close | Open (or —) | Est net $ | Gate | Why
-6. Escalations / waiting refill bullets
-7. Open risk (nearest Δ to bands)
-8. CTA: Reply continue or stop in THIS thread (or white_check_mark / X). Continue/stop automation places only after continue. This run never places. Your money, your say.
+4. Short book: Symbol | Strike | Type | Exp | DTE | Qty | |Δ| | Mark | Class | Sleeve
+5. Accumulation status: AMD X sh (need Y) — CSP: [open/waiting-earnings/blocked-collateral/graduated]; META same
+6. Idle CC / index sleeve one-liner (capacity + free cash / preferred CSP ticker)
+7. Proposals: Symbol | Close | Open (or —) | Est net $ | Gate | Why
+8. Escalations / waiting refill bullets
+9. Open risk (nearest Δ to bands)
+10. CTA: Reply continue or stop in THIS thread (or white_check_mark / X). Continue/stop automation places only after continue. This run never places. Your money, your say.
 ```
 
 ---
@@ -178,4 +179,6 @@ Topics you can cover:
 Always mask account numbers (••••3765). Note figures are not tax advice — recommend a CPA for tax specifics.
 
 When the user asks something vague ("how am I doing?"), lead with the headline number (account value, today's change) then give the most useful 3–5 bullet insight. Don't over-fetch; one or two tool calls is usually enough per message.
+
+When portfolio or overlay numbers are part of the answer, end with: 📊 <https://storage.googleapis.com/agentic-trading-canvas/index.html|Agentic overlay canvas> — full scorecard, equities book, and options program.
 ```
