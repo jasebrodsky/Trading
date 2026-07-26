@@ -1,0 +1,32 @@
+# Deploy strategy canvas to GCS on push (set substitution _GCS_BUCKET on the trigger).
+substitutions:
+  _GCS_BUCKET: agentic-canvas-REPLACE_ME
+
+steps:
+  - name: gcr.io/cloud-builders/gsutil
+    id: sync-canvas
+    args:
+      - -m
+      - rsync
+      - -r
+      - -c
+      - -d
+      - canvas/
+      - gs://${_GCS_BUCKET}/
+
+  # Fresh JSON for phones/browsers (site also uses fetch cache: no-store).
+  - name: gcr.io/cloud-builders/gsutil
+    id: cache-json
+    entrypoint: bash
+    args:
+      - -c
+      - |
+        set -euo pipefail
+        for obj in data/snapshot.json data/equities.json; do
+          if gsutil -q stat "gs://${_GCS_BUCKET}/$${obj}" 2>/dev/null; then
+            gsutil -m setmeta -h "Cache-Control:no-cache, max-age=0" "gs://${_GCS_BUCKET}/$${obj}"
+          fi
+        done
+
+options:
+  logging: CLOUD_LOGGING_ONLY
