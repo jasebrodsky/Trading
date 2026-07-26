@@ -11,7 +11,8 @@ if ! command -v gsutil >/dev/null 2>&1; then
 fi
 
 echo "Syncing ${ROOT}/canvas → gs://${BUCKET}/"
-gsutil -m rsync -r -c -d "${ROOT}/canvas/" "gs://${BUCKET}/"
+# Exclude local secrets (gitignored ElevenLabs key).
+gsutil -m rsync -r -c -d -x 'data/voice-config\.json$' "${ROOT}/canvas/" "gs://${BUCKET}/"
 
 for obj in data/snapshot.json data/equities.json; do
   if gsutil -q stat "gs://${BUCKET}/${obj}" 2>/dev/null; then
