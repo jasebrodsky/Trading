@@ -14,6 +14,7 @@ Thumbs.db
 !.env.example
 *.pem
 credentials*.json
+canvas/data/voice-config.json
 
 # Logs / local dumps
 *.log

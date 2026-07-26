@@ -1,0 +1,7 @@
+{
+  "provider": "elevenlabs",
+  "apiKey": "YOUR_ELEVENLABS_API_KEY",
+  "voiceId": "AZnzlk1XvdvUeBnXmlld",
+  "modelId": "eleven_multilingual_v2",
+  "note": "Domi — strong American female (Suze-style energy). Copy to voice-config.json. Do not commit your key."
+}
