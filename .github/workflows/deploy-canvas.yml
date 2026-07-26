@@ -1,0 +1,48 @@
+name: Deploy strategy canvas to GCS
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'canvas/**'
+      - 'cloudbuild.yaml'
+      - '.github/workflows/deploy-canvas.yml'
+  workflow_dispatch:
+
+env:
+  GCS_BUCKET: agentic-trading-canvas
+  GCP_PROJECT_ID: hello-again-e68e6
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+
+      - id: auth
+        uses: google-github-actions/auth@v2
+        with:
+          credentials_json: ${{ secrets.GCP_SA_KEY }}
+
+      - uses: google-github-actions/setup-gcloud@v2
+
+      - name: Sync canvas to GCS
+        run: |
+          gsutil -m rsync -r -c -d \
+            -x 'data/voice-config\.json$' \
+            canvas/ "gs://${GCS_BUCKET}/"
+
+      - name: Set no-cache on live JSON
+        run: |
+          for obj in data/snapshot.json data/equities.json; do
+            if gsutil -q stat "gs://${GCS_BUCKET}/${obj}" 2>/dev/null; then
+              gsutil setmeta -h "Cache-Control:no-cache, max-age=0" \
+                "gs://${GCS_BUCKET}/${obj}"
+            fi
+          done
+
+      - name: Print live URL
+        run: |
+          echo "Live: https://storage.googleapis.com/${GCS_BUCKET}/index.html"

@@ -196,7 +196,8 @@ Prefer **git → Cloud Build** for audit trail and one deploy path.
 - [x] GCS bucket `agentic-trading-canvas` (project `hello-again-e68e6`) + website config + public read
 - [x] Manual deploy smoke test — **live:** https://storage.googleapis.com/agentic-trading-canvas/index.html
 - [x] Cloud Build SA `objectAdmin` on bucket
-- [ ] Cloud Build trigger on `main` (connect GitHub in console — see Phase 2)
+- [x] GitHub Actions deploy on `main` (`.github/workflows/deploy-canvas.yml`; requires `GCP_SA_KEY` repo secret)
+- [ ] Cloud Build trigger on `main` (optional duplicate of Actions — connect GitHub in console — see Phase 2)
 - [ ] Agent skill publishes commit after snapshot refresh
 - [ ] Bookmark public URL on phone
 - [ ] (Optional) Custom domain
