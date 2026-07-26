@@ -1,6 +1,6 @@
 # Deploy strategy canvas to GCS on push (set substitution _GCS_BUCKET on the trigger).
 substitutions:
-  _GCS_BUCKET: agentic-canvas-REPLACE_ME
+  _GCS_BUCKET: agentic-trading-canvas
 
 steps:
   - name: gcr.io/cloud-builders/gsutil
@@ -11,6 +11,8 @@ steps:
       - -r
       - -c
       - -d
+      - -x
+      - data/voice-config\.json$
       - canvas/
       - gs://${_GCS_BUCKET}/
 
