@@ -24,21 +24,20 @@ Details: [docs/strategy.md](docs/strategy.md) · Agent playbook: [.cursor/skills
 
 ## Strategy canvas
 
-Visual reference for program stats, sleeves/bands, and future projects:
+Visual reference for program stats, sleeves/bands, and ops dashboard:
 
 - Open [`canvas/index.html`](canvas/index.html) (or `cd canvas && python3 -m http.server 8765`)
-- Roadmap: [`docs/projects.md`](docs/projects.md)
 - Snapshot data: [`canvas/data/snapshot.json`](canvas/data/snapshot.json)
+- **Public hosting (GCP):** [docs/gcp-hosting.md](docs/gcp-hosting.md) — static site + JSON on GCS; agent refresh → commit → Cloud Build deploy
 
-Prompt **Refresh the strategy canvas snapshot** after a daily check to update the numbers.
+Prompt **Refresh the strategy canvas snapshot** after a daily check to update the numbers. Add **and publish to GCP** to commit and deploy the live site.
 
 ## Layout
 
 | Path | Purpose |
 |------|---------|
-| `canvas/` | Strategy + stats + projects canvas |
+| `canvas/` | Strategy + stats ops canvas |
 | `docs/strategy.md` | Rules, bands, account scope |
-| `docs/projects.md` | Future projects roadmap |
 | `docs/slack-automations.md` | Slack daily-check + continue/stop prompts |
 | `runbooks/` | Dated session notes / checklists |
 | `.cursor/skills/robinhood-delta-band-cc/` | Tier C agent skill |

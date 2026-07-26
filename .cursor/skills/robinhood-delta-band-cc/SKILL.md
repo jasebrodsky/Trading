@@ -139,6 +139,7 @@ When asked to refresh the strategy canvas (or optionally at the end of a daily c
 3. Rebuild **ops dashboard** fields:
    - `callouts` — zone counts + actions + loudest flag (harvest/defend/earnings-flatten/waiting-refill/idle-CC/accum/index).
    - `coverage` — per-symbol capacity / covered / idle / earnings blackout (≤5 trading days).
+   - `equities` — full equity book (symbol, shares, avgCost, last, marketValue, unrealized, sleeve) plus options-only underlyings (e.g. SPY CSP).
    - `earnings.blackout` + `earnings.watch`; `assignmentRisks` for embedded-gain shorts.
    - `runway` — cash, BP, CSP collateral, buffer headroom, whether next META/index CSP fits.
 4. Rebuild **performance**:
@@ -147,7 +148,11 @@ When asked to refresh the strategy canvas (or optionally at the end of a daily c
 5. Rebuild **forward income**:
    - Open extrinsic + mark P&L; idle-fill estimate (label as estimate); `expiryCalendar`; `indexSleeve` shares + CSP notional.
 6. Write [`canvas/data/snapshot.json`](../../../canvas/data/snapshot.json) and update `#snapshot-fallback` in [`canvas/index.html`](../../../canvas/index.html).
-7. Do not invent projects — edit docs/projects + `projects.json` only when the user asks.
+7. **Publish to GCP** (when hosting is configured — see [docs/gcp-hosting.md](../../../docs/gcp-hosting.md)):
+   - Commit `canvas/data/snapshot.json`, `canvas/data/equities.json` (if changed), and `canvas/index.html` (if fallback changed).
+   - Push to `main` → Cloud Build runs [`cloudbuild.yaml`](../../../cloudbuild.yaml) and rsyncs `canvas/` to the GCS bucket.
+   - Or run `./scripts/deploy-canvas-gcs.sh YOUR_BUCKET` if direct upload is requested (requires `gsutil` + GCP auth; never commit keys).
+   - Do **not** commit `voice-config.json` or any secrets.
 
 ## Safety
 
