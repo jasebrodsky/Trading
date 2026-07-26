@@ -20,7 +20,7 @@ The portfolio is split into two sleeves with different target entry Δ. The band
 | **Income** | **0.20–0.30** | TSLA, DAL, AAL, MRNA, PFE, HOOD, INTC, VALE, and any name not explicitly listed as Conviction | Neutral-to-income; maximize premium; assignment is acceptable |
 | **Accumulation** | **0.20–0.25 CSP** | AMD, META (and any Conviction candidate below 100 shares) | Sell cash-secured puts to acquire shares at a discount; collect premium while building toward 100-share CC coverage; once ≥100 shares held, graduate to Conviction CC |
 
-**Income floor note:** inherited IRA distributions (~$3k/month) cover any gap between Conviction-sleeve premium and cost of living. Conviction names should not be over-pressured for income — use the income sleeve and IRA for that.
+**Income floor note:** options income on the full book typically covers **~$6k–8k/month** net once deployed; plan on **≥$6k** as a conservative floor. **$3k/month** sweeps to Amex savings on the **15th** when withdrawable cash allows (see [income-sweep.md](income-sweep.md)). Inherited IRA auto-withdrawals can stay paused while premium + sweep cover spending; optional year-end IRA draws for bracket top-up are a separate tax decision. Conviction names should not be over-pressured for income — use the income sleeve (and external sweep), not low-Δ CCs on embedded-gain names, for that.
 
 **Adding a name to Conviction:** requires explicit user instruction. Default is Income sleeve.
 
@@ -129,6 +129,8 @@ Close-only flatten still must pass spread / review / BP / coverage gates on the 
 - Assignment → own 100 shares → that name joins the CC book.
 
 **CC income → index path:** when harvest/close frees premium or cash builds above CSP needs + buffer, prefer deploying into index **shares** (SPY/RSP/ITOT) or a new index CSP that still PASSes gates — do not let large idle cash sit uninvested without a stated reason on the report.
+
+**CC income → savings path:** after CSP collateral and the ~$2k BP buffer, cash above the **$3k monthly Amex sweep** reserve can still deploy into the index sleeve. On the **15th**, **manually** withdraw **$3k** to Amex savings if `sweep_available ≥ $3k` per [income-sweep.md](income-sweep.md) (Robinhood has no recurring outbound ACH — agents report readiness only).
 
 ## Autonomy — Tier C
 

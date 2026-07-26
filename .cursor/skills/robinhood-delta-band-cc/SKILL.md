@@ -9,7 +9,7 @@ description: >-
 
 # Robinhood delta-band covered calls (Tier C)
 
-Read [docs/strategy.md](../../../docs/strategy.md) first. Account: Agentic `420763765` only.
+Read [docs/strategy.md](../../../docs/strategy.md) first. Income sweep: [docs/income-sweep.md](../../../docs/income-sweep.md). Account: Agentic `420763765` only.
 
 ## Triggers
 
@@ -60,6 +60,7 @@ Also compute from equities + shorts (see [docs/strategy.md](../../../docs/strate
 - **Idle CC capacity** per symbol: `floor(shares/100) − open short call contracts` (include SPY when held).
 - **Accumulation sleeve status** per target (AMD, META): shares held, open CSP if any, earnings proximity, free cash vs collateral needed.
 - **Index CSP sleeve:** open short puts on SPY/RSP/ITOT; free cash vs collateral; whether a new RSP/ITOT (preferred) or SPY put can open without breaching the ~$2k BP buffer.
+- **Income sweep** ([docs/income-sweep.md](../../../docs/income-sweep.md)): from `get_portfolio` cash + BP and open short put collateral, compute `sweep_available` and whether **$3k Amex sweep on the 15th** is ready or blocked; emphasize on checks dated **13th–17th** ET.
 
 ### 3. Classify each short
 
@@ -125,7 +126,7 @@ Never place on non-Agentic accounts. Never skip review unless user explicitly sa
 
 Portfolio + overlay summary (optional `runbooks/YYYY-MM-DD.md`).
 
-Slack daily-check: **two messages** per [docs/slack-automations.md](../../../docs/slack-automations.md) — (1) portfolio scoreboard, (2) overlay actions + CTA.
+Slack daily-check: **two messages** per [docs/slack-automations.md](../../../docs/slack-automations.md) — (1) portfolio scoreboard **+ income sweep line**, (2) overlay actions + CTA.
 
 ### Canvas snapshot refresh
 

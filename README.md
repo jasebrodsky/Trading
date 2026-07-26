@@ -13,7 +13,7 @@ Delta-band covered calls on the Agentic account:
 - Defend shares / roll when Δ &gt; ~0.45
 - Autonomy: **Tier C** — auto-place within rules after `review_option_order`; escalate exceptions
 
-Details: [docs/strategy.md](docs/strategy.md) · Agent playbook: [.cursor/skills/robinhood-delta-band-cc/SKILL.md](.cursor/skills/robinhood-delta-band-cc/SKILL.md)
+Details: [docs/strategy.md](docs/strategy.md) · Agent playbook: [.cursor/skills/robinhood-delta-band-cc/SKILL.md](.cursor/skills/robinhood-delta-band-cc/SKILL.md) · Savings sweep: [docs/income-sweep.md](docs/income-sweep.md) ($3k/month to Amex on the 15th)
 
 ## Quick start
 
@@ -38,6 +38,7 @@ Prompt **Refresh the strategy canvas snapshot** after a daily check to update th
 |------|---------|
 | `canvas/` | Strategy + stats ops canvas |
 | `docs/strategy.md` | Rules, bands, account scope |
+| `docs/income-sweep.md` | $3k/month Amex savings sweep (15th, balance-gated) |
 | `docs/slack-automations.md` | Slack daily-check + continue/stop prompts |
 | `runbooks/` | Dated session notes / checklists |
 | `.cursor/skills/robinhood-delta-band-cc/` | Tier C agent skill |
