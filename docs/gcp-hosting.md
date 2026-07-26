@@ -1,5 +1,10 @@
 # GCP hosting plan — Agentic strategy canvas
 
+**Public URL:** https://storage.googleapis.com/agentic-trading-canvas/index.html  
+**Bucket:** `agentic-trading-canvas` · **Project:** `hello-again-e68e6`
+
+The daily Slack check refreshes `snapshot.json` and publishes here **before** posting messages (see [slack-automations.md](slack-automations.md)).
+
 Public static site on **Google Cloud Storage** (or Firebase Hosting). Live numbers come from `canvas/data/snapshot.json`, rebuilt by the Robinhood MCP agent and published on push.
 
 ## Architecture

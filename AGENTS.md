@@ -9,7 +9,7 @@
 | Host canvas publicly | [docs/gcp-hosting.md](docs/gcp-hosting.md) — GCS + Cloud Build |
 | Change bands / gates | Edit `docs/strategy.md` |
 | Change agent procedure | Edit `.cursor/skills/robinhood-delta-band-cc/SKILL.md` |
-| Slack daily report / continue-stop | Edit prompts in `docs/slack-automations.md`, paste into [Automations](https://cursor.com/automations) (morning scoreboard + overlay actions) |
+| Slack daily report / continue-stop | Edit prompts in `docs/slack-automations.md`, paste into [Automations](https://cursor.com/automations) — daily check publishes canvas + posts https://storage.googleapis.com/agentic-trading-canvas/index.html |
 
 Skill: **robinhood-delta-band-cc** (Tier C auto-place within gates).
 

@@ -1,5 +1,8 @@
 # Slack automations — Agentic delta-band
 
+**Live canvas (public):** https://storage.googleapis.com/agentic-trading-canvas/index.html  
+Updated each daily check after MCP snapshot → commit → GCS deploy (`agentic-trading-canvas`).
+
 Three separate Cursor Automations. Do **not** merge them into one prompt.
 
 | Automation | Role | Places orders? | Channel |
@@ -49,7 +52,18 @@ This automation is REPORT-ONLY.
 3. Also report **idle CC capacity** (floor(shares/100) − short calls), **accumulation CSP status** (AMD/META: open / waiting-earnings / blocked-collateral / graduated), and **index CSP sleeve** status (free cash vs put collateral; prefer new puts on RSP then ITOT then SPY; ~$2k BP buffer). One slot at a time for accumulation + index CSPs combined — do not stack if combined collateral breaches BP buffer. For idle CC: propose **full idle** per liquid symbol at sleeve entry Δ when gates PASS — no phase-in / no “start with 2–4 contracts.” Skip only thin/meme tape that fails the economic spread gate, or earnings blackout.
 4. Coverage check. Build orders. Evaluate gates per leg using the **economic spread rule** in docs/strategy.md (PASS if spread ≤20% of mid OR ≤$0.15 abs OR adverse fill ≤10% of expected roll credit / ≤$0.25 on close-only). Never PASS a rewrite in earnings-flatten or before refill rules clear. Do not leave harvest as “do nothing” when BTC-only would PASS. Treat broker OPTION_WIDE_BID_ASK_SPREAD as advisory when the economic rule PASSes.
 
-=== C) Post TWO Slack messages to #all-agentic-trading ===
+=== C) Strategy canvas — publish BEFORE Slack ===
+Reuse data from A/B. Follow robinhood-delta-band-cc skill **Canvas snapshot refresh** + **Publish to GCP**:
+1. Write `canvas/data/snapshot.json` (+ `canvas/data/equities.json` if refreshed) and sync `#snapshot-fallback` in `canvas/index.html`.
+2. Publish so the public link is current **before** you post to Slack:
+   - Commit + push to `main` (paths under `canvas/`).
+   - If `gsutil` is available: `./scripts/deploy-canvas-gcs.sh agentic-trading-canvas` (fastest — use this on Cloud Agent when possible).
+   - If only git push: Cloud Build deploys when the trigger is configured (~1–2 min lag).
+3. Do **not** post Slack until publish is attempted. Never commit `voice-config.json` or secrets.
+
+**Public canvas URL (include in Slack):** https://storage.googleapis.com/agentic-trading-canvas/index.html
+
+=== D) Post TWO Slack messages to #all-agentic-trading ===
 Use mrkdwn + fenced monospace tables. Suze prose around grids. Scannable.
 
 MESSAGE 1 — Portfolio (scoreboard first)
@@ -57,7 +71,8 @@ MESSAGE 1 — Portfolio (scoreboard first)
 2. Quick take: 3–5 bullets (portfolio feel, biggest winner/loser, MTD & YTD realized one-liners)
 3. Scoreboard table: Account value, Equities, Options, Cash, BP, Unrealized equity P&L, Realized MTD (all/options/equity), Realized YTD (all/options/equity)
 4. Winners & losers table (top 3 each): Rank | Symbol | Unrealized $ | % | Notes
-5. One line: “Overlay actions → see next message.”
+5. **Live canvas:** 📊 <https://storage.googleapis.com/agentic-trading-canvas/index.html|Agentic overlay canvas> — scorecard, equities book, and options program (updated this run).
+6. One line: “Overlay actions → see next message.”
 
 MESSAGE 2 — Overlay (actions second) — post as a follow-up in the same channel right after message 1 (thread reply under message 1 if the tool allows; otherwise a second channel message that clearly says “Overlay — continues morning check”)
 1. Quick take: counts hold / harvest / harvest-close-only / defend / earnings-flatten / waiting-refill / idle-CC-fill / index-CSP / accum-CSP; loudest red flag

@@ -125,11 +125,13 @@ Never place on non-Agentic accounts. Never skip review unless user explicitly sa
 
 Portfolio + overlay summary (optional `runbooks/YYYY-MM-DD.md`).
 
-Slack daily-check: **two messages** per [docs/slack-automations.md](../../../docs/slack-automations.md) — (1) portfolio scoreboard, (2) overlay actions + CTA.
+Slack daily-check: **two messages** per [docs/slack-automations.md](../../../docs/slack-automations.md) — (1) portfolio scoreboard + **live canvas link**, (2) overlay actions + CTA.
+
+**Before posting Slack (daily check only):** run **Canvas snapshot refresh** + **Publish to GCP** (section below) so https://storage.googleapis.com/agentic-trading-canvas/index.html serves data from this run.
 
 ### Canvas snapshot refresh
 
-When asked to refresh the strategy canvas (or optionally at the end of a daily check):
+When asked to refresh the strategy canvas, **or at the end of every daily Slack check** (mandatory before Slack):
 
 1. Pull portfolio, equities + quotes, open options + instruments/quotes, realized P&L (options + equity, MTD/YTD/30d/90d), filled option orders YTD, earnings for holdings with CC capacity or open shorts.
 2. Rebuild the **premium ledger** for the calendar year:
@@ -148,10 +150,10 @@ When asked to refresh the strategy canvas (or optionally at the end of a daily c
 5. Rebuild **forward income**:
    - Open extrinsic + mark P&L; idle-fill estimate (label as estimate); `expiryCalendar`; `indexSleeve` shares + CSP notional.
 6. Write [`canvas/data/snapshot.json`](../../../canvas/data/snapshot.json) and update `#snapshot-fallback` in [`canvas/index.html`](../../../canvas/index.html).
-7. **Publish to GCP** (when hosting is configured — see [docs/gcp-hosting.md](../../../docs/gcp-hosting.md)):
+7. **Publish to GCP** (required for daily Slack check; see [docs/gcp-hosting.md](../../../docs/gcp-hosting.md)):
    - Commit `canvas/data/snapshot.json`, `canvas/data/equities.json` (if changed), and `canvas/index.html` (if fallback changed).
-   - Push to `main` → Cloud Build runs [`cloudbuild.yaml`](../../../cloudbuild.yaml) and rsyncs `canvas/` to the GCS bucket.
-   - Or run `./scripts/deploy-canvas-gcs.sh YOUR_BUCKET` if direct upload is requested (requires `gsutil` + GCP auth; never commit keys).
+   - Push to `main` → Cloud Build runs [`cloudbuild.yaml`](../../../cloudbuild.yaml) and rsyncs `canvas/` to `gs://agentic-trading-canvas/`.
+   - **Prefer also** `./scripts/deploy-canvas-gcs.sh agentic-trading-canvas` when `gsutil` is available (ensures link is live before Slack posts).
    - Do **not** commit `voice-config.json` or any secrets.
 
 ## Safety
