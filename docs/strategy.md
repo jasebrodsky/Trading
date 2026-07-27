@@ -71,7 +71,8 @@ Close-only flatten still must pass spread / review / BP / coverage gates on the 
 - Prefer filling idle capacity on liquid names already held (and on **SPY** when shares are in Agentic).
 - Entry Δ is **sleeve-specific** per Conviction tiers: ~0.12–0.18Δ for Conviction names, ~0.20–0.30Δ for Income names. Earnings flatten/refill rules apply per underlying.
 - **Fill all unused CC capacity** that passes gates on a check — no artificial phase-in or “start with 2–4 contracts.” Size to full idle (`floor(shares/100) − short calls`) per symbol when spread / review / earnings / coverage PASS.
-- Do not chase thin names (wide tape / meme) just to “cover everything” — escalate or skip if economic spread fails; otherwise fill.
+- **Re-evaluate gates fresh every check.** A symbol that failed spread, liquidity, or review on a prior day is **not** exempt on the next run — pull live quotes, build the candidate leg, and run the full gate table again. Do not maintain permanent “skip lists,” “phased later” queues, or carry-forward FAIL labels that bypass today’s evaluation.
+- Do not chase thin names (wide tape / meme) just to “cover everything” — escalate or skip **only when today’s** economic spread gate fails; otherwise fill.
 
 ### Accumulation sleeve (CSP-to-CC wheel)
 
@@ -133,6 +134,8 @@ Close-only flatten still must pass spread / review / BP / coverage gates on the 
 ## Autonomy — Tier C
 
 After `review_option_order`, **auto-place** when all gates pass. Escalate to human when any gate fails.
+
+**No stale gate memory:** every daily check and every continue/stop EXECUTE must re-run gates on all eligible idle CC symbols (and other actionable classes) from live MCP data. Prior-day FAIL or “thin tape” notes do not skip today’s `review_option_order` / spread check.
 
 ### Auto-place gates (all required)
 

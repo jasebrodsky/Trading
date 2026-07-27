@@ -160,8 +160,6 @@ def build_coverage(equities):
             status = "covered"
         elif covered > 0:
             status = "partial"
-        elif sym in ("SNAP", "DJT"):
-            status = "skip-thin-tape"
         elif sym == "AMZN":
             status = "idle"
         earnings_blackout = sym in ("HOOD", "AMZN", "VALE", "MRNA")
@@ -232,9 +230,12 @@ def main():
     open_extrinsic = sum(r["extrinsic"] for r in open_book)
     mark_pnl = open_extrinsic - open_credit
 
-    idle_cc = sum(c["idle"] for c in coverage if c["status"] not in ("skip-thin-tape", "hold-tomorrow-flatten"))
+    idle_cc = sum(
+        c["idle"] for c in coverage
+        if c["status"] not in ("hold-tomorrow-flatten",) and not c.get("earningsBlackout")
+    )
     idle_blocked = sum(c["idle"] for c in coverage if c.get("earningsBlackout"))
-    idle_skip = sum(c["idle"] for c in coverage if c["status"] == "skip-thin-tape")
+    idle_skip = 0  # spread-fail counts come from live gate eval each run, not carry-forward skips
 
     hold = sum(1 for r in open_book if r["zone"] == "hold")
     harvest = sum(1 for r in open_book if r["zone"] == "harvest")

@@ -91,7 +91,7 @@ Use put Δ magnitude for CSPs. Prefer same chain; pick liquid strike near target
 
 **New shorts** (same bands; propose on every check when eligible):
 
-1. **Idle CC fill** — unused capacity on liquid holdings (and SPY if shares are in Agentic). Use sleeve entry target Δ. **Fill full idle** per symbol when gates PASS (no phase-in). Skip only if economic spread fails, earnings blackout, or thin/meme tape.
+1. **Idle CC fill** — unused capacity on liquid holdings (and SPY if shares are in Agentic). Use sleeve entry target Δ. **Fill full idle** per symbol when gates PASS (no phase-in). Skip only if **today’s** economic spread fails or earnings blackout applies. **Re-check every symbol every run** — no permanent skip lists; a prior-day FAIL does not exempt the name from live quote + gate evaluation today.
 2. **Accumulation CSP open** — AMD or META (or any Conviction candidate <100 sh): only when earnings clear + free cash supports full collateral + ~$2k buffer + no other CSP already consuming cash. One at a time. Propose at ~0.20–0.25Δ / 30–45 DTE. If earnings within 5 days → flatten (BTC close-only) same as CCs.
 3. **Index CSP open** — only when free cash supports full collateral + ~$2k buffer AND no accumulation CSP slot already taken. Prefer **RSP**, then **ITOT**, then **SPY** for *new* puts.
 
@@ -108,6 +108,7 @@ For each actionable class (earnings-flatten, harvest, harvest-close-only, defend
 
 For each proposal:
 
+0. **Fresh evaluation only** — never skip a symbol because a prior check failed spread/liquidity or was labeled thin-tape. Always pull current chains/quotes and score gates for this run.
 1. Earnings / refill rules from [docs/strategy.md](../../../docs/strategy.md).
 2. Evaluate rewrite and BTC legs separately when both exist. Apply the **economic spread rule** in [docs/strategy.md](../../../docs/strategy.md) (20% of mid **or** $0.15 abs **or** adverse fill ≤ 10% of expected roll credit / ≤ $0.25 close-only). If rewrite fails liquidity and BTC passes → **PASS close-only**, FAIL rewrite (do not FAIL the whole harvest into “do nothing”).
 3. `review_option_order` on each leg you would place (even on dry-run / daily-check). Treat `OPTION_WIDE_BID_ASK_SPREAD` as advisory when the economic spread rule already PASSes; other hard alerts still block.
