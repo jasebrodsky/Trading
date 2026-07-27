@@ -12,7 +12,16 @@ fi
 
 echo "Syncing ${ROOT}/canvas → gs://${BUCKET}/"
 # Exclude local secrets (gitignored ElevenLabs key).
-gsutil -m rsync -r -c -d -x 'data/voice-config\.json$' "${ROOT}/canvas/" "gs://${BUCKET}/"
+# macOS: avoid gsutil -m (multiprocessing) and -c (crcmod) — old crcmod hits
+# "module 'sys' has no attribute 'maxint'" on Python 3 and fails the sync.
+GSUTIL_OPTS=(-o "GSUtil:parallel_process_count=1")
+if [[ "$(uname -s)" == "Darwin" ]]; then
+  gsutil "${GSUTIL_OPTS[@]}" rsync -r -d -x 'data/voice-config\.json$' \
+    "${ROOT}/canvas/" "gs://${BUCKET}/"
+else
+  gsutil -m rsync -r -c -d -x 'data/voice-config\.json$' \
+    "${ROOT}/canvas/" "gs://${BUCKET}/"
+fi
 
 for obj in data/snapshot.json data/equities.json; do
   if gsutil -q stat "gs://${BUCKET}/${obj}" 2>/dev/null; then
