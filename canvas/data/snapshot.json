@@ -1,6 +1,7 @@
 {
-  "asOf": "2026-07-27T22:12:00-04:00",
-  "asOfLabel": "Jul 27, 2026 10:12 PM ET (pre-Monday open) \u00b7 Agentic \u2022\u2022\u2022\u20223765",
+  "asOf": "2026-07-27T11:56:00-04:00",
+  "asOfLabel": "Jul 27, 2026 11:56 AM ET (live markets \u00b7 MCP cached pre-market) \u00b7 Agentic \u2022\u2022\u2022\u20223765",
+  "dataNote": "Robinhood MCP unavailable this run \u2014 portfolio and delta values from pre-market snapshot (Jul 26 PM). Earnings calendar and classification unchanged. URGENT: PFE \u00d73 CC + AMD \u00d71 CSP flatten status unknown (due at open).",
   "account": {
     "nickname": "Agentic",
     "masked": "\u2022\u2022\u2022\u20223765",
