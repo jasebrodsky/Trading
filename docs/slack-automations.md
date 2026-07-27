@@ -21,6 +21,17 @@ Wire triggers so they do not collide:
 
 ## Prompt — Agentic delta-band daily check
 
+**Setup checklist (required — green ✅ / ⚡ alone does NOT post to Slack):**
+
+| Setting | Value |
+|---------|-------|
+| Repo / branch | `jasebrodsky/Trading` · `main` |
+| Tools → **Send to Slack** | **ON** (without this, runs finish silently — you only see ✅ or ⚡) |
+| Tools → **Read Slack channels** | **ON** (thread replies for message 2) |
+| Tools → **Robinhood trading MCP** | **ON** |
+| Trigger audience | **Anyone in the channel** (not “authenticated Cursor users only”) |
+| Channel | Invite `@Cursor` to `#all-agentic-trading` |
+
 Copy into the daily-check automation:
 
 ```text
@@ -64,6 +75,13 @@ Reuse data from A/B. Follow robinhood-delta-band-cc skill **Canvas snapshot refr
 **Public canvas URL (include in Slack):** https://storage.googleapis.com/agentic-trading-canvas/index.html
 
 === D) Post TWO Slack messages to #all-agentic-trading ===
+=== SLACK POST (mandatory — do not end run without this) ===
+- The green checkmark / lightning bolt only means the run finished — it is NOT your Slack answer.
+- You MUST post using **Send to Slack** before ending the run. A runbook file is NOT a substitute.
+- Post Message 1 to `#all-agentic-trading` (or reply in the triggering thread for dry-run kicks).
+- Post Message 2 as a **thread reply** under Message 1 (or a second channel message if threading unavailable).
+- Never finish without posting both messages — even on MCP errors (say what failed and suggest re-auth).
+
 Use mrkdwn + fenced monospace tables. Suze prose around grids. Scannable.
 
 MESSAGE 1 — Portfolio (scoreboard first)
@@ -90,6 +108,8 @@ MESSAGE 2 — Overlay (actions second) — post as a follow-up in the same chann
 ---
 
 ## Prompt — Agentic delta-band continue/stop
+
+**Setup checklist:** same **Send to Slack** + **Read Slack channels** + **Robinhood MCP** as daily check (see table above). Channel: `#all-agentic-trading`.
 
 Copy into the continue/stop automation:
 
