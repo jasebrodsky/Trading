@@ -1,7 +1,7 @@
 {
-  "asOf": "2026-07-27T12:00:00-04:00",
-  "asOfLabel": "Jul 27, 2026 12:00 PM ET (live markets \u00b7 MCP unavailable) \u00b7 Agentic \u2022\u2022\u2022\u20223765",
-  "dataNote": "Robinhood MCP unavailable (noon check). Portfolio and delta values from pre-market Jul 26 snapshot \u2014 marks/deltas stale ~15h. PFE \u00d73 CC + AMD \u00d71 CSP earnings-flatten were due at today\u2019s open (9:30 AM ET) \u2014 status unknown. Confirm live in Robinhood app immediately.",
+  "asOf": "2026-07-27T13:09:00-04:00",
+  "asOfLabel": "Jul 27, 2026 1:09 PM ET (live markets \u00b7 MCP unavailable) \u00b7 Agentic \u2022\u2022\u2022\u20223765",
+  "dataNote": "Robinhood MCP unavailable (Slack 1:09 PM ET dry-run check). Portfolio and delta values from pre-market Jul 26 snapshot \u2014 marks/deltas stale ~16h. PFE \u00d73 CC + AMD \u00d71 CSP earnings-flatten were due at today\u2019s open (9:30 AM ET) \u2014 status still unknown (MCP down all day). Confirm fills live in Robinhood app immediately.",
   "account": {
     "nickname": "Agentic",
     "masked": "\u2022\u2022\u2022\u20223765",
