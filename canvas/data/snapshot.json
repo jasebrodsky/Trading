@@ -1,7 +1,7 @@
 {
-  "asOf": "2026-07-27T13:35:00-04:00",
-  "asOfLabel": "Jul 27, 2026 1:35 PM ET (live markets · Agentic ••••3765)",
-  "dataNote": "Live MCP data. Markets open. Dry-run — no orders placed. MU and NVDA both triggered HARVEST (semis sold off ~4–5% today). PFE ×3 CC + AMD ×1 CSP are technically HOLD today (Aug 4 = TD+6 from Jul 27) but enter the 5-day earnings window at tomorrow's open — MUST FLATTEN before Jul 28 check.",
+  "asOf": "2026-07-27T13:47:00-04:00",
+  "asOfLabel": "Jul 27, 2026 1:47 PM ET (live markets · Agentic ••••3765)",
+  "dataNote": "Live MCP data. Markets open. Report-only run — no orders placed. MU (|Δ|=0.111) and NVDA (|Δ|=0.107) both HARVEST (semis off 4–5% today). PFE ×3 CC + AMD ×1 CSP are HOLD today (Aug 4 = TD+6 from Jul 27) but enter the 5-day earnings window at tomorrow's open — MUST FLATTEN before Jul 28 morning check. 28 idle CC slots eligible now (ONEQ 11, AAL 10, DAL 5, INTC 2).",
   "account": {
     "nickname": "Agentic",
     "masked": "••••3765",
@@ -9,9 +9,9 @@
     "autonomy": "Tier C"
   },
   "portfolio": {
-    "totalValue": 689038.37,
-    "equityValue": 541888.59,
-    "optionsValue": -6047,
+    "totalValue": 689821.40,
+    "equityValue": 542659.62,
+    "optionsValue": -6035,
     "cash": 153196.78,
     "buyingPower": 35696.78
   },
@@ -20,8 +20,8 @@
     "realizedMtdEquity": 0,
     "realizedYtdOptions": 3227,
     "realizedYtdAll": 3227,
-    "unrealizedEquity": 122546,
-    "unrealizedNote": "Full equity book vs avg cost (live Jul 27 prices at 1:35 PM ET)"
+    "unrealizedEquity": 123193,
+    "unrealizedNote": "Full equity book vs avg cost (live Jul 27 prices at 1:47 PM ET)"
   },
   "ledger": {
     "year": 2026,
@@ -111,7 +111,7 @@
         "debits": 734,
         "netIncome": 6409,
         "realizedOptions": 3227,
-        "totalValue": 689038.37,
+        "totalValue": 689821.40,
         "appreciation": null,
         "totalReturn": 3227
       },
@@ -193,22 +193,22 @@
       {
         "priority": "urgent",
         "kind": "harvest",
-        "detail": "MU $1300C 8/28 ×1 — |Δ|=0.109 (below 0.12). BTC mid $11.60, spread $1.30 = 11.2% of mid → PASS. Rewrite ~0.15Δ Aug 28 (MU $882, target ~$950–980 area). Conviction sleeve."
+        "detail": "MU $1300C 8/28 ×1 — |Δ|=0.111 (below 0.12). BTC mid $11.85, spread $1.00 = 8.4% of mid → PASS. Rewrite ~0.15Δ Aug 28 (MU $884, target ~$960–990 area). Conviction sleeve."
       },
       {
         "priority": "urgent",
         "kind": "harvest",
-        "detail": "NVDA $225C 8/21 ×1 — |Δ|=0.103 (below 0.12). BTC mid $0.94, spread $0.02 = 2.1% of mid → PASS. DTE=25; rewrite into 30–45 DTE (Sep 18/19) at ~0.12–0.18Δ. Conviction sleeve. NVDA earnings Aug 26 PM = clear."
+        "detail": "NVDA $225C 8/21 ×1 — |Δ|=0.107 (below 0.12). BTC mid $0.98, spread $0.02 = 2.0% of mid → PASS. DTE=25; rewrite into Aug 28 (32 DTE, fits 30-45 window) at ~0.12–0.18Δ. Conviction sleeve. NVDA earnings Aug 26 PM = clear (22 TDs)."
       },
       {
         "priority": "urgent-tomorrow",
         "kind": "tomorrow-flatten",
-        "detail": "PFE $26C 8/28 ×3 — |Δ|=0.293, HOLD today (Aug 4 AM = TD+6 from Jul 27). Aug 4 enters 5-TD window at tomorrow's open (TD+5 from Jul 28). Must flatten BEFORE tomorrow's check. Mark $0.32, spread $0.04 = 12.5% of mid → PASS. Est debit ~$96."
+        "detail": "PFE $26C 8/28 ×3 — |Δ|=0.286, HOLD today (Aug 4 AM = TD+6 from Jul 27). Aug 4 enters 5-TD window at tomorrow's open (TD+5 from Jul 28). Must flatten BEFORE tomorrow's check. Mark $0.31, spread $0.04 = 12.9% of mid → PASS. Est debit ~$93."
       },
       {
         "priority": "urgent-tomorrow",
         "kind": "tomorrow-flatten",
-        "detail": "AMD $460P 8/28 ×1 — |Δ|=0.368, HOLD today (Aug 4 PM = TD+6 from Jul 27). Same window logic. AMD down 7.3% today to $483; put mark surged to $34.45. Est debit ~$3,445. Must flatten before Jul 28 check. CSP reopen Aug 5+ (post-print + 1 session)."
+        "detail": "AMD $460P 8/28 ×1 — |Δ|=0.365, HOLD today (Aug 4 PM = TD+6 from Jul 27). Same window logic. AMD down 7.2% today to $484.23; put mark surged from $24.53 to $34.43. Est debit ~$3,443. Must flatten before Jul 28 check. CSP reopen Aug 5+ (post-print + 1 session)."
       },
       {
         "priority": "now",
@@ -552,7 +552,7 @@
     "realized90d": 3227,
     "runRateAnnualized": 39262,
     "runRatePctOfAccount": 5.70,
-    "unrealizedEquity": 122546,
+    "unrealizedEquity": 123193,
     "appreciationYtd": null,
     "totalReturnYtd": 3227,
     "sleeveIncomeYtd": {
@@ -573,9 +573,9 @@
     "note": "All YTD closes were harvest BTCs — no defend rolls yet."
   },
   "forward": {
-    "openExtrinsic": 6037,
+    "openExtrinsic": 6056,
     "openCredit": 5658,
-    "markPnL": -379,
+    "markPnL": -398,
     "idleContracts": 28,
     "idleContractsBlocked": 9,
     "idleContractsSkip": 10,
@@ -592,9 +592,9 @@
             "strike": 225,
             "qty": 1,
             "credit": 259,
-            "mark": 0.94,
-            "extrinsic": 94,
-            "action": "HARVEST — |Δ| 0.103. BTC PASS (2.1% spread). Rewrite Sep 18/19 ~0.12–0.18Δ."
+            "mark": 0.98,
+            "extrinsic": 98,
+            "action": "HARVEST — |Δ| 0.107. BTC PASS (2% spread). Rewrite Aug 28 ~0.12–0.18Δ (32 DTE fits 30-45 window)."
           },
           {
             "symbol": "SPY",
@@ -602,9 +602,9 @@
             "strike": 715,
             "qty": 1,
             "credit": 492,
-            "mark": 5.64,
-            "extrinsic": 564,
-            "action": "hold (index CSP, |Δ| 0.248). SPY $737."
+            "mark": 5.52,
+            "extrinsic": 552,
+            "action": "hold (index CSP, |Δ| 0.245). SPY $737.46."
           }
         ]
       },
@@ -618,9 +618,9 @@
             "strike": 1300,
             "qty": 1,
             "credit": 1900,
-            "mark": 11.60,
-            "extrinsic": 1160,
-            "action": "HARVEST — |Δ| 0.109. BTC PASS (11.2% spread). Rewrite ~0.15Δ Aug 28."
+            "mark": 11.85,
+            "extrinsic": 1185,
+            "action": "HARVEST — |Δ| 0.111. BTC PASS (8.4% spread). Rewrite ~0.15Δ Aug 28."
           },
           {
             "symbol": "TSLA",
@@ -628,9 +628,9 @@
             "strike": 345,
             "qty": 1,
             "credit": 695,
-            "mark": 5.275,
-            "extrinsic": 528,
-            "action": "hold (|Δ| 0.226). TSLA $306."
+            "mark": 5.33,
+            "extrinsic": 533,
+            "action": "hold (|Δ| 0.227). TSLA $306.41."
           },
           {
             "symbol": "PFE",
@@ -638,9 +638,9 @@
             "strike": 26,
             "qty": 3,
             "credit": 69,
-            "mark": 0.32,
-            "extrinsic": 96,
-            "action": "HOLD today (|Δ| 0.293, TD+6). TOMORROW FLATTEN — Aug 4 AM enters 5-TD window at Jul 28 open."
+            "mark": 0.31,
+            "extrinsic": 93,
+            "action": "HOLD today (|Δ| 0.286, TD+6). TOMORROW FLATTEN — Aug 4 AM enters 5-TD window at Jul 28 open."
           },
           {
             "symbol": "AAL",
@@ -648,9 +648,9 @@
             "strike": 16,
             "qty": 4,
             "credit": 143,
-            "mark": 0.375,
-            "extrinsic": 150,
-            "action": "hold (|Δ| 0.299). AAL $14.59."
+            "mark": 0.38,
+            "extrinsic": 152,
+            "action": "hold (|Δ| 0.302). AAL $14.62."
           },
           {
             "symbol": "AMD",
@@ -658,22 +658,22 @@
             "strike": 460,
             "qty": 1,
             "credit": 2100,
-            "mark": 34.45,
-            "extrinsic": 3445,
-            "action": "HOLD today (|Δ| 0.368, TD+6). TOMORROW FLATTEN — Aug 4 PM enters 5-TD window at Jul 28 open. AMD -7.3% today, put mark surged."
+            "mark": 34.43,
+            "extrinsic": 3443,
+            "action": "HOLD today (|Δ| 0.365, TD+6). TOMORROW FLATTEN — Aug 4 PM enters 5-TD window at Jul 28 open. AMD -7.2% today to $484.23, put mark surged from $24.53."
           }
         ]
       }
     ]
   },
   "capital": {
-    "equityPct": 78.6,
+    "equityPct": 78.7,
     "cashPct": 22.2,
-    "optionsMarkPct": -0.88,
-    "cspCollateralPct": 17.1,
-    "equityValue": 541888.59,
+    "optionsMarkPct": -0.87,
+    "cspCollateralPct": 17.0,
+    "equityValue": 542659.62,
     "cash": 153196.78,
-    "optionsMark": -6047,
+    "optionsMark": -6035,
     "cspCollateral": 117500
   },
   "indexSleeve": {
@@ -687,12 +687,12 @@
         "expiration": "2026-08-21",
         "credit": 492,
         "collateral": 71500,
-        "delta": 0.248,
-        "mark": 5.64
+        "delta": 0.245,
+        "mark": 5.52
       }
     ],
     "cspNotional": 71500,
-    "note": "SPY CSP holds (|Δ| 0.248, HOLD). After AMD CSP closes tomorrow: ~$46k frees. RSP $214.85, 1× put ~0.20Δ / 30–45 DTE eligible — confirm chain at Jul 28 session."
+    "note": "SPY CSP holds (|Δ| 0.245, HOLD). SPY at $737.46. After AMD CSP closes tomorrow: ~$46k frees. RSP preferred for next put — confirm chain at Jul 28 session."
   },
   "equityCurve": [
     {
@@ -705,20 +705,20 @@
     },
     {
       "date": "2026-07-27",
-      "totalValue": 689038.37,
-      "note": "Live MCP — semis sold off (MU -4.3%, NVDA -5.1%, AMD -7.3%)"
+      "totalValue": 689821.40,
+      "note": "Live MCP 1:47 PM ET — semis sold off (MU -4.1%, NVDA -4.9%, AMD -7.2%). MU+NVDA both HARVEST. PFE+AMD tomorrow-flatten."
     }
   ],
   "assignmentRisks": [
     {
       "symbol": "MU",
-      "note": "Embedded LTCG ~$75k — HARVEST (|Δ| 0.109 below 0.12). BTC + rewrite ~0.15Δ. Cost $129.91 vs $882.",
-      "delta": 0.109
+      "note": "Embedded LTCG ~$75.5k — HARVEST (|Δ| 0.111 below 0.12). BTC + rewrite ~0.15Δ Aug 28. Cost $129.91 vs $884.",
+      "delta": 0.111
     },
     {
       "symbol": "NVDA",
-      "note": "Embedded LTCG — HARVEST (|Δ| 0.103 below 0.12). BTC + rewrite Sep ~0.12–0.18Δ. Cost $77.43 vs $196.",
-      "delta": 0.103
+      "note": "Embedded LTCG — HARVEST (|Δ| 0.107 below 0.12). BTC + rewrite Aug 28 ~0.12–0.18Δ. Cost $77.43 vs $197.",
+      "delta": 0.107
     }
   ],
   "openBook": [
@@ -731,12 +731,12 @@
       "dte": 32,
       "qty": 1,
       "credit": 1900,
-      "mark": 11.60,
-      "delta": 0.109,
+      "mark": 11.85,
+      "delta": 0.111,
       "zone": "harvest",
       "sleeve": "conviction",
       "role": "CC",
-      "extrinsic": 1160
+      "extrinsic": 1185
     },
     {
       "symbol": "TSLA",
@@ -747,12 +747,12 @@
       "dte": 32,
       "qty": 1,
       "credit": 695,
-      "mark": 5.275,
-      "delta": 0.226,
+      "mark": 5.33,
+      "delta": 0.227,
       "zone": "hold",
       "sleeve": "income",
       "role": "CC",
-      "extrinsic": 528
+      "extrinsic": 533
     },
     {
       "symbol": "PFE",
@@ -763,12 +763,12 @@
       "dte": 32,
       "qty": 3,
       "credit": 69,
-      "mark": 0.32,
-      "delta": 0.293,
+      "mark": 0.31,
+      "delta": 0.286,
       "zone": "hold",
       "sleeve": "income",
       "role": "CC",
-      "extrinsic": 96,
+      "extrinsic": 93,
       "flag": "tomorrow-flatten"
     },
     {
@@ -780,12 +780,12 @@
       "dte": 32,
       "qty": 4,
       "credit": 143,
-      "mark": 0.375,
-      "delta": 0.299,
+      "mark": 0.38,
+      "delta": 0.302,
       "zone": "hold",
       "sleeve": "income",
       "role": "CC",
-      "extrinsic": 150
+      "extrinsic": 152
     },
     {
       "symbol": "AMD",
@@ -796,12 +796,12 @@
       "dte": 32,
       "qty": 1,
       "credit": 2100,
-      "mark": 34.45,
-      "delta": 0.368,
+      "mark": 34.43,
+      "delta": 0.365,
       "zone": "hold",
       "sleeve": "accumulation",
       "role": "CSP",
-      "extrinsic": 3445,
+      "extrinsic": 3443,
       "flag": "tomorrow-flatten"
     },
     {
@@ -813,12 +813,12 @@
       "dte": 25,
       "qty": 1,
       "credit": 259,
-      "mark": 0.94,
-      "delta": 0.103,
+      "mark": 0.98,
+      "delta": 0.107,
       "zone": "harvest",
       "sleeve": "conviction",
       "role": "CC",
-      "extrinsic": 94
+      "extrinsic": 98
     },
     {
       "symbol": "SPY",
@@ -829,12 +829,12 @@
       "dte": 25,
       "qty": 1,
       "credit": 492,
-      "mark": 5.64,
-      "delta": 0.248,
+      "mark": 5.52,
+      "delta": 0.245,
       "zone": "hold",
       "sleeve": "index",
       "role": "CSP",
-      "extrinsic": 564
+      "extrinsic": 552
     }
   ],
   "program": {
@@ -865,46 +865,46 @@
   "winners": [
     {
       "symbol": "MU",
-      "unrealized": 75285,
-      "pct": 579.1,
-      "price": 881.54,
+      "unrealized": 75544,
+      "pct": 580.6,
+      "price": 884.13,
       "avgCost": 129.91
     },
     {
       "symbol": "ONEQ",
-      "unrealized": 42729,
-      "pct": 58.7,
-      "price": 97.81,
+      "unrealized": 42837,
+      "pct": 58.8,
+      "price": 97.90,
       "avgCost": 61.64
     },
     {
       "symbol": "DAL",
-      "unrealized": 25783,
-      "pct": 110.7,
-      "price": 86.16,
+      "unrealized": 25766,
+      "pct": 110.8,
+      "price": 86.125,
       "avgCost": 40.87
     }
   ],
   "losers": [
     {
       "symbol": "SNAP",
-      "unrealized": -27516,
-      "pct": -91.1,
-      "price": 4.52,
+      "unrealized": -27510,
+      "pct": -91.0,
+      "price": 4.53,
       "avgCost": 50.38
     },
     {
       "symbol": "MRNA",
-      "unrealized": -18099,
+      "unrealized": -18103,
       "pct": -75.2,
-      "price": 55.38,
+      "price": 55.34,
       "avgCost": 222.96
     },
     {
       "symbol": "PFE",
-      "unrealized": -17842,
-      "pct": -48.4,
-      "price": 24.85,
+      "unrealized": -17874,
+      "pct": -48.5,
+      "price": 24.815,
       "avgCost": 48.17
     }
   ],
