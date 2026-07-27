@@ -8,7 +8,7 @@ Three separate Cursor Automations. Do **not** merge them into one prompt.
 | Automation | Role | Places orders? | Channel |
 |------------|------|----------------|---------|
 | **Agentic delta-band daily check** | Morning portfolio + overlay report (two Slack messages) | **Never** | `#all-agentic-trading` |
-| **Agentic delta-band continue/stop** | Read thread + user continue/stop → place or skip | Only on **EXECUTE** | `#all-agentic-trading` |
+| **Agentic delta-band continue/stop** | Read thread + user continue/stop → place or skip; **republish canvas after EXECUTE** | Only on **EXECUTE** | `#all-agentic-trading` |
 | **Agentic portfolio chat** | Conversational Q&A about portfolio, strategy, positions | **Never** | `#portfolio-chat` (dedicated) |
 
 Wire triggers so they do not collide:
@@ -143,7 +143,20 @@ EXECUTE:
 - review_option_order then place_option_order only if ALL gates pass for that leg.
 - Never place on gate failure; escalate in-thread.
 - Never trade non-Agentic. Never skip review.
+
+=== E) Strategy canvas — publish AFTER trades (mandatory on EXECUTE) ===
+After all order placement attempts finish (success or gate-fail skip), refresh the live dashboard so prod reflects post-trade positions:
+1. Re-fetch portfolio, equities, options, P&L, earnings — same as daily check section C.
+2. Follow robinhood-delta-band-cc skill **Canvas snapshot refresh** + **Publish to GCP**:
+   - Write `canvas/data/snapshot.json` (+ `canvas/data/equities.json` if refreshed) and sync `#snapshot-fallback` in `canvas/index.html` when needed.
+   - Commit + push to `main` (paths under `canvas/` only). Never commit `voice-config.json` or secrets.
+   - If `gsutil` is available: `./scripts/deploy-canvas-gcs.sh agentic-trading-canvas` (fastest — use on Cloud Agent when possible).
+   - If only git push: Cloud Build deploys when the trigger is configured (~1–2 min lag).
+3. Do this even when zero orders placed (markets closed / all gates failed) — snapshot must match live account state after the EXECUTE run.
+
+Slack reply (after publish attempted):
 - Reply scannable: bottom line; table Symbol | Action | Result | Order id | $ | Why; bullets for escalations / waiting refill.
+- One line with **Live canvas:** 📊 <https://storage.googleapis.com/agentic-trading-canvas/index.html|Agentic overlay canvas> — updated after this run.
 
 Market hours (Gate #8): resolve “now” in America/New_York only — cloud hosts are often UTC. Never treat UTC wall-clock as ET. Verify with `TZ=America/New_York date` before saying markets are closed. Regular session Mon–Fri 9:30 AM–4:00 PM ET. Timestamps labeled ET must be New York local after conversion (e.g. 16:25 UTC in July = 12:25 PM ET, not 4:25 PM ET). Markets closed (true ET): do not place; say so with the verified ET time.
 ```

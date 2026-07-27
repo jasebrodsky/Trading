@@ -29,7 +29,7 @@ Opening the file directly also works — embedded fallbacks load if `fetch` can�
 | `data/snapshot.json` | Full live snapshot (refresh from Robinhood MCP) |
 | `data/equities.json` | Equity book with avgCost / unrealized (optional; falls back to snapshot) |
 
-After a daily check, prompt: **Refresh the strategy canvas snapshot** — rebuilds ledger, ops, and keeps the HTML fallback in sync.
+After a daily check or continue/stop EXECUTE, the agent rebuilds ledger + ops and publishes `snapshot.json` (see `docs/slack-automations.md`). Manual prompt: **Refresh the strategy canvas snapshot** — same rebuild; add **and publish to GCP** to commit + deploy.
 
 The canvas **Reload snapshot** button only re-reads `data/snapshot.json` from disk (or the hosted URL). It cannot call Robinhood. Use **Copy live-refresh prompt** (or ask Cursor) for live broker data.
 

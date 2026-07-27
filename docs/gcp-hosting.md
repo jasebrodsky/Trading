@@ -3,7 +3,7 @@
 **Public URL:** https://storage.googleapis.com/agentic-trading-canvas/index.html  
 **Bucket:** `agentic-trading-canvas` · **Project:** `hello-again-e68e6`
 
-The daily Slack check refreshes `snapshot.json` and publishes here **before** posting messages (see [slack-automations.md](slack-automations.md)).
+The daily Slack check refreshes `snapshot.json` and publishes here **before** posting messages; the continue/stop automation republishes **after** trades on EXECUTE (see [slack-automations.md](slack-automations.md)).
 
 Public static site on **Google Cloud Storage** (or Firebase Hosting). Live numbers come from `canvas/data/snapshot.json`, rebuilt by the Robinhood MCP agent and published on push.
 
@@ -119,7 +119,7 @@ Push a trivial change under `canvas/` → Build should run → `gsutil rsync` pu
 
 ## Phase 3 — Agent / skill publish workflow
 
-After every **“Refresh the strategy canvas snapshot”** (or end of daily check):
+After every **“Refresh the strategy canvas snapshot”**, end of **daily check**, or **continue/stop EXECUTE**:
 
 1. MCP pulls Robinhood data (Agentic `420763765` only).
 2. Skill rebuilds ledger, ops, performance → writes:
