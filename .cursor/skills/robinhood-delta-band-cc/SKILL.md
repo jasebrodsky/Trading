@@ -28,7 +28,7 @@ See [docs/slack-automations.md](../../../docs/slack-automations.md) for copy-pas
 | Role | When | `place_option_order`? |
 |------|------|----------------------|
 | Daily check / dry-run / "Run covered-call…" | Schedule or explicit check prompt | **Never** in that run |
-| Continue/stop gate | Thread reply `continue`/`stop` (or ✅/❌) **after** a daily summary | Only on EXECUTE + all gates pass |
+| Continue/stop gate | Thread reply `continue`/`stop` (or ✅/❌) **after** a daily summary | Only on EXECUTE + all gates pass; then **refresh canvas + publish** |
 
 If you are the continue/stop agent and the message is itself a new check/dry-run kickoff: do **not** ask EXECUTE/SKIP — say it belongs to the daily-check automation and exit without trading.
 
@@ -127,11 +127,13 @@ Portfolio + overlay summary (optional `runbooks/YYYY-MM-DD.md`).
 
 Slack daily-check: **two messages** per [docs/slack-automations.md](../../../docs/slack-automations.md) — (1) portfolio scoreboard + **live canvas link**, (2) overlay actions + CTA.
 
-**Before posting Slack (daily check only):** run **Canvas snapshot refresh** + **Publish to GCP** (section below) so https://storage.googleapis.com/agentic-trading-canvas/index.html serves data from this run.
+**Before posting Slack (daily check):** run **Canvas snapshot refresh** + **Publish to GCP** (section below) so https://storage.googleapis.com/agentic-trading-canvas/index.html serves data from this run.
+
+**After trades (Slack continue/stop EXECUTE):** run the same **Canvas snapshot refresh** + **Publish to GCP** after all `place_option_order` attempts finish (even if zero orders placed). Post the Slack trade summary **after** publish is attempted; include the live canvas link.
 
 ### Canvas snapshot refresh
 
-When asked to refresh the strategy canvas, **or at the end of every daily Slack check** (mandatory before Slack):
+When asked to refresh the strategy canvas, **at the end of every daily Slack check** (mandatory before Slack), **or after Slack continue/stop EXECUTE** (mandatory after trades):
 
 1. Pull portfolio, equities + quotes, open options + instruments/quotes, realized P&L (options + equity, MTD/YTD/30d/90d), filled option orders YTD, earnings for holdings with CC capacity or open shorts.
 2. Rebuild the **premium ledger** for the calendar year:
@@ -150,7 +152,7 @@ When asked to refresh the strategy canvas, **or at the end of every daily Slack 
 5. Rebuild **forward income**:
    - Open extrinsic + mark P&L; idle-fill estimate (label as estimate); `expiryCalendar`; `indexSleeve` shares + CSP notional.
 6. Write [`canvas/data/snapshot.json`](../../../canvas/data/snapshot.json) and update `#snapshot-fallback` in [`canvas/index.html`](../../../canvas/index.html).
-7. **Publish to GCP** (required for daily Slack check; see [docs/gcp-hosting.md](../../../docs/gcp-hosting.md)):
+7. **Publish to GCP** (required for daily Slack check and continue/stop EXECUTE; see [docs/gcp-hosting.md](../../../docs/gcp-hosting.md)):
    - Commit `canvas/data/snapshot.json`, `canvas/data/equities.json` (if changed), and `canvas/index.html` (if fallback changed).
    - Push to `main` → Cloud Build runs [`cloudbuild.yaml`](../../../cloudbuild.yaml) and rsyncs `canvas/` to `gs://agentic-trading-canvas/`.
    - **Prefer also** `./scripts/deploy-canvas-gcs.sh agentic-trading-canvas` when `gsutil` is available (ensures link is live before Slack posts).
