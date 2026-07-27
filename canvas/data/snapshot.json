@@ -1,7 +1,7 @@
 {
-  "asOf": "2026-07-27T16:10:25-04:00",
-  "asOfLabel": "Jul 27, 2026 4:10 PM ET (post-continue \u00b7 Agentic \u2022\u2022\u2022\u20223765)",
-  "dataNote": "Live MCP refresh after continue/stop EXECUTE (Jul 27 ~3:42 PM ET). Harvest rolls: MU $1300C\u2192$1240C, NVDA $225C\u2192$230C. Idle fills: ONEQ pending, AAL +10, DAL +5, INTC +2 CCs. PFE \u00d73 + AMD CSP enter earnings window tomorrow \u2014 flatten before Jul 28 check.",
+  "asOf": "2026-07-27T16:21:00-04:00",
+  "asOfLabel": "Jul 27, 2026 4:21 PM ET (daily check \u00b7 Agentic \u2022\u2022\u2022\u20223765)",
+  "dataNote": "Daily check snapshot (Jul 27 4:21 PM ET, markets closed). All 10 shorts HOLD \u2014 no harvest/defend. PFE \u00d73 + AMD $460P enter earnings blackout TOMORROW (Aug 4 = TD+5 from Jul 28) \u2014 flatten before Jul 28 open. ONEQ 11 idle CCs remain (Sep 18 nearest viable expiry at 52 DTE). Earnings blocks: HOOD/META Jul 29 PM, AMZN/VALE Jul 30 PM, MRNA Jul 31 AM.",
   "account": {
     "nickname": "Agentic",
     "masked": "\u2022\u2022\u2022\u20223765",
@@ -9,9 +9,9 @@
     "autonomy": "Tier C"
   },
   "portfolio": {
-    "totalValue": 693002.86,
-    "equityValue": 545728.1,
-    "optionsValue": -7973,
+    "totalValue": 694762.68,
+    "equityValue": 547609.92,
+    "optionsValue": -8095,
     "cash": 155247.76,
     "buyingPower": 34271.7
   },
@@ -20,8 +20,8 @@
     "realizedMtdEquity": 0,
     "realizedYtdOptions": 3961,
     "realizedYtdAll": 3961,
-    "unrealizedEquity": 126108,
-    "unrealizedNote": "Full equity book vs avg cost (live Jul 27 prices at 4:10 PM ET)"
+    "unrealizedEquity": 129534,
+    "unrealizedNote": "Full equity book vs avg cost (live Jul 27 close prices, daily check 4:21 PM ET)"
   },
   "ledger": {
     "year": 2026,
@@ -33,7 +33,7 @@
       "realizedOptions": 3961,
       "openCredit": 6976,
       "startingValue": null,
-      "endingValue": 693002.86,
+      "endingValue": 694762.68,
       "appreciation": null,
       "totalReturn": 3961
     },
@@ -111,7 +111,7 @@
         "debits": 2159,
         "netIncome": 8461,
         "realizedOptions": 3961,
-        "totalValue": 693002.86,
+        "totalValue": 694762.68,
         "appreciation": null,
         "totalReturn": 3961
       },
@@ -173,7 +173,7 @@
     ]
   },
   "callouts": {
-    "loudest": "POST-CONTINUE: 19 new CC contracts filled (AAL +10, DAL +5, INTC +2, MU+NVDA harvest rewrites). PFE \u00d73 + AMD CSP still enter earnings window TOMORROW \u2014 flatten before Jul 28 morning check. ONEQ 11 idle CC slots remain.",
+    "loudest": "DAILY CHECK: All 10 shorts HOLD. URGENT TOMORROW: BTC PFE 6C x3 + AMD 60P x1 before Jul 28 open (Aug 4 enters 5-TD earnings window). ONEQ 11 idle CC slots (no Aug 28 expiry; Sep 18=52 DTE is closest). Earnings blocks: HOOD/META Jul 29, AMZN/VALE Jul 30, MRNA Jul 31.",
     "counts": {
       "hold": 10,
       "harvest": 0,
@@ -789,6 +789,11 @@
       "date": "2026-07-27",
       "totalValue": 693002.86,
       "note": "Post-continue refresh \u2014 harvest rolls + idle fills executed."
+    },
+    {
+      "date": "2026-07-27-4pm",
+      "totalValue": 694762.68,
+      "note": "Daily check close snapshot."
     }
   ],
   "assignmentRisks": [
@@ -995,46 +1000,46 @@
   "winners": [
     {
       "symbol": "MU",
-      "unrealized": 76172,
-      "pct": 585.4,
-      "price": 890.39,
+      "unrealized": 77234,
+      "pct": 593.4,
+      "price": 900.98,
       "avgCost": 129.91
     },
     {
       "symbol": "ONEQ",
-      "unrealized": 43286,
+      "unrealized": 43178,
       "pct": 59.4,
-      "price": 98.28,
+      "price": 98.19,
       "avgCost": 61.64
     },
     {
       "symbol": "DAL",
-      "unrealized": 25846,
-      "pct": 111.1,
-      "price": 86.28,
+      "unrealized": 26068,
+      "pct": 112.1,
+      "price": 86.67,
       "avgCost": 40.87
     }
   ],
   "losers": [
     {
       "symbol": "SNAP",
-      "unrealized": -27513,
+      "unrealized": -27516,
       "pct": -91.0,
-      "price": 4.525,
+      "price": 4.52,
       "avgCost": 50.38
     },
     {
       "symbol": "MRNA",
-      "unrealized": -18050,
+      "unrealized": -18073,
       "pct": -75.0,
-      "price": 55.835,
+      "price": 55.62,
       "avgCost": 222.96
     },
     {
       "symbol": "PFE",
-      "unrealized": -17947,
-      "pct": -48.7,
-      "price": 24.715,
+      "unrealized": -17993,
+      "pct": -48.8,
+      "price": 24.66,
       "avgCost": 48.17
     }
   ],
