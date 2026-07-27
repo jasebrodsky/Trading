@@ -1,6 +1,6 @@
 {
-  "asOf": "2026-07-27T15:45:59-04:00",
-  "asOfLabel": "Jul 27, 2026 3:45 PM ET (post-continue \u00b7 Agentic \u2022\u2022\u2022\u20223765)",
+  "asOf": "2026-07-27T16:10:25-04:00",
+  "asOfLabel": "Jul 27, 2026 4:10 PM ET (post-continue \u00b7 Agentic \u2022\u2022\u2022\u20223765)",
   "dataNote": "Live MCP refresh after continue/stop EXECUTE (Jul 27 ~3:42 PM ET). Harvest rolls: MU $1300C\u2192$1240C, NVDA $225C\u2192$230C. Idle fills: ONEQ pending, AAL +10, DAL +5, INTC +2 CCs. PFE \u00d73 + AMD CSP enter earnings window tomorrow \u2014 flatten before Jul 28 check.",
   "account": {
     "nickname": "Agentic",
@@ -21,7 +21,7 @@
     "realizedYtdOptions": 3961,
     "realizedYtdAll": 3961,
     "unrealizedEquity": 126108,
-    "unrealizedNote": "Full equity book vs avg cost (live Jul 27 prices at 3:45 PM ET)"
+    "unrealizedNote": "Full equity book vs avg cost (live Jul 27 prices at 4:10 PM ET)"
   },
   "ledger": {
     "year": 2026,
@@ -181,9 +181,9 @@
       "earningsFlattenToday": 0,
       "earningsFlattenTomorrow": 2,
       "waitingRefill": 0,
-      "idleCcFill": 18,
+      "idleCcFill": 21,
       "idleCcBlocked": 7,
-      "idleCcSkip": 10,
+      "idleCcSkip": 0,
       "accumCspOpen": 1,
       "accumCspBlocked": 1,
       "indexCspHold": 1,
@@ -426,7 +426,7 @@
       "idle": 6,
       "puts": 0,
       "sleeve": "income",
-      "status": "skip-thin-tape",
+      "status": "idle",
       "earningsDate": null,
       "earningsTradingDays": null,
       "earningsBlackout": false,
@@ -441,7 +441,7 @@
       "idle": 4,
       "puts": 0,
       "sleeve": "income",
-      "status": "skip-thin-tape",
+      "status": "idle",
       "earningsDate": null,
       "earningsTradingDays": null,
       "earningsBlackout": false,
@@ -566,11 +566,11 @@
     "openExtrinsic": 7948,
     "openCredit": 6976,
     "markPnL": 972,
-    "idleContracts": 18,
+    "idleContracts": 21,
     "idleContractsBlocked": 7,
-    "idleContractsSkip": 10,
-    "idleFillEstimate": 3600,
-    "idleFillNote": "18 eligible idle \u00d7 ~$200 avg mid estimate \u2014 ONEQ 11 primary remaining.",
+    "idleContractsSkip": 0,
+    "idleFillEstimate": 4200,
+    "idleFillNote": "21 eligible idle \u00d7 ~$200 avg mid estimate \u2014 ONEQ 11 primary remaining.",
     "expiryCalendar": [
       {
         "expiration": "2026-08-21",
@@ -970,9 +970,9 @@
   "program": {
     "openContracts": 29,
     "openCredit": 6976,
-    "idleCcContracts": 18,
+    "idleCcContracts": 21,
     "idleCcContractsBlocked": 7,
-    "idleCcContractsSkip": 10,
+    "idleCcContractsSkip": 0,
     "cspCollateralApprox": 117500,
     "bpBufferTarget": 2000,
     "accumulation": [
