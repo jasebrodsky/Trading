@@ -1,246 +1,29 @@
 {
-  "asOf": "2026-07-30T12:03:00-04:00",
-  "asOfLabel": "Jul 30, 2026 12:03 PM ET (intraday · markets OPEN · Agentic ••••3765)",
+  "asOf": "2026-07-31T10:57:57-04:00",
+  "asOfLabel": "Jul 31, 2026 10:58 AM ET (intraday · markets OPEN · Agentic ••••3765)",
   "equities": [
-    {
-      "symbol": "MU",
-      "shares": 100.163,
-      "avgCost": 129.91,
-      "last": 858.52,
-      "marketValue": 85982,
-      "unrealized": 72978,
-      "unrealizedPct": 561.0,
-      "sleeve": "conviction"
-    },
-    {
-      "symbol": "ONEQ",
-      "shares": 1181.375,
-      "avgCost": 61.64,
-      "last": 98.57,
-      "marketValue": 116438,
-      "unrealized": 43637,
-      "unrealizedPct": 59.9,
-      "sleeve": "conviction"
-    },
-    {
-      "symbol": "DAL",
-      "shares": 569.171,
-      "avgCost": 40.87,
-      "last": 87.90,
-      "marketValue": 50030,
-      "unrealized": 26769,
-      "unrealizedPct": 115.1,
-      "sleeve": "income"
-    },
-    {
-      "symbol": "AMD",
-      "shares": 45.0,
-      "avgCost": 81.63,
-      "last": 485.84,
-      "marketValue": 21863,
-      "unrealized": 18190,
-      "unrealizedPct": 495.1,
-      "sleeve": "accumulation"
-    },
-    {
-      "symbol": "NVDA",
-      "shares": 141.912,
-      "avgCost": 77.43,
-      "last": 193.91,
-      "marketValue": 27511,
-      "unrealized": 16524,
-      "unrealizedPct": 150.4,
-      "sleeve": "conviction"
-    },
-    {
-      "symbol": "HOOD",
-      "shares": 250.0,
-      "avgCost": 38.0,
-      "last": 87.26,
-      "marketValue": 21815,
-      "unrealized": 12315,
-      "unrealizedPct": 129.6,
-      "sleeve": "income"
-    },
-    {
-      "symbol": "AMZN",
-      "shares": 140.743,
-      "avgCost": 160.15,
-      "last": 238.80,
-      "marketValue": 33609,
-      "unrealized": 11069,
-      "unrealizedPct": 49.1,
-      "sleeve": "conviction"
-    },
-    {
-      "symbol": "INTC",
-      "shares": 295.703,
-      "avgCost": 55.63,
-      "last": 92.66,
-      "marketValue": 27390,
-      "unrealized": 10950,
-      "unrealizedPct": 66.5,
-      "sleeve": "income"
-    },
-    {
-      "symbol": "TXN",
-      "shares": 39.009,
-      "avgCost": 186.21,
-      "last": 280.36,
-      "marketValue": 10934,
-      "unrealized": 3672,
-      "unrealizedPct": 50.5,
-      "sleeve": "income"
-    },
-    {
-      "symbol": "XOM",
-      "shares": 52.963,
-      "avgCost": 120.13,
-      "last": 155.58,
-      "marketValue": 8240,
-      "unrealized": 1877,
-      "unrealizedPct": 29.6,
-      "sleeve": "income"
-    },
-    {
-      "symbol": "REGN",
-      "shares": 8.419,
-      "avgCost": 600.01,
-      "last": 705.81,
-      "marketValue": 5942,
-      "unrealized": 891,
-      "unrealizedPct": 17.6,
-      "sleeve": "income"
-    },
-    {
-      "symbol": "GLD",
-      "shares": 15.0,
-      "avgCost": 377.99,
-      "last": 377.40,
-      "marketValue": 5661,
-      "unrealized": -9,
-      "unrealizedPct": -0.2,
-      "sleeve": "income"
-    },
-    {
-      "symbol": "META",
-      "shares": 20.0,
-      "avgCost": 612.16,
-      "last": 533.09,
-      "marketValue": 10662,
-      "unrealized": -1581,
-      "unrealizedPct": -12.9,
-      "sleeve": "accumulation"
-    },
-    {
-      "symbol": "VALE",
-      "shares": 331.044,
-      "avgCost": 16.56,
-      "last": 14.815,
-      "marketValue": 4904,
-      "unrealized": -578,
-      "unrealizedPct": -10.5,
-      "sleeve": "income"
-    },
-    {
-      "symbol": "ABNB",
-      "shares": 75.0,
-      "avgCost": 184.37,
-      "last": 150.655,
-      "marketValue": 11299,
-      "unrealized": -2528,
-      "unrealizedPct": -18.3,
-      "sleeve": "income"
-    },
-    {
-      "symbol": "TSLA",
-      "shares": 108.9,
-      "avgCost": 335.98,
-      "last": 306.83,
-      "marketValue": 33413,
-      "unrealized": -3174,
-      "unrealizedPct": -8.7,
-      "sleeve": "income"
-    },
-    {
-      "symbol": "AAL",
-      "shares": 1465.117,
-      "avgCost": 19.21,
-      "last": 15.255,
-      "marketValue": 22345,
-      "unrealized": -5794,
-      "unrealizedPct": -20.6,
-      "sleeve": "income"
-    },
-    {
-      "symbol": "DJT",
-      "shares": 420.0,
-      "avgCost": 48.01,
-      "last": 10.08,
-      "marketValue": 4234,
-      "unrealized": -15931,
-      "unrealizedPct": -79.0,
-      "sleeve": "income"
-    },
-    {
-      "symbol": "PFE",
-      "shares": 765.136,
-      "avgCost": 48.17,
-      "last": 24.655,
-      "marketValue": 18864,
-      "unrealized": -17992,
-      "unrealizedPct": -49.4,
-      "sleeve": "income"
-    },
-    {
-      "symbol": "MRNA",
-      "shares": 108.0,
-      "avgCost": 222.96,
-      "last": 56.74,
-      "marketValue": 6128,
-      "unrealized": -17952,
-      "unrealizedPct": -74.5,
-      "sleeve": "income"
-    },
-    {
-      "symbol": "SNAP",
-      "shares": 600.0,
-      "avgCost": 50.38,
-      "last": 4.645,
-      "marketValue": 2787,
-      "unrealized": -27441,
-      "unrealizedPct": -90.8,
-      "sleeve": "income"
-    },
-    {
-      "symbol": "UNH",
-      "shares": 24.922,
-      "avgCost": 495.91,
-      "last": 423.62,
-      "marketValue": 10557,
-      "unrealized": -1801,
-      "unrealizedPct": -14.6,
-      "sleeve": "income"
-    },
-    {
-      "symbol": "ZM",
-      "shares": 17.0,
-      "avgCost": 149.64,
-      "last": 91.41,
-      "marketValue": 1554,
-      "unrealized": -990,
-      "unrealizedPct": -39.3,
-      "sleeve": "income"
-    }
-  ],
-  "optionUnderlyings": [
-    {
-      "symbol": "SPY",
-      "last": 738.11,
-      "role": "index-CSP",
-      "note": "No shares held in Agentic; $715P 8/21 ×1 short. |Δ|=0.220 HOLD (22 DTE). SPY -0.55% today from $738.11."
-    }
-  ],
-  "totalEquityValue": 542280,
-  "totalUnrealized": 122647
+    { "symbol": "MU", "shares": 100.163, "avgCost": 129.91, "last": 845.90, "marketValue": 84734, "unrealized": 71735, "unrealizedPct": 551.0, "sleeve": "conviction" },
+    { "symbol": "ONEQ", "shares": 1181.375, "avgCost": 61.64, "last": 99.33, "marketValue": 117344, "unrealized": 44527, "unrealizedPct": 61.1, "sleeve": "conviction" },
+    { "symbol": "DAL", "shares": 569.171, "avgCost": 40.87, "last": 87.87, "marketValue": 50024, "unrealized": 26751, "unrealizedPct": 115.1, "sleeve": "income" },
+    { "symbol": "AMD", "shares": 45.0, "avgCost": 81.63, "last": 492.08, "marketValue": 22144, "unrealized": 18470, "unrealizedPct": 503.1, "sleeve": "accumulation" },
+    { "symbol": "NVDA", "shares": 141.912, "avgCost": 77.43, "last": 198.12, "marketValue": 28111, "unrealized": 17129, "unrealizedPct": 155.8, "sleeve": "conviction" },
+    { "symbol": "AMZN", "shares": 140.743, "avgCost": 160.15, "last": 270.77, "marketValue": 38098, "unrealized": 15570, "unrealizedPct": 69.1, "sleeve": "conviction" },
+    { "symbol": "HOOD", "shares": 250.0, "avgCost": 38.00, "last": 85.49, "marketValue": 21373, "unrealized": 11873, "unrealizedPct": 124.9, "sleeve": "income" },
+    { "symbol": "INTC", "shares": 295.703, "avgCost": 55.63, "last": 93.155, "marketValue": 27550, "unrealized": 11094, "unrealizedPct": 67.4, "sleeve": "income" },
+    { "symbol": "TXN", "shares": 39.009, "avgCost": 186.21, "last": 276.155, "marketValue": 10773, "unrealized": 3509, "unrealizedPct": 48.2, "sleeve": "income" },
+    { "symbol": "REGN", "shares": 8.419, "avgCost": 600.01, "last": 739.03, "marketValue": 6223, "unrealized": 1170, "unrealizedPct": 23.2, "sleeve": "income" },
+    { "symbol": "XOM", "shares": 52.963, "avgCost": 120.13, "last": 153.75, "marketValue": 8143, "unrealized": 1781, "unrealizedPct": 28.0, "sleeve": "income" },
+    { "symbol": "TSLA", "shares": 108.9, "avgCost": 335.98, "last": 308.46, "marketValue": 33591, "unrealized": -2997, "unrealizedPct": -8.2, "sleeve": "income" },
+    { "symbol": "ABNB", "shares": 75.0, "avgCost": 184.37, "last": 151.27, "marketValue": 11345, "unrealized": -2483, "unrealizedPct": -18.0, "sleeve": "income" },
+    { "symbol": "UNH", "shares": 24.922, "avgCost": 495.91, "last": 418.83, "marketValue": 10434, "unrealized": -1921, "unrealizedPct": -15.6, "sleeve": "income" },
+    { "symbol": "META", "shares": 20.0, "avgCost": 612.16, "last": 550.52, "marketValue": 11010, "unrealized": -1233, "unrealizedPct": -10.1, "sleeve": "accumulation" },
+    { "symbol": "GLD", "shares": 15.0, "avgCost": 377.99, "last": 371.45, "marketValue": 5572, "unrealized": -98, "unrealizedPct": -1.7, "sleeve": "income" },
+    { "symbol": "ZM", "shares": 17.0, "avgCost": 149.64, "last": 93.46, "marketValue": 1589, "unrealized": -955, "unrealizedPct": -37.5, "sleeve": "income" },
+    { "symbol": "VALE", "shares": 331.044, "avgCost": 16.56, "last": 15.085, "marketValue": 4996, "unrealized": -488, "unrealizedPct": -8.9, "sleeve": "income" },
+    { "symbol": "AAL", "shares": 1465.117, "avgCost": 19.21, "last": 15.25, "marketValue": 22343, "unrealized": -5802, "unrealizedPct": -20.6, "sleeve": "income" },
+    { "symbol": "PFE", "shares": 765.136, "avgCost": 48.17, "last": 24.915, "marketValue": 19060, "unrealized": -17795, "unrealizedPct": -48.3, "sleeve": "income" },
+    { "symbol": "MRNA", "shares": 108.0, "avgCost": 222.96, "last": 57.76, "marketValue": 6238, "unrealized": -17842, "unrealizedPct": -74.1, "sleeve": "income" },
+    { "symbol": "DJT", "shares": 420.0, "avgCost": 48.01, "last": 10.24, "marketValue": 4301, "unrealized": -15863, "unrealizedPct": -78.7, "sleeve": "income" },
+    { "symbol": "SNAP", "shares": 600.0, "avgCost": 50.38, "last": 4.61, "marketValue": 2766, "unrealized": -27462, "unrealizedPct": -90.8, "sleeve": "income" }
+  ]
 }
