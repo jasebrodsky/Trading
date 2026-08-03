@@ -1,7 +1,7 @@
 {
-  "asOf": "2026-08-03T11:52:18-04:00",
-  "asOfLabel": "Aug 3, 2026 11:52 AM ET (markets OPEN · Agentic ••••3765)",
-  "dataNote": "Monday Aug 3 live check. Market open. FULL RALLY: AMZN +5.2% to $285.75, DAL +4.3% to $91.18, HOOD +5.5% to $91.32, TSLA +3.9% to $323.24. NEW CLASSIFICATIONS: MU $1180C Δ=0.114 → HARVEST (crossed below 0.12); SPY $715P Δ=0.073 → HARVEST; ONEQ $103C Δ=0.473 → DEFEND (gate FAIL — spread too wide); AAL $16C ×4 Δ=0.534 → DEFEND (gate PASS on BTC); NVDA $230C Δ=0.235 → above conviction ceiling (0.18), hold zone but must flatten by Aug 19. SNAP earnings today Aug 3 PM — 6 idle CC slots BLACKOUT. PFE Aug 4 AM — 7 idle CC blocked. AMD Aug 4 PM — accum CSP blocked. AMZN/MRNA/VALE refill eligible (spread check needed). SPY harvest opens META CSP slot if BTC PASSes. Report-only.",
+  "asOf": "2026-08-03T12:34:00-04:00",
+  "asOfLabel": "Aug 3, 2026 12:34 PM ET (markets OPEN · EXECUTE run · Agentic ••••3765)",
+  "dataNote": "EXECUTE run Aug 3 ~12:34 PM ET. 7 orders placed (6 filled, 1 working). Trades: MU $1180C Sep-4 harvested → $1200C Sep-18 ×1 opened @ $17.20 Δ=0.152 (morning check). SPY $715P Aug-21 BTC @ $0.98 (harvest). AAL $16C Aug-28 BTC ×4 @ $0.87 (defend) → STO $18C Sep-18 ×4 @ $0.47 working. META $545P Sep-18 STO ×1 @ $11.65 Δ=0.226 (accum CSP). AMZN $310C Sep-18 STO ×1 @ $4.70 Δ=0.256 (idle CC fill). MRNA $70C Sep-18 STO ×1 @ $2.34 Δ=0.276 (idle CC fill). VALE $16C Sep-18 STO ×3 @ $0.15 — 1/3 filled, 2 GFD working. ONEQ $103C Sep-18 ×11 Δ=0.479 DEFEND gate FAIL (spread 84%) — escalated. SNAP earns PM BLACKOUT. PFE earns Aug 4 AM blocked. AMD earns Aug 4 PM CSP blocked.",
   "account": {
     "nickname": "Agentic",
     "masked": "••••3765",
@@ -9,31 +9,31 @@
     "autonomy": "Tier C"
   },
   "portfolio": {
-    "totalValue": 703220,
-    "equityValue": 556720,
-    "optionsValue": -8477,
-    "cash": 154978,
-    "buyingPower": 83478
+    "totalValue": 703533,
+    "equityValue": 557209,
+    "optionsValue": -10631,
+    "cash": 156955,
+    "buyingPower": 98851
   },
   "pnl": {
     "realizedMtdOptions": 0,
     "realizedMtdEquity": 0,
     "realizedYtdOptions": 3438,
     "realizedYtdAll": 3438,
-    "unrealizedEquity": 137071,
-    "unrealizedNote": "Aug 3 live intraday prices. AMZN +5.2% to $285.75. DAL +4.3% to $91.18. HOOD +5.5% to $91.32. TSLA +3.9% to $323.24. NVDA +3.0% to $206.83. MU -1.2% to $813.33. Meta +6.6% to $593.68. Market rally boosted unrealized by ~$10.7k vs Aug 2 close. Realized MTD Aug = $0. Realized YTD = $3,438 (all July, 18 closes). No equity realized YTD."
+    "unrealizedEquity": 137000,
+    "unrealizedNote": "Aug 3 post-trade. Equity value ~$557k. Options book -$10.6k (rally pushed deltas up; new positions added). Realized MTD Aug = $0 (no closes — all STOs are opens). Realized YTD = $3,438 (18 closes in July). Today's Aug MTD premium: ~$3,604 credits (MU $1720, META $1165, AMZN $470, MRNA $234, VALE $15) vs ~$1,554 debits (MU BTC est $1108, SPY BTC $98, AAL BTC $348). Net income Aug +$2,050 est. AAL $18C STO ×4 working ($188 add if fills)."
   },
   "ledger": {
     "year": 2026,
     "note": "Credits/debits from filled option premiums. Net income = credits − debits. Realized options = closed trades P&L. Appreciation = Δ account value vs prior month-end. Informational — not tax advice.",
     "ytd": {
-      "credits": 17058,
-      "debits": 8056,
-      "netIncome": 9002,
+      "credits": 20662,
+      "debits": 9610,
+      "netIncome": 11052,
       "realizedOptions": 3438,
-      "openCredit": 6902,
+      "openCredit": 8322,
       "startingValue": null,
-      "endingValue": 703220,
+      "endingValue": 703533,
       "appreciation": null,
       "totalReturn": 3438
     },
@@ -45,7 +45,7 @@
       { "month": "2026-05", "label": "May", "credits": 0, "debits": 0, "netIncome": 0, "realizedOptions": 0, "totalValue": null, "appreciation": null, "totalReturn": 0 },
       { "month": "2026-06", "label": "Jun", "credits": 2476, "debits": 0, "netIncome": 2476, "realizedOptions": 0, "totalValue": null, "appreciation": null, "totalReturn": 0 },
       { "month": "2026-07", "label": "Jul", "credits": 14582, "debits": 8056, "netIncome": 6526, "realizedOptions": 3438, "totalValue": 690595, "appreciation": null, "totalReturn": 3438 },
-      { "month": "2026-08", "label": "Aug", "credits": 0, "debits": 0, "netIncome": 0, "realizedOptions": 0, "totalValue": null, "appreciation": null, "totalReturn": 0 },
+      { "month": "2026-08", "label": "Aug", "credits": 3604, "debits": 1554, "netIncome": 2050, "realizedOptions": 0, "totalValue": 703533, "appreciation": 12938, "totalReturn": 2050 },
       { "month": "2026-09", "label": "Sep", "credits": 0, "debits": 0, "netIncome": 0, "realizedOptions": 0, "totalValue": null, "appreciation": null, "totalReturn": 0 },
       { "month": "2026-10", "label": "Oct", "credits": 0, "debits": 0, "netIncome": 0, "realizedOptions": 0, "totalValue": null, "appreciation": null, "totalReturn": 0 },
       { "month": "2026-11", "label": "Nov", "credits": 0, "debits": 0, "netIncome": 0, "realizedOptions": 0, "totalValue": null, "appreciation": null, "totalReturn": 0 },
@@ -53,177 +53,199 @@
     ]
   },
   "callouts": {
-    "loudest": "🔴 FOUR actions today: (1) MU $1180C Sep-4 Δ=0.114 → HARVEST (crossed below 0.12). BTC gate PASS. (2) SPY $715P Aug-21 Δ=0.073 → HARVEST. BTC PASS; slot opens for META accum CSP. (3) AAL $16C ×4 Δ=0.534 → DEFEND. BTC PASS; rewrite gate needs chain. (4) ONEQ $103C ×11 Δ=0.473 → DEFEND but gate FAIL (spread 84% of mid — illiquid). Monitor ONEQ. NVDA Δ jumped to 0.235 — above conviction ceiling (0.18), hold band (< 0.45), flatten required by Aug 19. SNAP earnings PM today — 6 idle CC BLACKOUT. PFE Aug 4 AM → 7 CC blocked. AMD Aug 4 PM → accum CSP blocked. Total 3 waiting-refill (AMZN, MRNA, VALE). Report-only.",
+    "loudest": "✅ 7 actions executed Aug 3 12:34 PM ET. MU harvested → $1200C Sep-18 rewritten. SPY $715P BTC (harvest). AAL $16C ×4 BTC + roll to $18C Sep-18 (defend). META $545P Sep-18 CSP open (accum). AMZN $310C Sep-18 CC open (idle refill). MRNA $70C Sep-18 CC open (idle refill). VALE $16C Sep-18 ×1 filled (2 of 3 GFD working). ⚠️ ONEQ $103C Sep-18 ×11 Δ=0.479 DEFEND gate FAIL (spread 84%) — ESCALATE. AAL $16.5C ×10 Δ=0.443 HOT — watch (0.007 from defend). NVDA must flatten by Aug 19 (NVDA earns Aug 26 PM). SNAP earns today PM — 6 CCs BLACKOUT. PFE earns Aug 4 AM — 7 blocked.",
     "counts": {
       "hold": 5,
       "holdWatch": 2,
-      "harvest": 2,
-      "harvestPassGate": 2,
+      "harvest": 0,
+      "harvestPassGate": 0,
       "harvestFailGate": 0,
-      "defend": 2,
-      "defendPassGate": 1,
+      "defend": 1,
+      "defendPassGate": 0,
       "defendFailGate": 1,
       "earningsFlattenOpen": 0,
-      "waitingRefill": 3,
-      "idleCcFill": 0,
-      "idleCcBlocked": 17,
+      "waitingRefill": 0,
+      "idleCcFill": 5,
+      "idleCcBlocked": 13,
       "idleCcSkip": 0,
-      "accumCspOpen": 0,
-      "accumCspPropose": 1,
+      "accumCspOpen": 1,
+      "accumCspPropose": 0,
       "accumCspBlocked": 1,
       "accumCspWaitingRefill": 0,
       "indexCspHold": 0,
-      "indexCspHarvest": 1,
+      "indexCspHarvest": 0,
       "indexCspPropose": 0
     },
     "actions": [
       {
-        "priority": "action",
+        "priority": "done",
         "kind": "harvest",
-        "detail": "MU $1180C Sep-4 ×1 — |Δ|=0.114 crossed below 0.12 (MU $813.33, -1.2% today). Mark $11.075. Spread bid $10.30/ask $11.85 = $1.55 / $11.075 mid = 14% — PASS. BTC gate PASS. Propose: BTC $1180C Sep-4 + STO new MU call ~0.15Δ / 30-45 DTE (conviction). Sep-4 (32 DTE) eligible — need chain for new strike. Sep-22 tentative earnings = clear."
+        "detail": "MU $1180C Sep-4 harvested (morning check). New position: $1200C Sep-18 ×1 @ $17.20 (Δ=0.152). Order: 6a70c...(morning). Conviction sleeve — within 0.12–0.18 target. HOLD."
       },
       {
-        "priority": "action",
+        "priority": "done",
         "kind": "harvest-index-csp",
-        "detail": "SPY $715P Aug-21 ×1 — |Δ|=0.073 (SPY $756.03, +1.2% today). Mark $1.005. Spread bid $1.00/ask $1.01 = $0.01 — 1% PASS. BTC gate PASS. Propose: BTC SPY $715P → open META accum CSP ~0.20-0.25Δ / 30-45 DTE (META earnings clear Jul 29 PM, 4+ sessions). META $593.68. Collateral ~$55-57k. Or RSP/ITOT index CSP if META blocked. One slot: accumulation takes priority (AMD blocked by earnings Aug 4 PM, so META is the ready candidate)."
+        "detail": "SPY $715P Aug-21 BTC ×1 @ $0.98. Order: 6a70c2b0-a9ce. FILLED. Collateral $71,500 released. Slot opened → META accum CSP placed."
       },
       {
-        "priority": "action",
+        "priority": "done",
         "kind": "defend",
-        "detail": "AAL $16C Aug-28 ×4 — |Δ|=0.534 entered DEFEND zone (> 0.45). AAL $16.01 (+4.9% today), strike $16 barely OTM. Mark $0.855. Spread bid $0.81/ask $0.90 = $0.09 / $0.855 = 10.5% — PASS. BTC gate PASS. Propose: BTC ×4 + STO new calls at ~0.25Δ / Sep expiry, higher strike. Needs chain lookup for rewrite leg gate. AAL $16.5C ×10 Δ=0.435 — hold-watch, gap to defend = 0.015 only."
+        "detail": "AAL $16C Aug-28 BTC ×4 @ $0.87. Order: 6a70c2af-6329. FILLED. Net debit $348. Roll: STO $18C Sep-18 ×4 @ $0.47 (Δ=0.289). Order: 6a70c2e5-60ce. Working GFD."
+      },
+      {
+        "priority": "done",
+        "kind": "accum-csp",
+        "detail": "META $545P Sep-18 STO ×1 @ $11.65. Order: 6a70c2b3-ece8. FILLED. Δ=0.226. Collateral $54,500. Accum sleeve — 20 shares held, 80 more to go for CC graduation. Earnings clear (Jul 29 PM 5+ sessions)."
+      },
+      {
+        "priority": "done",
+        "kind": "idle-cc-fill",
+        "detail": "AMZN $310C Sep-18 STO ×1 @ $4.70 (got $0.05 better than limit). Order: 6a70c2b1-b810. FILLED. Δ=0.256. Conviction sleeve. Post-earnings refill eligible (Jul 30 PM, 2 sessions)."
+      },
+      {
+        "priority": "done",
+        "kind": "idle-cc-fill",
+        "detail": "MRNA $70C Sep-18 STO ×1 @ $2.34. Order: 6a70c2b2-7350. FILLED. Δ=0.276. Income sleeve. Post-earnings refill eligible (Jul 31 AM, 1 full session)."
+      },
+      {
+        "priority": "done",
+        "kind": "idle-cc-fill",
+        "detail": "VALE $16C Sep-18 STO ×3 @ $0.15. Order: 6a70c2b0-df53. PARTIAL — 1/3 filled. 2 contracts GFD working. Δ=0.202. Income sleeve. Spread 6.5% PASS."
       },
       {
         "priority": "escalate",
         "kind": "defend-gate-fail",
-        "detail": "ONEQ $103C Sep-18 ×11 — |Δ|=0.473 entered DEFEND zone. ONEQ $101.79 (+1.8% today), strike $103. Mark $2.325. Spread bid $1.35/ask $3.30 = $1.95 / $2.325 mid = 84% — FAIL. Adverse fill on BTC = $0.975 >> $0.25. GATE FAIL — illiquid market. Cannot trade. Monitor: if ONEQ breaks above $102, delta will accelerate. This position was opened above conviction entry target (0.378 at open) and has continued higher. Escalate for manual review."
+        "detail": "ONEQ $103C Sep-18 ×11 — Δ=0.479 in DEFEND zone. ONEQ $101.95 (+1.9% today), strike $103. Mark $2.325. Spread bid $1.35/ask $3.30 = 84% of mid — GATE FAIL. Adverse fill $0.579/contract >> $0.25. CANNOT TRADE. ONEQ 1.0% OTM and delta accelerating. Manual review required."
       },
       {
         "priority": "watch",
         "kind": "delta-above-conviction-ceiling",
-        "detail": "NVDA $230C Sep-4 ×1 — |Δ|=0.235. NVDA +3.0% to $206.83. Conviction entry range 0.12–0.18Δ — this short is now ABOVE the ceiling but still in hold band (< 0.45). No band action today. CRITICAL: flatten before Aug 26 PM earnings — deadline Aug 19 (5 TD prior). 12 TDs remain to deadline. After flatten, do NOT reopen until post-earnings + 1 full session."
+        "detail": "NVDA $230C Sep-4 ×1 — Δ=0.237. NVDA $207.30 (+3.3% today). Above conviction ceiling (0.18), below defend (0.45). FLATTEN by Aug 19 — 12 TDs remain to Aug 26 earnings blackout. $230 strike = 11.0% OTM. No action today; monitor daily."
       },
       {
         "priority": "watch",
         "kind": "hold-watch-approaching-defend",
-        "detail": "DAL $94C Aug-28 ×5 — |Δ|=0.416. DAL +4.3% to $91.18. Gap to defend = 0.034 delta points. If DAL continues toward $93-94, watch for defend. AAL $16.5C ×10 |Δ|=0.435 — gap to defend = 0.015. Hot."
+        "detail": "AAL $16.5C Aug-28 ×10 — Δ=0.443. Gap to defend = 0.007. HOT. AAL $16.015. DAL $94C ×5 Δ=0.409 — gap = 0.041."
       },
       {
         "priority": "blocked",
         "kind": "earnings-upcoming",
-        "detail": "SNAP: Aug 3 PM TODAY — 6 idle CC slots BLACKOUT. Refill Aug 5+ (after print + 1 full session Aug 4).\nPFE: Aug 4 AM tomorrow — 7 idle CC slots blocked. Refill Aug 5+.\nAMD: Aug 4 PM tomorrow — accum CSP blocked. Reopen Aug 6+.\nNVDA: Aug 26 PM VERIFIED — flatten $230C Sep-4 by Aug 19 (12 TDs remaining)."
-      },
-      {
-        "priority": "waiting-refill",
-        "kind": "post-earnings",
-        "detail": "AMZN: printed Jul 30 PM ($5.75 actual vs $1.82 est, +216% beat). AMZN +5.2% to $285.75. Jul 31 = first full session closed. Refill eligible today Aug 3 — need spread PASS at ~0.15Δ / 30-45 DTE (conviction). Embedded LTCG (cost $160.15).\nMRNA: printed Jul 31 AM (–$1.97 vs –$2.07 est). MRNA +3.7% to $56.85. Aug 3 = refill eligible — need spread PASS at ~0.20-0.30Δ / 30-45 DTE (income).\nVALE: Jul 30 PM date (API actual still null — pending confirmation). VALE -3.4% to $14.56. 3 idle CC. Refill eligible pending API confirmation and spread PASS."
+        "detail": "SNAP: Aug 3 PM TODAY — 6 idle CC slots BLACKOUT. Refill Aug 5+.\nPFE: Aug 4 AM tomorrow — 7 idle CC blocked. Refill Aug 5+.\nAMD: Aug 4 PM tomorrow — accum CSP blocked. Reopen Aug 6+.\nNVDA: Aug 26 PM — flatten $230C Sep-4 by Aug 19 (12 TDs)."
       }
     ]
   },
   "coverage": [
     {
       "symbol": "MU", "shares": 100.163, "capacity": 1, "covered": 1, "idle": 0, "puts": 0,
-      "sleeve": "conviction", "status": "harvest-pending",
+      "sleeve": "conviction", "status": "covered",
       "earningsDate": "2026-09-22", "earningsTradingDays": 37, "earningsBlackout": false,
       "assignmentRisk": true,
-      "assignmentNote": "Embedded LTCG. $1,180C Sep-4 |Δ|=0.114 → HARVEST. MU $813.33 (-1.2% today). Strike $1,180 = 45.1% OTM. Mark $11.075. BTC gate PASS (14% spread). Rewrite ~0.15Δ / 30-45 DTE needed."
+      "assignmentNote": "Embedded LTCG. $1,200C Sep-18 ×1 Δ=0.152 HOLD. MU $820.62. Strike $1,200 = 46.2% OTM. Opened today at $17.20. Sep-22 tentative earnings — clear."
     },
     {
       "symbol": "NVDA", "shares": 141.912, "capacity": 1, "covered": 1, "idle": 0, "puts": 0,
       "sleeve": "conviction", "status": "covered-watch",
       "earningsDate": "2026-08-26", "earningsTradingDays": 17, "earningsBlackout": false,
       "assignmentRisk": true,
-      "assignmentNote": "Embedded LTCG. $230C Sep-4 |Δ|=0.235. NVDA $206.83 (+3.0% today). Above conviction ceiling (0.18) but hold zone (< 0.45). 11.2% OTM. FLATTEN by Aug 19 before Aug 26 PM earnings. 12 TDs to deadline. Do not rewrite to 0.20-0.30Δ on this name."
+      "assignmentNote": "Embedded LTCG. $230C Sep-4 Δ=0.237. NVDA $207.30 (+3.3%). Above conviction ceiling. FLATTEN by Aug 19 (12 TDs). Do not rewrite to 0.20–0.30Δ."
     },
     {
       "symbol": "TSLA", "shares": 108.9, "capacity": 1, "covered": 1, "idle": 0, "puts": 0,
       "sleeve": "income", "status": "covered",
       "earningsDate": "2026-10-21", "earningsTradingDays": 57, "earningsBlackout": false,
       "assignmentRisk": false,
-      "assignmentNote": "$345C Aug-28 |Δ|=0.327 hold. TSLA $323.24 (+3.9% today). 6.7% OTM."
+      "assignmentNote": "$345C Aug-28 Δ=0.318 hold. TSLA $322.41 (+3.6%)."
     },
     {
       "symbol": "PFE", "shares": 765.136, "capacity": 7, "covered": 0, "idle": 7, "puts": 0,
       "sleeve": "income", "status": "blocked-earnings",
       "earningsDate": "2026-08-04", "earningsTradingDays": 1, "earningsBlackout": true,
       "assignmentRisk": false,
-      "assignmentNote": "PFE $24.96. 7 idle CC blocked — Aug 4 AM earnings TOMORROW (1 TD). Refill Aug 5+."
+      "assignmentNote": "PFE $24.90. 7 idle CC blocked — Aug 4 AM earnings (1 TD). Refill Aug 5+."
     },
     {
       "symbol": "AAL", "shares": 1465.117, "capacity": 14, "covered": 14, "idle": 0, "puts": 0,
-      "sleeve": "income", "status": "defend-pending",
+      "sleeve": "income", "status": "covered-watch",
       "earningsDate": "2026-10-22", "earningsTradingDays": 57, "earningsBlackout": false,
       "assignmentRisk": false,
-      "assignmentNote": "AAL $16.01 (+4.9% today). $16C ×4 Δ=0.534 → DEFEND (BTC gate PASS). $16.5C ×10 Δ=0.435 → HOLD-WATCH (gap to defend = 0.015). Q3 Oct 22 — clear."
+      "assignmentNote": "AAL $16.015. $16C ×4 BTC'd (defend). STO $18C Sep-18 ×4 @ $0.47 GFD working. $16.5C ×10 Δ=0.443 HOT — gap to defend = 0.007."
     },
     {
       "symbol": "AMD", "shares": 45.0, "capacity": 0, "covered": 0, "idle": 0, "puts": 0,
       "sleeve": "accumulation", "status": "blocked-earnings",
       "earningsDate": "2026-08-04", "earningsTradingDays": 1, "earningsBlackout": true,
       "assignmentRisk": false,
-      "assignmentNote": "AMD $479.26 (+0.7% today). No CSP open. Aug 4 PM earnings = 1 TD. No accum CSP until Aug 6+. Need 55 more shares for CC graduation."
+      "assignmentNote": "AMD $482.05 (+1.2%). No CSP. Aug 4 PM earnings = 1 TD. Reopen accum CSP Aug 6+. Need 55 more shares for CC graduation."
     },
     {
-      "symbol": "AMZN", "shares": 140.743, "capacity": 1, "covered": 0, "idle": 1, "puts": 0,
-      "sleeve": "conviction", "status": "waiting-refill",
+      "symbol": "AMZN", "shares": 140.743, "capacity": 1, "covered": 1, "idle": 0, "puts": 0,
+      "sleeve": "conviction", "status": "covered",
       "earningsDate": "2026-07-30", "earningsTradingDays": -2, "earningsBlackout": false,
       "assignmentRisk": false,
-      "assignmentNote": "AMZN printed Jul 30 PM ($5.75 actual, massive beat). AMZN +5.2% to $285.75. Refill eligible today Aug 3 — need spread PASS at ~0.15Δ / 30-45 DTE (conviction). Embedded LTCG cost $160.15."
+      "assignmentNote": "AMZN $284.25. $310C Sep-18 ×1 FILLED @ $4.70 Δ=0.256. Order: 6a70c2b1-b810. Post-earnings refill complete. LTCG cost $160.15."
+    },
+    {
+      "symbol": "META", "shares": 20.0, "capacity": 0, "covered": 0, "idle": 0, "puts": 1,
+      "sleeve": "accumulation", "status": "accum-csp-open",
+      "earningsDate": "2026-07-29", "earningsTradingDays": -3, "earningsBlackout": false,
+      "assignmentRisk": false,
+      "assignmentNote": "META $593.79. $545P Sep-18 ×1 STO FILLED @ $11.65 Δ=0.226. Order: 6a70c2b3-ece8. Collateral $54,500. Accum CSP open — if assigned, immediately classify as conviction CC. 80 more shares needed."
     },
     {
       "symbol": "ONEQ", "shares": 1181.375, "capacity": 11, "covered": 11, "idle": 0, "puts": 0,
       "sleeve": "conviction", "status": "defend-gate-fail",
       "earningsDate": null, "earningsTradingDays": null, "earningsBlackout": false,
       "assignmentRisk": false,
-      "assignmentNote": "11× $103C Sep-18. ONEQ $101.79 (+1.8% today). Δ=0.473 → DEFEND. Spread 84% of mid — GATE FAIL. Cannot trade. Monitor: stock approaching strike."
+      "assignmentNote": "ONEQ $101.95 (+1.9%). 11× $103C Sep-18 Δ=0.479 DEFEND. Spread 84% — GATE FAIL. Manual review. 1.0% OTM, delta risk accelerating."
     },
     {
       "symbol": "DAL", "shares": 569.171, "capacity": 5, "covered": 5, "idle": 0, "puts": 0,
       "sleeve": "income", "status": "covered-watch",
       "earningsDate": "2026-10-08", "earningsTradingDays": 47, "earningsBlackout": false,
       "assignmentRisk": false,
-      "assignmentNote": "DAL $91.18 (+4.3% today). $94C |Δ|=0.416 HOLD-WATCH. Gap to defend = 0.034. Stock ripping today. Oct 8 earnings — clear."
+      "assignmentNote": "DAL $91.01 (+4.1%). $94C Δ=0.409 HOLD-WATCH. Gap to defend = 0.041."
     },
     {
       "symbol": "INTC", "shares": 295.703, "capacity": 2, "covered": 2, "idle": 0, "puts": 0,
       "sleeve": "income", "status": "covered",
       "earningsDate": "2026-10-22", "earningsTradingDays": 57, "earningsBlackout": false,
       "assignmentRisk": false,
-      "assignmentNote": "INTC $90.12 (-0.1% today). $110C |Δ|=0.222 hold. Oct 22 Q3 tentative — clear."
+      "assignmentNote": "INTC $90.60. $110C Δ=0.228 hold."
     },
     {
       "symbol": "HOOD", "shares": 250.0, "capacity": 2, "covered": 2, "idle": 0, "puts": 0,
-      "sleeve": "income", "status": "covered-watch",
+      "sleeve": "income", "status": "covered",
       "earningsDate": "2026-07-29", "earningsTradingDays": -3, "earningsBlackout": false,
       "assignmentRisk": false,
-      "assignmentNote": "HOOD +5.5% to $91.32 today. $99C Aug-28 ×2. |Δ|=0.367 hold (+0.097 from entry). 8.4% OTM ($91.32 vs $99 strike). Δ moved close to 0.45 ceiling — watch."
+      "assignmentNote": "HOOD $91.71 (+6.0%). $99C Aug-28 ×2 Δ=0.376 hold. 8.0% OTM."
     },
     {
-      "symbol": "MRNA", "shares": 108.0, "capacity": 1, "covered": 0, "idle": 1, "puts": 0,
-      "sleeve": "income", "status": "waiting-refill",
+      "symbol": "MRNA", "shares": 108.0, "capacity": 1, "covered": 1, "idle": 0, "puts": 0,
+      "sleeve": "income", "status": "covered",
       "earningsDate": "2026-07-31", "earningsTradingDays": -1, "earningsBlackout": false,
       "assignmentRisk": false,
-      "assignmentNote": "MRNA printed Jul 31 AM (–$1.97 vs –$2.07 est). MRNA +3.7% to $56.85. Refill eligible today Aug 3 — need spread PASS at ~0.20-0.30Δ / 30-45 DTE (income)."
+      "assignmentNote": "MRNA $56.42. $70C Sep-18 ×1 FILLED @ $2.34 Δ=0.276. Order: 6a70c2b2-7350. Post-earnings refill complete."
     },
     {
-      "symbol": "VALE", "shares": 331.044, "capacity": 3, "covered": 0, "idle": 3, "puts": 0,
-      "sleeve": "income", "status": "waiting-refill",
+      "symbol": "VALE", "shares": 331.044, "capacity": 3, "covered": 1, "idle": 2, "puts": 0,
+      "sleeve": "income", "status": "partially-filled",
       "earningsDate": "2026-07-30", "earningsTradingDays": -2, "earningsBlackout": false,
       "assignmentRisk": false,
-      "assignmentNote": "VALE Jul 30 PM earnings (API actual still null — data feed lag). VALE -3.4% to $14.56. 3 idle CC. Refill eligible pending spread PASS and API confirmation."
+      "assignmentNote": "VALE $14.58. $16C Sep-18 STO ×3 @ $0.15 — 1/3 FILLED, 2 GFD working. Order: 6a70c2b0-df53. Δ=0.202. 2 idle slots still pending."
     },
     {
       "symbol": "SNAP", "shares": 600.0, "capacity": 6, "covered": 0, "idle": 6, "puts": 0,
       "sleeve": "income", "status": "blocked-earnings",
       "earningsDate": "2026-08-03", "earningsTradingDays": 0, "earningsBlackout": true,
       "assignmentRisk": false,
-      "assignmentNote": "SNAP earnings Aug 3 PM TODAY — BLACKOUT. SNAP +5.9% to $4.97. 6 idle CC blocked. Evaluate Aug 5+ (after print + 1 full session Aug 4)."
+      "assignmentNote": "SNAP $4.99 (+6.4%). Earnings Aug 3 PM TODAY — BLACKOUT. 6 idle CC blocked. Evaluate Aug 5+."
     },
     {
       "symbol": "DJT", "shares": 420.0, "capacity": 4, "covered": 4, "idle": 0, "puts": 0,
       "sleeve": "income", "status": "covered",
       "earningsDate": null, "earningsTradingDays": null, "earningsBlackout": false,
       "assignmentRisk": false,
-      "assignmentNote": "DJT $10.06 (+2.0% today). $12C Aug-21 ×4. |Δ|=0.229 hold. 19.3% OTM."
+      "assignmentNote": "DJT $12.25 (est from Δ context). $12C Aug-21 ×4 Δ=0.228 hold."
     }
   ],
   "earnings": {
@@ -231,65 +253,65 @@
       {
         "symbol": "SNAP", "date": "2026-08-03", "timing": "pm", "verified": true,
         "tradingDays": 0,
-        "action": "6 idle CC slots BLACKOUT — earnings Aug 3 PM TODAY. Refill Aug 5+ (after print + 1 full session)."
+        "action": "6 idle CC slots BLACKOUT — earnings Aug 3 PM TODAY. Refill Aug 5+."
       },
       {
         "symbol": "PFE", "date": "2026-08-04", "timing": "am", "verified": true,
         "tradingDays": 1,
-        "action": "7 idle CC slots blocked. Aug 4 AM earnings (1 TD). PFE $24.96. Refill Aug 5+."
+        "action": "7 idle CC blocked. Aug 4 AM earnings. PFE $24.90. Refill Aug 5+."
       },
       {
         "symbol": "AMD", "date": "2026-08-04", "timing": "pm", "verified": true,
         "tradingDays": 1,
-        "action": "Accum CSP slot blocked. AMD $479.26. Aug 4 PM earnings (1 TD). Reopen Aug 6+."
+        "action": "Accum CSP blocked. AMD $482.05. Aug 4 PM earnings. Reopen Aug 6+."
       }
     ],
     "watch": [
       {
         "symbol": "NVDA", "date": "2026-08-26", "timing": "pm", "verified": true,
         "tradingDays": 17,
-        "note": "Flatten $230C Sep-4 by Aug 19 (5-TD blackout deadline). 12 TDs remain. NVDA $206.83. Δ=0.235 above conviction ceiling."
+        "note": "Flatten $230C Sep-4 by Aug 19 (12 TDs remaining). NVDA $207.30. Δ=0.237 above conviction ceiling."
       }
     ],
     "postEarnings": [
       {
         "symbol": "AMZN", "date": "2026-07-30", "timing": "pm",
         "actual": "5.75", "estimate": "1.82", "verdict": "massive-beat",
-        "action": "Post-earnings. AMZN $285.75 (+5.2% today). Refill eligible — pending spread PASS at ~0.15Δ / 30-45 DTE (conviction). LTCG cost $160.15."
+        "action": "POST-EARNINGS FILLED. $310C Sep-18 ×1 @ $4.70 Δ=0.256. LTCG cost $160.15."
       },
       {
         "symbol": "MRNA", "date": "2026-07-31", "timing": "am",
         "actual": "-1.97", "estimate": "-2.07", "verdict": "beat",
-        "action": "Post-earnings. MRNA $56.85 (+3.7% today). Refill eligible — pending spread PASS at ~0.20-0.30Δ / 30-45 DTE (income)."
+        "action": "POST-EARNINGS FILLED. $70C Sep-18 ×1 @ $2.34 Δ=0.276."
       },
       {
         "symbol": "VALE", "date": "2026-07-30", "timing": "pm",
         "actual": null, "estimate": "0.51", "verdict": "pending",
-        "action": "VALE Jul 30 PM earnings — API actual still null. VALE $14.56 (-3.4% today). Refill eligible pending API confirmation and spread PASS."
+        "action": "VALE $14.58. $16C Sep-18 STO ×3 partial (1/3 filled). 2 GFD working."
       },
       {
         "symbol": "META", "date": "2026-07-29", "timing": "pm",
         "actual": "6.18", "estimate": "7.18", "verdict": "miss",
-        "action": "Post-earnings. META $593.68 (+6.6% today). Accum CSP slot NOW available (SPY $715P at harvest — BTC clears combined slot). Propose META CSP ~0.20-0.25Δ / 30-45 DTE after SPY BTC. Collateral ~$56-58k."
+        "action": "ACCUM CSP OPEN. $545P Sep-18 ×1 @ $11.65 Δ=0.226. SPY BTC cleared the slot."
       },
       {
         "symbol": "HOOD", "date": "2026-07-29", "timing": "pm",
         "actual": "0.62", "estimate": "0.41", "verdict": "beat",
-        "action": "Post-earnings. $99C ×2. |Δ|=0.367 hold. HOOD $91.32 (+5.5% today). Watch delta."
+        "action": "$99C ×2 Δ=0.376 hold. HOOD $91.71 (+6%)."
       }
     ]
   },
   "runway": {
-    "cash": 154978,
-    "buyingPower": 83478,
-    "cspCollateral": 71500,
+    "cash": 156955,
+    "buyingPower": 98851,
+    "cspCollateral": 54500,
     "bpBufferTarget": 2000,
-    "bpHeadroom": 81478,
-    "nextAccumFits": true,
-    "nextAccumSymbol": "META",
-    "nextAccumNote": "META CSP slot opens when SPY $715P is closed (harvest PASS). META $593.68. CSP at ~0.20-0.25Δ strike ≈ $530-550 → collateral ~$53-55k. After close: BP goes from $83.5k → $155k. New META CSP collateral ~$55k → remaining BP ~$100k. Well above $2k buffer. AMD blocked by Aug 4 PM earnings.",
-    "nextIndexNote": "SPY $715P at harvest (Δ=0.073). After BTC, prefer META accumulation CSP (higher priority per strategy rules: accumulation before index if earnings clear). After META CSP, no additional index slot — one combined slot at a time.",
-    "note": "BP = cash - CSP collateral. After SPY harvest: BP rises to ~$155k. META CSP ~$55k collateral → net BP ~$100k. One combined slot rule applies."
+    "bpHeadroom": 96851,
+    "nextAccumFits": false,
+    "nextAccumSymbol": "AMD",
+    "nextAccumNote": "META CSP now open. AMD blocked by Aug 4 PM earnings — accum CSP reopen Aug 6+. One CSP at a time rule: no new accum CSP while META $545P open.",
+    "nextIndexNote": "SPY $715P harvested. META CSP filled the accum slot. No additional index CSP until META slot is freed or assigned. Prefer RSP then ITOT then SPY for future index puts.",
+    "note": "Post-trade: BP $98,851. CSP collateral = META $545P ($54,500). AAL $18C STO ×4 working (share-covered, no BP impact). Well above $2k buffer."
   },
   "performance": {
     "realizedMtdOptions": 0,
@@ -298,7 +320,7 @@
     "realized90d": 3438,
     "runRateAnnualized": 41256,
     "runRatePctOfAccount": 5.9,
-    "unrealizedEquity": 137071,
+    "unrealizedEquity": 137000,
     "appreciationYtd": null,
     "totalReturnYtd": 3438,
     "sleeveIncomeYtd": {
@@ -307,7 +329,7 @@
       "accumulation": -1220,
       "index": 302
     },
-    "note": "Conviction: $2,782 (NVDA 3×, AMZN 2×, MU 3×). Income: $1,649 (TSLA, DAL, MRNA, AAL, PFE). Accum: –$1,220 (AMD flatten Jul 30). Index: $302 (SPY). Run-rate from ~2-week sample — use cautiously. MTD Aug = $0. YTD = $3,438 (18 closes, all July)."
+    "note": "YTD realized $3,438 (18 closes all July). Aug MTD premium income: ~$2,050 net (trades today). Run-rate from 2-week sample. MU net +$612 (BTC $1,108 + STO $1,720). META CSP $1,165. AMZN $470. MRNA $234. VALE $15. SPY BTC –$98. AAL BTC –$348. AAL STO $188 pending."
   },
   "rollStats": {
     "closes": 18,
@@ -316,78 +338,77 @@
     "flattenPct": 33.3,
     "avgCreditKept": 234.2,
     "avgKeepPct": 60.0,
-    "defendDebitDragMtd": 0,
-    "note": "18 closes YTD: 12 harvest BTCs + 6 flatten BTCs (AMD, PFE, SNAP ×6, VALE ×3, MRNA ×1 Jul 30). Flatten drag –$1,303. All required by earnings blackout protocol."
+    "defendDebitDragMtd": 348,
+    "note": "18 closes YTD through July. Aug 3: SPY BTC $98 (harvest), AAL BTC $348 (defend). MU rewrite net +$612. AAL STO $18C roll-up pending. ONEQ defend gate FAIL."
   },
   "forward": {
-    "openExtrinsic": 8557,
-    "openCredit": 6902,
-    "markPnL": -1655,
-    "openContracts": 42,
-    "idleContracts": 17,
-    "idleContractsBlocked": 17,
+    "openExtrinsic": 9850,
+    "openCredit": 8322,
+    "markPnL": -1528,
+    "openContracts": 47,
+    "idleContracts": 15,
+    "idleContractsBlocked": 15,
     "idleContractsSkip": 0,
     "idleFillEstimate": 0,
-    "idleFillNote": "17 blocked idle: AMZN 1 (waiting-refill), MRNA 1 (waiting-refill), VALE 3 (waiting-refill/pending API), PFE 7 (blackout Aug 4 AM), SNAP 6 (blackout today Aug 3 PM). AMD accum CSP blocked by earnings Aug 4 PM. META accum CSP: slot opens when SPY $715P is harvested.",
+    "idleFillNote": "15 blocked idle: PFE 7 (blackout Aug 4 AM), SNAP 6 (blackout today PM), VALE 2 (GFD working — partial fill). AMD accum CSP blocked Aug 4 PM. No more idle names eligible today.",
     "expiryCalendar": [
       {
         "expiration": "2026-08-21", "dte": 18,
         "legs": [
-          { "symbol": "SPY", "side": "short", "optionType": "put", "strike": 715, "expiration": "2026-08-21", "dte": 18, "qty": 1, "credit": 492, "mark": 1.005, "delta": 0.073, "zone": "harvest", "sleeve": "index", "role": "CSP", "extrinsic": 101 },
-          { "symbol": "DJT", "side": "short", "optionType": "call", "strike": 12, "expiration": "2026-08-21", "dte": 18, "qty": 4, "credit": 41, "mark": 0.250, "delta": 0.229, "zone": "hold", "sleeve": "income", "role": "CC", "extrinsic": 100 }
+          { "symbol": "DJT", "side": "short", "optionType": "call", "strike": 12, "expiration": "2026-08-21", "dte": 18, "qty": 4, "credit": 41, "mark": 0.250, "delta": 0.228, "zone": "hold", "sleeve": "income", "role": "CC", "extrinsic": 100 }
         ]
       },
       {
         "expiration": "2026-08-28", "dte": 25,
         "legs": [
-          { "symbol": "INTC", "side": "short", "optionType": "call", "strike": 110, "expiration": "2026-08-28", "dte": 25, "qty": 2, "credit": 330, "mark": 2.320, "delta": 0.222, "zone": "hold", "sleeve": "income", "role": "CC", "extrinsic": 464 },
-          { "symbol": "HOOD", "side": "short", "optionType": "call", "strike": 99, "expiration": "2026-08-28", "dte": 25, "qty": 2, "credit": 270, "mark": 3.775, "delta": 0.367, "zone": "hold", "sleeve": "income", "role": "CC", "extrinsic": 755 },
-          { "symbol": "AAL", "side": "short", "optionType": "call", "strike": 16.5, "expiration": "2026-08-28", "dte": 25, "qty": 10, "credit": 28, "mark": 0.600, "delta": 0.435, "zone": "hold-watch", "sleeve": "income", "role": "CC", "extrinsic": 600 },
-          { "symbol": "AAL", "side": "short", "optionType": "call", "strike": 16.0, "expiration": "2026-08-28", "dte": 25, "qty": 4, "credit": 35.75, "mark": 0.855, "delta": 0.534, "zone": "defend", "sleeve": "income", "role": "CC", "extrinsic": 342 },
-          { "symbol": "DAL", "side": "short", "optionType": "call", "strike": 94, "expiration": "2026-08-28", "dte": 25, "qty": 5, "credit": 134, "mark": 2.775, "delta": 0.416, "zone": "hold-watch", "sleeve": "income", "role": "CC", "extrinsic": 1388 },
-          { "symbol": "TSLA", "side": "short", "optionType": "call", "strike": 345, "expiration": "2026-08-28", "dte": 25, "qty": 1, "credit": 695, "mark": 7.925, "delta": 0.327, "zone": "hold", "sleeve": "income", "role": "CC", "extrinsic": 793 }
+          { "symbol": "INTC", "side": "short", "optionType": "call", "strike": 110, "expiration": "2026-08-28", "dte": 25, "qty": 2, "credit": 330, "mark": 2.40, "delta": 0.228, "zone": "hold", "sleeve": "income", "role": "CC", "extrinsic": 480 },
+          { "symbol": "HOOD", "side": "short", "optionType": "call", "strike": 99, "expiration": "2026-08-28", "dte": 25, "qty": 2, "credit": 270, "mark": 3.95, "delta": 0.376, "zone": "hold", "sleeve": "income", "role": "CC", "extrinsic": 790 },
+          { "symbol": "AAL", "side": "short", "optionType": "call", "strike": 16.5, "expiration": "2026-08-28", "dte": 25, "qty": 10, "credit": 28, "mark": 0.635, "delta": 0.443, "zone": "hold-watch", "sleeve": "income", "role": "CC", "extrinsic": 635 },
+          { "symbol": "DAL", "side": "short", "optionType": "call", "strike": 94, "expiration": "2026-08-28", "dte": 25, "qty": 5, "credit": 134, "mark": 2.65, "delta": 0.409, "zone": "hold-watch", "sleeve": "income", "role": "CC", "extrinsic": 1325 },
+          { "symbol": "TSLA", "side": "short", "optionType": "call", "strike": 345, "expiration": "2026-08-28", "dte": 25, "qty": 1, "credit": 695, "mark": 7.575, "delta": 0.318, "zone": "hold", "sleeve": "income", "role": "CC", "extrinsic": 758 }
         ]
       },
       {
         "expiration": "2026-09-04", "dte": 32,
         "legs": [
-          { "symbol": "MU", "side": "short", "optionType": "call", "strike": 1180, "expiration": "2026-09-04", "dte": 32, "qty": 1, "credit": 1500, "mark": 11.075, "delta": 0.114, "zone": "harvest", "sleeve": "conviction", "role": "CC", "extrinsic": 1108 },
-          { "symbol": "NVDA", "side": "short", "optionType": "call", "strike": 230, "expiration": "2026-09-04", "dte": 32, "qty": 1, "credit": 174, "mark": 3.475, "delta": 0.235, "zone": "hold-above-ceiling", "sleeve": "conviction", "role": "CC", "extrinsic": 348, "flag": "flatten-by-aug-19-nvda-earnings" }
+          { "symbol": "NVDA", "side": "short", "optionType": "call", "strike": 230, "expiration": "2026-09-04", "dte": 32, "qty": 1, "credit": 174, "mark": 3.48, "delta": 0.237, "zone": "hold-above-ceiling", "sleeve": "conviction", "role": "CC", "extrinsic": 348, "flag": "flatten-by-aug-19-nvda-earnings" }
         ]
       },
       {
         "expiration": "2026-09-18", "dte": 46,
         "legs": [
-          { "symbol": "ONEQ", "side": "short", "optionType": "call", "strike": 103, "expiration": "2026-09-18", "dte": 46, "qty": 11, "credit": 144, "mark": 2.325, "delta": 0.473, "zone": "defend", "sleeve": "conviction", "role": "CC", "extrinsic": 2558, "flag": "defend-gate-fail-illiquid" }
+          { "symbol": "ONEQ", "side": "short", "optionType": "call", "strike": 103, "expiration": "2026-09-18", "dte": 46, "qty": 11, "credit": 144, "mark": 2.325, "delta": 0.479, "zone": "defend", "sleeve": "conviction", "role": "CC", "extrinsic": 2558, "flag": "defend-gate-fail-illiquid" },
+          { "symbol": "MU", "side": "short", "optionType": "call", "strike": 1200, "expiration": "2026-09-18", "dte": 46, "qty": 1, "credit": 1720, "mark": 17.83, "delta": 0.152, "zone": "hold", "sleeve": "conviction", "role": "CC", "extrinsic": 1783 },
+          { "symbol": "META", "side": "short", "optionType": "put", "strike": 545, "expiration": "2026-09-18", "dte": 46, "qty": 1, "credit": 1165, "mark": 11.85, "delta": 0.226, "zone": "hold", "sleeve": "accumulation", "role": "CSP", "extrinsic": 1185 },
+          { "symbol": "AMZN", "side": "short", "optionType": "call", "strike": 310, "expiration": "2026-09-18", "dte": 46, "qty": 1, "credit": 470, "mark": 4.75, "delta": 0.256, "zone": "hold", "sleeve": "conviction", "role": "CC", "extrinsic": 475 },
+          { "symbol": "MRNA", "side": "short", "optionType": "call", "strike": 70, "expiration": "2026-09-18", "dte": 46, "qty": 1, "credit": 234, "mark": 2.40, "delta": 0.276, "zone": "hold", "sleeve": "income", "role": "CC", "extrinsic": 240 },
+          { "symbol": "VALE", "side": "short", "optionType": "call", "strike": 16, "expiration": "2026-09-18", "dte": 46, "qty": 1, "credit": 15, "mark": 0.16, "delta": 0.202, "zone": "hold", "sleeve": "income", "role": "CC", "extrinsic": 16, "flag": "2-contracts-gfd-working" },
+          { "symbol": "AAL", "side": "short", "optionType": "call", "strike": 18, "expiration": "2026-09-18", "dte": 46, "qty": 4, "credit": 47, "mark": 0.47, "delta": 0.289, "zone": "hold", "sleeve": "income", "role": "CC", "extrinsic": 188, "flag": "gfd-working" }
         ]
       }
     ],
     "indexSleeve": {
       "spyShares": 0, "rspShares": 0, "itotShares": 0,
-      "openCsps": [
-        { "symbol": "SPY", "strike": 715, "expiration": "2026-08-21", "credit": 492, "collateral": 71500, "delta": 0.073, "mark": 1.005, "zone": "harvest" }
-      ],
-      "cspNotional": 71500,
-      "note": "SPY $715P Aug-21 → HARVEST (Δ=0.073, 18 DTE). Gate PASS. BTC opens slot for META accum CSP or new index CSP. Prefer META accumulation (earnings clear) over new index put."
+      "openCsps": [],
+      "cspNotional": 0,
+      "note": "SPY $715P harvested (Aug 3). Index CSP slot now occupied by META accum CSP ($545P). No new index put until META slot is freed. Prefer RSP then ITOT then SPY for future index opens."
     }
   },
   "capital": {
     "equityPct": 79.2,
-    "cashPct": 22.0,
-    "optionsMarkPct": -1.2,
-    "cspCollateralPct": 10.2,
-    "equityValue": 556720,
-    "cash": 154978,
-    "optionsMark": -8477,
-    "cspCollateral": 71500
+    "cashPct": 22.3,
+    "optionsMarkPct": -1.5,
+    "cspCollateralPct": 7.8,
+    "equityValue": 557209,
+    "cash": 156955,
+    "optionsMark": -10631,
+    "cspCollateral": 54500
   },
   "indexSleeve": {
     "spyShares": 0, "rspShares": 0, "itotShares": 0,
-    "openCsps": [
-      { "symbol": "SPY", "strike": 715, "expiration": "2026-08-21", "credit": 492, "collateral": 71500, "delta": 0.073, "mark": 1.005, "zone": "harvest" }
-    ],
-    "cspNotional": 71500,
-    "note": "SPY $715P at harvest. BTC PASS. After close: prefer META accumulation CSP (AMD blocked, META earnings clear). One combined slot."
+    "openCsps": [],
+    "cspNotional": 0,
+    "note": "SPY $715P harvested. META $545P Sep-18 CSP now occupies the combined slot. One CSP at a time."
   },
   "equityCurve": [
     { "date": "2026-07-23", "totalValue": 706572, "note": "Jul 23 intraday." },
@@ -395,75 +416,79 @@
     { "date": "2026-07-27", "totalValue": 694746, "note": "EOD Jul 27." },
     { "date": "2026-07-28", "totalValue": 684087, "note": "EOD Jul 28 — MU –8.9%, AMD –8.1%, INTC –5.8%." },
     { "date": "2026-07-29T12:03:00-04:00", "totalValue": 670366, "note": "Noon Jul 29 — AMD –6.3% to $425.90." },
-    { "date": "2026-07-29T14:57:00-04:00", "totalValue": 682279, "note": "2:57 PM Jul 29 — AMD recovered $450.48, MU $792.47." },
+    { "date": "2026-07-29T14:57:00-04:00", "totalValue": 682279, "note": "2:57 PM Jul 29 — AMD recovered $450.48." },
     { "date": "2026-07-30T12:03:00-04:00", "totalValue": 689511, "note": "Noon Jul 30 — semis ripping: MU +16%, INTC +13%, AMD +13%." },
-    { "date": "2026-07-31T12:00:43-04:00", "totalValue": 693053, "note": "Noon Jul 31 — AMZN gap +14.9% to $269.19 (Q2 beat). MU –5.3%." },
-    { "date": "2026-07-31", "totalValue": 690595, "note": "EOD Jul 31 — AMZN $271.57. NVDA $200.81. MU $822.59. SPY $746.81." },
-    { "date": "2026-08-03T11:52:00-04:00", "totalValue": 703220, "note": "Aug 3 11:52 AM ET — rally: AMZN +5.2%, DAL +4.3%, HOOD +5.5%, TSLA +3.9%, NVDA +3.0%. MU -1.2%. New actions: MU harvest, SPY harvest, AAL defend, ONEQ defend." }
+    { "date": "2026-07-31T12:00:43-04:00", "totalValue": 693053, "note": "Noon Jul 31 — AMZN gap +14.9%." },
+    { "date": "2026-07-31", "totalValue": 690595, "note": "EOD Jul 31." },
+    { "date": "2026-08-03T11:52:00-04:00", "totalValue": 703220, "note": "Aug 3 11:52 AM ET — morning check. Market rally. 4 actions identified." },
+    { "date": "2026-08-03T12:34:00-04:00", "totalValue": 703533, "note": "Aug 3 12:34 PM ET — EXECUTE. 7 orders placed/filled. SPY harvest, AAL defend roll, META accum CSP, AMZN/MRNA/VALE CC fills." }
   ],
   "assignmentRisks": [
     {
       "symbol": "NVDA",
-      "note": "Embedded LTCG — $230C Sep-4, Δ=0.235. NVDA $206.83 vs $230 strike (11.2% OTM). Above conviction ceiling. FLATTEN by Aug 19 (Aug 26 earnings). 12 TDs remain.",
-      "delta": 0.235
+      "note": "Embedded LTCG — $230C Sep-4 Δ=0.237. NVDA $207.30 vs $230 strike (11.0% OTM). FLATTEN by Aug 19 (Aug 26 earnings). 12 TDs remain.",
+      "delta": 0.237
     },
     {
       "symbol": "MU",
-      "note": "Embedded LTCG — $1,180C Sep-4, Δ=0.114 → HARVEST. MU $813.33 vs $1,180 strike (45.1% OTM). BTC + rewrite needed.",
-      "delta": 0.114
+      "note": "Embedded LTCG — $1,200C Sep-18 Δ=0.152 HOLD. MU $820.62 vs $1,200 strike (46.2% OTM). Conviction sleeve, within target band.",
+      "delta": 0.152
     },
     {
       "symbol": "AMZN",
-      "note": "Embedded LTCG — no CC open (waiting-refill). AMZN $285.75, cost $160.15 (LTCG +$125.60/sh). Refill at ~0.15Δ / 30-45 DTE today pending spread PASS.",
-      "delta": 0.0
+      "note": "Embedded LTCG — $310C Sep-18 Δ=0.256 HOLD. AMZN $284.25, cost $160.15 (LTCG +$124.10/sh). Post-earnings refill complete.",
+      "delta": 0.256
     }
   ],
   "openBook": [
-    { "symbol": "ONEQ", "side": "short", "optionType": "call", "strike": 103, "expiration": "2026-09-18", "dte": 46, "qty": 11, "credit": 144, "mark": 2.325, "delta": 0.473, "zone": "defend", "sleeve": "conviction", "role": "CC", "extrinsic": 2558, "flag": "defend-gate-fail-illiquid" },
-    { "symbol": "NVDA", "side": "short", "optionType": "call", "strike": 230, "expiration": "2026-09-04", "dte": 32, "qty": 1, "credit": 174, "mark": 3.475, "delta": 0.235, "zone": "hold-above-ceiling", "sleeve": "conviction", "role": "CC", "extrinsic": 348, "flag": "flatten-by-aug-19" },
-    { "symbol": "MU", "side": "short", "optionType": "call", "strike": 1180, "expiration": "2026-09-04", "dte": 32, "qty": 1, "credit": 1500, "mark": 11.075, "delta": 0.114, "zone": "harvest", "sleeve": "conviction", "role": "CC", "extrinsic": 1108 },
-    { "symbol": "INTC", "side": "short", "optionType": "call", "strike": 110, "expiration": "2026-08-28", "dte": 25, "qty": 2, "credit": 330, "mark": 2.320, "delta": 0.222, "zone": "hold", "sleeve": "income", "role": "CC", "extrinsic": 464 },
-    { "symbol": "AAL", "side": "short", "optionType": "call", "strike": 16.5, "expiration": "2026-08-28", "dte": 25, "qty": 10, "credit": 28, "mark": 0.600, "delta": 0.435, "zone": "hold-watch", "sleeve": "income", "role": "CC", "extrinsic": 600 },
-    { "symbol": "AAL", "side": "short", "optionType": "call", "strike": 16.0, "expiration": "2026-08-28", "dte": 25, "qty": 4, "credit": 35.75, "mark": 0.855, "delta": 0.534, "zone": "defend", "sleeve": "income", "role": "CC", "extrinsic": 342 },
-    { "symbol": "DAL", "side": "short", "optionType": "call", "strike": 94, "expiration": "2026-08-28", "dte": 25, "qty": 5, "credit": 134, "mark": 2.775, "delta": 0.416, "zone": "hold-watch", "sleeve": "income", "role": "CC", "extrinsic": 1388 },
-    { "symbol": "TSLA", "side": "short", "optionType": "call", "strike": 345, "expiration": "2026-08-28", "dte": 25, "qty": 1, "credit": 695, "mark": 7.925, "delta": 0.327, "zone": "hold", "sleeve": "income", "role": "CC", "extrinsic": 793 },
-    { "symbol": "HOOD", "side": "short", "optionType": "call", "strike": 99, "expiration": "2026-08-28", "dte": 25, "qty": 2, "credit": 270, "mark": 3.775, "delta": 0.367, "zone": "hold", "sleeve": "income", "role": "CC", "extrinsic": 755 },
-    { "symbol": "DJT", "side": "short", "optionType": "call", "strike": 12, "expiration": "2026-08-21", "dte": 18, "qty": 4, "credit": 41, "mark": 0.250, "delta": 0.229, "zone": "hold", "sleeve": "income", "role": "CC", "extrinsic": 100 },
-    { "symbol": "SPY", "side": "short", "optionType": "put", "strike": 715, "expiration": "2026-08-21", "dte": 18, "qty": 1, "credit": 492, "mark": 1.005, "delta": 0.073, "zone": "harvest", "sleeve": "index", "role": "CSP", "extrinsic": 101 }
+    { "symbol": "ONEQ", "side": "short", "optionType": "call", "strike": 103, "expiration": "2026-09-18", "dte": 46, "qty": 11, "credit": 144, "mark": 2.325, "delta": 0.479, "zone": "defend", "sleeve": "conviction", "role": "CC", "extrinsic": 2558, "flag": "defend-gate-fail-illiquid" },
+    { "symbol": "NVDA", "side": "short", "optionType": "call", "strike": 230, "expiration": "2026-09-04", "dte": 32, "qty": 1, "credit": 174, "mark": 3.48, "delta": 0.237, "zone": "hold-above-ceiling", "sleeve": "conviction", "role": "CC", "extrinsic": 348, "flag": "flatten-by-aug-19" },
+    { "symbol": "MU", "side": "short", "optionType": "call", "strike": 1200, "expiration": "2026-09-18", "dte": 46, "qty": 1, "credit": 1720, "mark": 17.83, "delta": 0.152, "zone": "hold", "sleeve": "conviction", "role": "CC", "extrinsic": 1783 },
+    { "symbol": "META", "side": "short", "optionType": "put", "strike": 545, "expiration": "2026-09-18", "dte": 46, "qty": 1, "credit": 1165, "mark": 11.85, "delta": 0.226, "zone": "hold", "sleeve": "accumulation", "role": "CSP", "extrinsic": 1185 },
+    { "symbol": "AMZN", "side": "short", "optionType": "call", "strike": 310, "expiration": "2026-09-18", "dte": 46, "qty": 1, "credit": 470, "mark": 4.75, "delta": 0.256, "zone": "hold", "sleeve": "conviction", "role": "CC", "extrinsic": 475 },
+    { "symbol": "AAL", "side": "short", "optionType": "call", "strike": 18, "expiration": "2026-09-18", "dte": 46, "qty": 4, "credit": 47, "mark": 0.47, "delta": 0.289, "zone": "hold", "sleeve": "income", "role": "CC", "extrinsic": 188, "flag": "gfd-working" },
+    { "symbol": "AAL", "side": "short", "optionType": "call", "strike": 16.5, "expiration": "2026-08-28", "dte": 25, "qty": 10, "credit": 28, "mark": 0.635, "delta": 0.443, "zone": "hold-watch", "sleeve": "income", "role": "CC", "extrinsic": 635 },
+    { "symbol": "DAL", "side": "short", "optionType": "call", "strike": 94, "expiration": "2026-08-28", "dte": 25, "qty": 5, "credit": 134, "mark": 2.65, "delta": 0.409, "zone": "hold-watch", "sleeve": "income", "role": "CC", "extrinsic": 1325 },
+    { "symbol": "TSLA", "side": "short", "optionType": "call", "strike": 345, "expiration": "2026-08-28", "dte": 25, "qty": 1, "credit": 695, "mark": 7.575, "delta": 0.318, "zone": "hold", "sleeve": "income", "role": "CC", "extrinsic": 758 },
+    { "symbol": "MRNA", "side": "short", "optionType": "call", "strike": 70, "expiration": "2026-09-18", "dte": 46, "qty": 1, "credit": 234, "mark": 2.40, "delta": 0.276, "zone": "hold", "sleeve": "income", "role": "CC", "extrinsic": 240 },
+    { "symbol": "INTC", "side": "short", "optionType": "call", "strike": 110, "expiration": "2026-08-28", "dte": 25, "qty": 2, "credit": 330, "mark": 2.40, "delta": 0.228, "zone": "hold", "sleeve": "income", "role": "CC", "extrinsic": 480 },
+    { "symbol": "HOOD", "side": "short", "optionType": "call", "strike": 99, "expiration": "2026-08-28", "dte": 25, "qty": 2, "credit": 270, "mark": 3.95, "delta": 0.376, "zone": "hold", "sleeve": "income", "role": "CC", "extrinsic": 790 },
+    { "symbol": "VALE", "side": "short", "optionType": "call", "strike": 16, "expiration": "2026-09-18", "dte": 46, "qty": 1, "credit": 15, "mark": 0.16, "delta": 0.202, "zone": "hold", "sleeve": "income", "role": "CC", "extrinsic": 16, "flag": "2-contracts-gfd-working" },
+    { "symbol": "DJT", "side": "short", "optionType": "call", "strike": 12, "expiration": "2026-08-21", "dte": 18, "qty": 4, "credit": 41, "mark": 0.250, "delta": 0.228, "zone": "hold", "sleeve": "income", "role": "CC", "extrinsic": 100 }
   ],
   "program": {
-    "openContracts": 42,
-    "openCredit": 6902,
-    "idleCcContracts": 17,
-    "idleCcContractsBlocked": 17,
+    "openContracts": 47,
+    "openCredit": 8322,
+    "idleCcContracts": 15,
+    "idleCcContractsBlocked": 15,
     "idleCcContractsSkip": 0,
-    "cspCollateralApprox": 71500,
+    "cspCollateralApprox": 54500,
     "bpBufferTarget": 2000,
     "accumulation": [
       {
         "symbol": "AMD", "shares": 45, "need": 100,
         "csp": "blocked-earnings",
-        "note": "AMD $479.26. Aug 4 PM earnings = 1 TD. Reopen accum CSP Aug 6+."
+        "note": "AMD $482.05. Aug 4 PM earnings. Reopen accum CSP Aug 6+."
       },
       {
         "symbol": "META", "shares": 20, "need": 100,
-        "csp": "propose-pending-spy-harvest",
-        "note": "META $593.68. Earnings clear (Jul 29 PM, 4+ sessions). SPY $715P at harvest — BTC opens combined slot. Propose META CSP ~0.20-0.25Δ / 30-45 DTE. Collateral ~$55-57k."
+        "csp": "open",
+        "note": "META $593.79. $545P Sep-18 ×1 open @ $11.65. Δ=0.226. If assigned → conviction CC."
       }
     ]
   },
   "winners": [
-    { "symbol": "MU", "unrealized": 68451, "pct": 526.1, "price": 813.33, "avgCost": 129.91 },
-    { "symbol": "ONEQ", "unrealized": 47431, "pct": 65.1, "price": 101.79, "avgCost": 61.64 },
-    { "symbol": "DAL", "unrealized": 28633, "pct": 123.1, "price": 91.18, "avgCost": 40.87 }
+    { "symbol": "MU", "unrealized": 69000, "pct": 531, "price": 820.62, "avgCost": 129.91 },
+    { "symbol": "ONEQ", "unrealized": 47700, "pct": 65.5, "price": 101.95, "avgCost": 61.64 },
+    { "symbol": "DAL", "unrealized": 28400, "pct": 122.7, "price": 91.01, "avgCost": 40.87 }
   ],
   "losers": [
-    { "symbol": "SNAP", "unrealized": -27246, "pct": -90.1, "price": 4.97, "avgCost": 50.38 },
-    { "symbol": "MRNA", "unrealized": -17940, "pct": -74.5, "price": 56.85, "avgCost": 222.96 },
-    { "symbol": "PFE", "unrealized": -17758, "pct": -48.2, "price": 24.96, "avgCost": 48.17 }
+    { "symbol": "SNAP", "unrealized": -27234, "pct": -90.0, "price": 4.99, "avgCost": 50.38 },
+    { "symbol": "MRNA", "unrealized": -17990, "pct": -74.7, "price": 56.42, "avgCost": 222.96 },
+    { "symbol": "PFE", "unrealized": -17773, "pct": -48.2, "price": 24.90, "avgCost": 48.17 }
   ],
   "sleeves": {
-    "conviction": { "entryDelta": "0.12–0.18", "names": ["NVDA", "AMZN", "ONEQ", "SPY", "MU"] },
+    "conviction": { "entryDelta": "0.12–0.18", "names": ["NVDA", "AMZN", "ONEQ", "MU"] },
     "income": { "entryDelta": "0.20–0.30", "names": ["TSLA", "DAL", "AAL", "MRNA", "PFE", "HOOD", "INTC", "VALE", "SNAP", "DJT", "+ others"] },
     "accumulation": { "entryDelta": "0.20–0.25 CSP", "names": ["AMD", "META"] }
   },
